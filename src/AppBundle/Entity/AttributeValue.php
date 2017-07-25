@@ -6,6 +6,8 @@
  * Time: 08:55
  */
 
+namespace AppBundle\Entity;
+
 class AttributeValue extends AbstractModel
 {
     private $attributeID;

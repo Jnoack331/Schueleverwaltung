@@ -1,6 +1,10 @@
 <?php
 
-class Component extends AbstractModel {
+namespace AppBundle\Entity;
+
+
+class Component extends AbstractModel
+{
     private $roomId;
     private $supplierID;
     private $purchaseDate;

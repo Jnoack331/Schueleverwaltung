@@ -29,4 +29,16 @@ class ComponentKindController extends Controller
     {
 
     }
+
+    /**
+     * Fetches the object identified by $id from the database
+     * Edits the object with the data passed in $req
+     * Saves the edited object back into the database
+     *
+     * @Route("/component_kind/create", "component_kind_create")
+     */
+    public function createAction(Request $req)
+    {
+        
+    }
 }

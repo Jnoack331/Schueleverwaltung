@@ -6,6 +6,8 @@
  * Time: 08:54
  */
 
+namespace AppBundle\Entity;
+
 class Attribute extends AbstractModel
 {
     private $name;

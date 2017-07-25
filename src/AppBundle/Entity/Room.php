@@ -1,6 +1,9 @@
 <?php
 
-class Room extends AbstractModel {
+namespace AppBundle\Entity;
+
+class Room extends AbstractModel
+{
     private $number;
     private $description;
     private $note;

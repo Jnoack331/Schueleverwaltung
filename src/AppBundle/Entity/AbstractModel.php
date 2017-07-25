@@ -1,6 +1,9 @@
 <?php
 
-class AbstractModel {
+namespace AppBundle\Entity;
+
+class AbstractModel
+{
     private $id;
 
     /**
