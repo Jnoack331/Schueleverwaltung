@@ -16,6 +16,7 @@ class RoomRepository
 {
     /**
      * @return array
+     * @throws \Exception
      */
     public static function getAllRooms()
     {
@@ -48,6 +49,7 @@ class RoomRepository
     /**
      * @param $id
      * @return Room
+     * @throws \Exception
      */
     public static function getRoomById($id)
     {
@@ -76,6 +78,11 @@ class RoomRepository
         return $room;
     }
 
+    /**
+     * @param Room $room
+     * @return int|string
+     * @throws \Exception
+     */
     public static function createRoom(Room $room)
     {
         $managedConnection = new ManagedConnection();
@@ -91,6 +98,8 @@ class RoomRepository
         {
             throw new \Exception("Erstellung des Raumes fehlgeschlagen");
         }
+
+        return mysqli_insert_id($connection);
     }
 
     /**
@@ -111,6 +120,27 @@ class RoomRepository
         if($connection->error)
         {
             throw new \Exception("Ändern des Raumes fehlgeschlagen");
+        }
+    }
+
+    /**
+     * @param $id
+     * @throws \Exception
+     */
+    public static function deleteRoomById($id)
+    {
+        $managedConnection = new ManagedConnection();
+        $connection = $managedConnection->getConnection();
+
+        $query = $connection->prepare("DELETE FROM raeume WHERE r_id = ?;");
+        $query->bind_param("i", $id);
+        $query->execute();
+
+        $connection->query($query);
+
+        if($connection->error)
+        {
+            throw new \Exception("Löschen des Raumes fehlgeschlagen");
         }
     }
 }

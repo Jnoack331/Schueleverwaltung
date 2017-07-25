@@ -16,7 +16,37 @@ use AppBundle\Entity\ManagedConnection;
 class ComponentTypeRepository
 {
     /**
+     * @param $id
+     * @return ComponentType
+     * @throws \Exception
+     */
+    public static function getComponentTypeById($id)
+    {
+        $managedConnection = new ManagedConnection();
+        $connection = $managedConnection->getConnection();
+
+        $query = $connection->prepare("SELECT * FROM komponentenarten WHERE ka_id = ?;");
+        $query->bind_param("i", $id);
+        $query->execute();
+
+        $result = $connection->query($query);
+        $row = $result->fetch_row();
+
+        $componentType = new ComponentType();
+        $componentType->setId($row["ka_id"]);
+        $componentType->setType($row["ka_komponentenart"]);
+
+        if($connection->error)
+        {
+            throw new \Exception("Selektieren der Komponentenart fehlgeschlagen");
+        }
+
+        return $componentType;
+    }
+
+    /**
      * @return array
+     * @throws \Exception
      */
     public static function getAllComponentTypes()
     {
@@ -45,6 +75,7 @@ class ComponentTypeRepository
 
     /**
      * @param ComponentType $componentType
+     * @return int|string
      * @throws \Exception
      */
     public static function createComponentType(ComponentType $componentType)
@@ -62,8 +93,14 @@ class ComponentTypeRepository
         {
             throw new \Exception("Erstellen der Komponentenart fehlgeschlagen");
         }
+
+        return mysqli_insert_id($connection);
     }
 
+    /**
+     * @param ComponentType $componentType
+     * @throws \Exception
+     */
     public static function updateComponentType(ComponentType $componentType)
     {
         $managedConnection = new ManagedConnection();
@@ -78,6 +115,23 @@ class ComponentTypeRepository
         if($connection->error)
         {
             throw new \Exception("Ändern der Komponentenart fehlgeschlagen");
+        }
+    }
+
+    public static function deleteComponentTypeById($id)
+    {
+        $managedConnection = new ManagedConnection();
+        $connection = $managedConnection->getConnection();
+
+        $query = $connection->prepare("DELETE FROM komponentenarten WHERE ka_id = ?;");
+        $query->bind_param("i", $id);
+        $query->execute();
+
+        $connection->query($query);
+
+        if($connection->error)
+        {
+            throw new \Exception("Löschen der Komponentenart fehlgeschlagen");
         }
     }
 }
