@@ -158,28 +158,6 @@ class UserController extends Controller
         $this->redirectToRoute("users_index");
     }
 
-<<<<<<<
-    /**
-     * @Route("/users/{id}/delete", name="users_delete", requirements={"id": "\d+"})
-     */
-    public function deleteUserAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $user_repo = $em->getRepository("AppBundle:User");
-        $user = $user_repo->find($id);
-        if(!$user){
-            $error = "cannot delete user, user does not exist";
-=======
-    private function roleExists($role){
-        if($role == "ROLE_ADMIN"){
-            return true;
->>>>>>>
-        }
-        $em->remove($user);
-        $em->flush();
-        $this->redirectToRoute("users_index");
-    }
-
     private function roleExists($role)
     {
         $blRoleExists = false;
