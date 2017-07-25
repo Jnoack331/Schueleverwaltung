@@ -59,9 +59,6 @@ class SecurityController extends Controller
         $user->setRoles(array("ROLE_TEACHER"));
         $user->setIsActive(true);
         $user->setUsername("t.s@headtrip.eu");
-        $user->setAddress("asdf");
-        $user->setDateOfBirth(date_create());
-        $user->setGender("male");
 
         $plainPassword = "123";
 
