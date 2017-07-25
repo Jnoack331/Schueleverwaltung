@@ -125,16 +125,26 @@ class Component extends AbstractModel
         $this->componentTypeId = $componentTypeId;
     }
 
+    /**
+     * @return Supplier
+     */
     public function getSupplier()
     {
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("SELECT * FROM lieferant WHERE l_id = ?;");
-        $query->bind_param("i", $this->getSupplierId());
+
+        $supplierId = 0;
+
+        $query->bind_param("i", $supplierId);
+
+        $supplierId = $this->getSupplierId();
+
         $query->execute();
 
-        $result = $connection->query($query);
+        $result = $query->get_result();
+        $query->close();
         $row = $result->fetch_row();
 
         $supplier = new Supplier();
@@ -157,10 +167,17 @@ class Component extends AbstractModel
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("SELECT * FROM komponentenarten WHERE ka_id = ?;");
-        $query->bind_param("i", $this->getComponentTypeId());
+
+        $componentTypeId = 0;
+
+        $query->bind_param("i", $componentTypeId);
+
+        $componentTypeId = $this->getComponentTypeId();
+
         $query->execute();
 
-        $result = $connection->query($query);
+        $result = $query->get_result();
+        $query->close();
         $row = $result->fetch_row();
 
         $componentType = new ComponentType();
@@ -171,7 +188,7 @@ class Component extends AbstractModel
     }
 
     /**
-     *
+     * @return array
      */
     public function getComponentAttributeValues()
     {
@@ -179,10 +196,17 @@ class Component extends AbstractModel
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("SELECT * FROM komponente_hat_attribute WHERE komponenten_k_id = ?;");
-        $query->bind_param("i", $this->getId());
+
+        $id = 0;
+
+        $query->bind_param("i", $id);
+
+        $id = $this->getId();
+
         $query->execute();
 
-        $result = $connection->query($query);
+        $result = $query->get_result();
+        $query->close();
 
         $attributeValues = [];
 

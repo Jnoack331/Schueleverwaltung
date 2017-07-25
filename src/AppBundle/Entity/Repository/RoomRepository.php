@@ -11,6 +11,7 @@ namespace AppBundle\Entity\Repository;
 
 use AppBundle\Entity\ManagedConnection;
 use AppBundle\Entity\Room;
+use Symfony\Component\VarDumper\VarDumper;
 
 class RoomRepository
 {
@@ -57,10 +58,17 @@ class RoomRepository
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("SELECT * FROM raeume WHERE r_id = ?;");
-        $query->bind_param("i", $id);
+
+        $roomId = 0;
+
+        $query->bind_param("i", $roomId);
+
+        $roomId = $id;
+
         $query->execute();
 
-        $result = $connection->query($query);
+        $result = $query->get_result();
+        $query->close();
 
         $row = $result->fetch_row();
 
@@ -89,10 +97,19 @@ class RoomRepository
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("INSERT INTO raeume(r_nr, r_bezeichnung, r_notiz) VALUES (?, ?, ?);");
-        $query->bind_param("sss", $room->getId(), $room->getNumber(), $room->getDescription(), $room->getNote());
-        $query->execute();
 
-        $connection->query($query);
+        $roomId = 0;
+        $roomNr = 0;
+        $roomNote = 0;
+
+        $query->bind_param("sss", $roomId , $roomNr, $roomNote);
+
+        $roomId = $room->getNumber();
+        $roomNr = $room->getDescription();
+        $roomNote = $room->getNote();
+
+        $query->execute();
+        $query->close();
 
         if($connection->error)
         {
@@ -112,10 +129,21 @@ class RoomRepository
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("UPDATE raeume SET r_nr = ?, r_bezeichnung = ?, r_notiz = ? WHERE r_id = ?;");
-        $query->bind_param("sssi", $room->getNumber(), $room->getDescription(), $room->getNote(), $room->getId());
-        $query->execute();
 
-        $connection->query($query);
+        $roomNr = 0;
+        $roomDesc = 0;
+        $roomNote = 0;
+        $roomId = 0;
+
+        $query->bind_param("sssi", $roomNr, $roomDesc, $roomNote, $roomId);
+
+        $roomNr = $room->getNumber();
+        $roomDesc = $room->getDescription();
+        $roomNote = $room->getNote();
+        $roomId = $room->getId();
+
+        $query->execute();
+        $query->close();
 
         if($connection->error)
         {
@@ -133,10 +161,15 @@ class RoomRepository
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("DELETE FROM raeume WHERE r_id = ?;");
-        $query->bind_param("i", $id);
-        $query->execute();
 
-        $connection->query($query);
+        $roomId = 0;
+
+        $query->bind_param("i", $roomId);
+
+        $roomId = $id;
+
+        $query->execute();
+        $query->close();
 
         if($connection->error)
         {

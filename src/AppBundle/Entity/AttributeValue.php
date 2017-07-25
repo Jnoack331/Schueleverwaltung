@@ -31,16 +31,26 @@ class AttributeValue extends AbstractModel
         return $this->value;
     }
 
+    /**
+     * @return Attribute
+     */
     public function getAttribute()
     {
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("Select * from komponentenattribute where kat_id = ?;");
-        $query->bind_param("i", $this->getAttributeId());
+
+        $attributeId = 0;
+
+        $query->bind_param("i", $attributeId);
+
+        $this->getAttributeId();
+
         $query->execute();
 
-        $result = $connection->query($query);
+        $result = $query->get_result();
+        $query->close();
         $row = $result->fetch_row();
 
         $attribute = new Attribute();
