@@ -117,4 +117,21 @@ class ComponentTypeRepository
             throw new \Exception("Ändern der Komponentenart fehlgeschlagen");
         }
     }
+
+    public static function deleteComponentTypeById($id)
+    {
+        $managedConnection = new ManagedConnection();
+        $connection = $managedConnection->getConnection();
+
+        $query = $connection->prepare("DELETE FROM komponentenarten WHERE ka_id = ?;");
+        $query->bind_param("i", $id);
+        $query->execute();
+
+        $connection->query($query);
+
+        if($connection->error)
+        {
+            throw new \Exception("Löschen der Komponentenart fehlgeschlagen");
+        }
+    }
 }

@@ -33,8 +33,6 @@ class AttributeValue extends AbstractModel
 
     public function getAttribute()
     {
-        $Attribute = new Attribute();
-
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
 
@@ -43,10 +41,12 @@ class AttributeValue extends AbstractModel
         $query->execute();
 
         $result = $connection->query($query);
+        $row = $result->fetch_row();
 
-        $Attribute->setId($result["kat_id"]);
-        $Attribute->setName($result["kat_bezeichnung"]);
+        $attribute = new Attribute();
+        $attribute->setId($row["kat_id"]);
+        $attribute->setName($row["kat_bezeichnung"]);
 
-        return $Attribute;
+        return $attribute;
     }
 }
