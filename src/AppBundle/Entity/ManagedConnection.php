@@ -25,7 +25,7 @@ class ManagedConnection
         $this->conn = mysqli_connect($this->host, $this->user, $this->password, $this->database);
     }
 
-    public function _destruct() {
+    public function __destruct() {
         mysqli_close($this->conn);
     }
 }

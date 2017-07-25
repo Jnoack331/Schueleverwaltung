@@ -17,7 +17,7 @@ class RoomController extends Controller
      */
     public function indexAction(Request $req) {
         $rooms = RoomRepository::getAllRooms();
-        $this->render("room_view", ["rooms" => $rooms]);
+        return $this->render(":default:index.html.twig", ["rooms" => $rooms]);
     }
 
     /**
@@ -28,11 +28,13 @@ class RoomController extends Controller
      */
     public function createAction(Request $req) {
         $room = new Room();
-        $room->setNumber($req->get("number"));
-        $room->setDescription($req->get("description"));
-        $room->setNote($req->get("note"));
+        $room->setNumber($req->get("roomnumber"));
+        $room->setDescription($req->get("roomname"));
+        $room->setNote($req->get("r_notiz"));
 
         RoomRepository::createRoom($room);
+
+        return $this->redirectToRoute("homepage");
     }
 
     /**

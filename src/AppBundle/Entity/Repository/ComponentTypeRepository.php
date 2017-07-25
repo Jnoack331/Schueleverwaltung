@@ -26,10 +26,17 @@ class ComponentTypeRepository
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("SELECT * FROM komponentenarten WHERE ka_id = ?;");
-        $query->bind_param("i", $id);
+
+        $roomId = 0;
+
+        $query->bind_param("i", $roomId);
+
+        $roomId = $id;
+
         $query->execute();
 
-        $result = $connection->query($query);
+        $result = $query->get_result();
+        $query->close();
         $row = $result->fetch_row();
 
         $componentType = new ComponentType();
@@ -84,10 +91,15 @@ class ComponentTypeRepository
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("INSERT INTO komponentenarten(ka_komponentenart) VALUES (?);");
-        $query->bind_param("s", $componentType->getType());
-        $query->execute();
 
-        $connection->query($query);
+        $type = 0;
+
+        $query->bind_param("s", $type);
+
+        $type = $componentType->getType();
+
+        $query->execute();
+        $query->close();
 
         if($connection->error)
         {
@@ -107,10 +119,17 @@ class ComponentTypeRepository
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("UPDATE komponentenarten SET ka_komponentenart = ? WHERE ka_id = ?;");
-        $query->bind_param("si", $componentType->getType(), $componentType->getId());
-        $query->execute();
 
-        $connection->query($query);
+        $type = 0;
+        $id = 0;
+
+        $query->bind_param("si", $type, $id);
+
+        $type = $componentType->getType();
+        $id = $componentType->getId();
+
+        $query->execute();
+        $query->close();
 
         if($connection->error)
         {
@@ -124,10 +143,15 @@ class ComponentTypeRepository
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("DELETE FROM komponentenarten WHERE ka_id = ?;");
-        $query->bind_param("i", $id);
-        $query->execute();
 
-        $connection->query($query);
+        $componentId = 0;
+
+        $query->bind_param("i", $componentId);
+
+        $componentId = $id;
+
+        $query->execute();
+        $query->close();
 
         if($connection->error)
         {
