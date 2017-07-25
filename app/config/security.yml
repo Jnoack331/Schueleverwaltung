@@ -1,11 +1,13 @@
 # To get started with security, check out the documentation:
-# https://symfony.com/doc/current/security.html
+# http://symfony.com/doc/current/security.html
 security:
 
-    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        in_memory:
-            memory: ~
+        our_db_provider:
+            entity:
+                class: AppBundle:User
+                property: email
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -14,11 +16,36 @@ security:
             security: false
 
         main:
+            pattern:    ^/
+            provider: our_db_provider
+
             anonymous: ~
             # activate different ways to authenticate
 
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-            #http_basic: ~
+            form_login:
+                login_path: login
+                check_path: login
+                default_target_path: /login/redirect
 
-            # https://symfony.com/doc/current/security/form_login_setup.html
-            #form_login: ~
+            logout:
+                path:   /logout
+                target: /login
+
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 604800 # 1 week in seconds
+                path:     /
+
+
+    access_control:
+        # require ROLE_ADMIN for /admin*
+        - { path: ^/rooms, roles: [ROLE_ADMIN, ROLE_AZUBI] }
+        - { path: ^/components, roles: [ROLE_ADMIN, ROLE_AZUBI] }
+        - { path: ^/users, roles: [ROLE_ADMIN, ROLE_AZUBI] }
+        - { path: ^/reporting, roles: [ROLE_MANAGE, ROLE_TEACHER] }
+
+    encoders:
+        AppBundle\Entity\User:
+            algorithm: bcrypt
+            cost: 10
+
