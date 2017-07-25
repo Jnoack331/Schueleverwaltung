@@ -74,7 +74,7 @@ class Room extends AbstractModel
             $component = new Component();
             $component->setId($row["k_id"]);
             $component->setRoomId($row["raeume_r_id"]);
-            $component->setSupplierID($row["lieferant_l_id"]);
+            $component->setSupplierId($row["lieferant_l_id"]);
             $component->setPurchaseDate($row["k_einkaufsdatum"]);
             $component->setWarrantyDuration($row["k_gewaehrleistungsdauer"]);
             $component->setNote($row["k_notiz"]);
