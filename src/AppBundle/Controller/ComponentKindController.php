@@ -23,7 +23,7 @@ class ComponentKindController extends Controller
      * Edits the object with the data passed in $req
      * Saves the edited object back into the database
      *
-     * @Route("/component_kind/{id}", "component_kind_edit", requirements={"id": "\d+"})
+     * @Route("/component_kind/{id}", name="component_kind_edit", requirements={"id": "\d+"})
      */
     public function editAction($id, Request $req)
     {
@@ -35,7 +35,7 @@ class ComponentKindController extends Controller
      * Edits the object with the data passed in $req
      * Saves the edited object back into the database
      *
-     * @Route("/component_kind/create", "component_kind_create")
+     * @Route("/component_kind/create", name="component_kind_create")
      */
     public function createAction(Request $req)
     {

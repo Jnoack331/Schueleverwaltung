@@ -3,10 +3,17 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset("bundles/app/css/main.css") }}">
+        {% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('bundles/app/img/b3-favicon.png') }}" />
     </head>
     <body>
+        {% block header %}
+            {% include "@App/header.html.twig" %}
+            {% include "@App/example.html.twig" %}
+        {% endblock %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

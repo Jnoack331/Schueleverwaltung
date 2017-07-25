@@ -34,7 +34,7 @@ class RoomController extends Controller
      * Edits the object with the data passe in $req
      * Saves the edited object back to the database
      *
-     * @Route("/room/{id}", name="room_detail" requirements={"id": "\d+"})
+     * @Route("/room/{id}", name="room_detail", requirements={"id": "\d+"})
      */
     public function detailAction($id, Request $req)
     {
