@@ -1,6 +1,9 @@
 <?php
 
-class Supplier extends AbstractModel {
+namespace AppBundle\Entity;
+
+class Supplier extends AbstractModel
+{
     private $companyName;
     private $street;
     private $zip;

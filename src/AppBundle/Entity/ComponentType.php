@@ -1,6 +1,9 @@
 <?php
 
-class ComponentType extends AbstractModel {
+namespace AppBundle\Entity;
+
+class ComponentType extends AbstractModel
+{
     private $type;
 
     /**

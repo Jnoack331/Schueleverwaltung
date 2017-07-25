@@ -6,6 +6,8 @@
  * Time: 15:35
  */
 
+namespace AppBundle\Entity;
+
 class ManagedConnection
 {
     private $host = "localhost";
