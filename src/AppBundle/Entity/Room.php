@@ -59,7 +59,7 @@ class Room extends AbstractModel
     /**
      * returns all components to this room
      */
-    public function GetComponents()
+    public function getComponents()
     {
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();

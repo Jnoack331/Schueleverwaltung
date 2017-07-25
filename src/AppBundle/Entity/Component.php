@@ -125,7 +125,7 @@ class Component extends AbstractModel
         $this->componentTypeId = $componentTypeId;
     }
 
-    public function GetSupplier()
+    public function getSupplier()
     {
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
@@ -173,7 +173,7 @@ class Component extends AbstractModel
     /**
      *
      */
-    public function GetComponentAttributeValues()
+    public function getComponentAttributeValues()
     {
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();

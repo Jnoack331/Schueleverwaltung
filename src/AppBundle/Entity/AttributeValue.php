@@ -31,7 +31,7 @@ class AttributeValue extends AbstractModel
         return $this->value;
     }
 
-    public function GetAttribute()
+    public function getAttribute()
     {
         $Attribute = new Attribute();
 
