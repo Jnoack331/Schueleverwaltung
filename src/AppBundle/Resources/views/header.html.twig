@@ -1,0 +1,48 @@
+<input id="navigation-state" class="state" type="checkbox">
+<div class="top-bar">
+    <label for="navigation-state" class="toggle toggle--navigation">
+            <span class="toggle__burger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+        Menü</label>
+    <a class="top-bar__logo" href="#">
+        <img src="{{ asset('bundles/app/img/b3-logo.png') }}" alt="B3">
+    </a>
+</div>
+<div class="wrap wrap--nav">
+    <nav class="navigation">
+        <div class="navigation__container">
+            <ul class="navigation__items">
+                <li class="navigation__item">
+                    <a class="navigation__link" href="{{ url('room_index') }}">Raumverwaltung</a>
+                </li>
+                <li class="navigation__item">
+                    <a class="navigation__link" href="#">Komponentenverwaltung</a>
+                    <input id="drop-toggle" class="state" type="checkbox">
+                    <label for="drop-toggle" class="dropdown__toggle"><img src="{{ asset('bundles/app/img/angle-down.svg') }}"></label>
+                    <ul class="dropdown">
+                        <li class="dropdown__item">
+                            <a class="dropdown__link" href="{{ url('component_index') }}">Komponenten</a>
+                        </li>
+                        <li class="dropdown__item">
+                            <a class="dropdown__link" href="{{ url('component_kind_index') }}">Komponentenart</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="navigation__item">
+                    <a class="navigation__link" href="{{ url('users_index') }}">Benutzer</a>
+                </li>
+                <li class="navigation__item">
+                    <a class="navigation__link" href="{{ url('homepage') }}">Übersicht</a>
+                </li>
+            </ul>
+        </div>
+        <a class="navigation__logo" href="/">
+            <img src="{{ asset('bundles/app/img/b3-logo.png') }}" alt="B3-Fuerth">
+        </a>
+    </nav>
+</div>

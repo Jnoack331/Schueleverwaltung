@@ -1,0 +1,381 @@
+<div class="wrap wrap--content">
+
+    <main>
+        <h1>#DummyContent</h1>
+        <!-- content -->
+
+        <h3>Buttons</h3>
+        <a class="button button--grey">Neuer Raum</a>
+        <a class="button button--primary">Neue Kompente</a>
+        <a class="button button--white">Neue Kompentenart</a>
+        <p></p>
+        <p></p>
+        <h3>Tabellen</h3>
+        <h4>Editierbare Tabelle</h4>
+        <table>
+            <thead><tr>
+                <th>Raum-ID</th>
+                <th>Raum-Nr</th>
+                <th>Bezeichnung</th>
+                <th>Notizen</th>
+                <th colspan="2">Interaktionen</th>
+            </tr></thead>
+            <tbody>
+            <tr>
+                <td>01</td>
+                <td>313</td>
+                <td>Computerraum</td>
+                <td>20 Rechner</td>
+                <td class="table__action">Bearbeiten</td>
+                <td class="table__action">Löschen</td>
+            </tr>
+            <tr>
+                <td>02</td>
+                <td>314</td>
+                <td>Computerraum</td>
+                <td>25 Rechner</td>
+                <td class="table__action">Bearbeiten</td>
+                <td class="table__action">Löschen</td>
+            </tr>
+            <tr>
+                <td>03</td>
+                <td>303</td>
+                <td>Klassenzimmer</td>
+                <td>laut</td>
+                <td class="table__action">Bearbeiten</td>
+                <td class="table__action">Löschen</td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="table__hint">Scrollbar ></p>
+
+        <h4>Ansichts-Tabelle</h4>
+        <table>
+            <thead>
+            <tr>
+                <th>Raum-ID</th>
+                <th>Raum-Nr</th>
+                <th>Bezeichnung</th>
+                <th>Notizen</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>01</td>
+                <td>313</td>
+                <td>Computerraum</td>
+                <td>20 Rechner</td>
+            </tr>
+            <tr>
+                <td>02</td>
+                <td>314</td>
+                <td>Computerraum</td>
+                <td>25 Rechner</td>
+            </tr>
+            <tr>
+                <td>03</td>
+                <td>303</td>
+                <td>Klassenzimmer</td>
+                <td>laut</td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="table__hint">Scrollbar ></p>
+        <br>
+
+        <h3>Formulare</h3>
+
+        <form action="" class="form">
+            <h4>Dummy</h4>
+
+            <dl>
+                <dt>
+                    <label for="inputdummy">Inputdummy</label>
+                </dt>
+                <dd>
+                    <input name="inputdummy" id="inputdummy">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="selectdummy">Selectdummy</label>
+                </dt>
+                <dd>
+                    <select name="selectdummy" id="selectdummy">
+                        <option value="">Hallo</option>
+                        <option value="">Welt</option>
+                    </select>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="textdummy">Textdummy</label>
+                </dt>
+                <dd>
+                    <textarea rows="5" name="textdummy" id="textdummy" ></textarea>
+                </dd>
+            </dl>
+
+            <input type="reset" class="button button--grey">
+            <input type="submit" class="button button--primary" value="Abschicken">
+        </form>
+
+        <hr>
+
+        <form action="" class="form">
+            <h4>Neuer Raum</h4>
+            <dl>
+                <dt>
+                    <label for="roomnumber">Raum Nummer</label>
+                </dt>
+                <dd>
+                    <input name="roomnumber" id="roomnumber">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="roomname">Raum Bezeichnung</label>
+                </dt>
+                <dd>
+                    <input name="roomname" id="roomname">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="r_notiz">Notiz zum Raum</label>
+                </dt>
+                <dd>
+                    <textarea rows="5" name="r_notiz" id="r_notiz"></textarea>
+                </dd>
+            </dl>
+
+            <input type="reset" class="button button--grey">
+            <input type="submit" class="button button--primary" value="Abschicken">
+
+        </form>
+
+        <hr>
+
+        <form action="" class="form">
+            <h4>Neue Komponentenart</h4>
+            <dl>
+                <dt>
+                    <label for="ka_art">Komponentenart</label>
+                </dt>
+                <dd>
+                    <input name="ka_art" id="ka_art">
+                </dd>
+            </dl>
+
+            <p class="table__hint">Speichern um Attribute hinzuzufügen</p>
+
+            <input type="reset" class="button button--grey">
+            <input type="submit" class="button button--primary" value="Abschicken">
+        </form>
+
+        <hr>
+
+        <form action="" class="form">
+            <h4>Neue Attribute für Komponentenart</h4>
+            <dl>
+                <dt>
+                    <label for="k_attributwert1">Attributname 1</label>
+                </dt>
+                <dd>
+                    <input name="k_attributwert1" id="k_attributwert1">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="k_attributwert2">Attributname 2</label>
+                </dt>
+                <dd>
+                    <input name="k_attributwert2" id="k_attributwert2">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="k_attributwert3">Attributname 3</label>
+                </dt>
+                <dd>
+                    <input name="k_attributwert3" id="k_attributwert3">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="k_attributwert4">Attributname 4</label>
+                </dt>
+                <dd>
+                    <input name="k_attributwert4" id="k_attributwert4">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="k_attributwert5">Attributname 5</label>
+                </dt>
+                <dd>
+                    <input name="k_attributwert5" id="k_attributwert5">
+                </dd>
+            </dl>
+            <input type="reset" class="button button--grey">
+            <input type="submit" class="button button--primary" value="Abschicken">
+        </form>
+
+        <hr>
+
+        <form action="" class="form">
+            <h4>Neue Komponente</h4>
+
+            <dl>
+                <dt>
+                    <label for="k_name">Komponentenname</label>
+                </dt>
+                <dd>
+                    <input name="k_name" id="k_name">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="k_raum">Raum</label>
+                </dt>
+                <dd>
+                    <select name="k_raum" id="k_raum">
+                        <option value="">303</option>
+                        <option value="">313</option>
+                    </select>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="k_datum">Einkaufsdatum</label>
+                </dt>
+                <dd>
+                    <input name="k_datum" id="k_datum" type="date">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="k_gewährleistung">Gewährleistungsdauer</label>
+                </dt>
+                <dd>
+                    <input name="k_gewährleistung" id="k_gewährleistung" type="number">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="k_notiz">Notiz zur Komponente</label>
+                </dt>
+                <dd>
+                    <textarea rows="5" name="k_notiz" id="k_notiz"></textarea>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="k_hersteller">Hersteller</label>
+                </dt>
+                <dd>
+                    <input name="k_hersteller" id="k_hersteller">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="k_art">Komponentenart</label>
+                </dt>
+                <dd>
+                    <select name="k_art" id="k_art">
+                        <option value="">PC</option>
+                        <option value="">Drucker</option>
+                    </select>
+                </dd>
+            </dl>
+
+            <p class="table__hint">Speichern um Attributwerte hinzuzufügen</p>
+
+            <input type="reset" class="button button--grey">
+            <input type="submit" class="button button--primary" value="Abschicken">
+        </form>
+
+        <hr>
+
+        <form action="" class="form">
+            <h4>Neue Attributwerte für Komponente (Bsp. Drucker)</h4>
+            <dl>
+                <dt>
+                    <label for="ka_attribute1">Seriennummer</label>
+                </dt>
+                <dd>
+                    <input name="ka_attribute1" id="ka_attribute1">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="ka_attribute2">Druckertyp</label>
+                </dt>
+                <dd>
+                    <input name="ka_attribute2" id="ka_attribute2">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="ka_attribute3">DruckerArt</label>
+                </dt>
+                <dd>
+                    <input name="ka_attribute3" id="ka_attribute3">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="ka_attribute4">Druckformat</label>
+                </dt>
+                <dd>
+                    <input name="ka_attribute4" id="ka_attribute4">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="ka_attribute5">Beidseitig</label>
+                </dt>
+                <dd>
+                    <input name="ka_attribute5" id="ka_attribute5">
+                </dd>
+            </dl>
+
+            <input type="reset" class="button button--grey">
+            <input type="submit" class="button button--primary" value="Abschicken">
+        </form>
+
+        <hr>
+    </main>
+
+</div>
+
+<div class="wrap wrap--footer">
+    <footer class="footer">
+        <div class="footer__content">
+            <h4 class="footer__headline">Teilnehmer</h4>
+            <div class="footer__container">
+                <div class="footer__panel">
+                    <p>Marina Saueressig</p>
+                    <p>Thomas Schäfer</p>
+                    <p>Bettina Schuller</p>
+                    <p>Jolanda Wilfer</p>
+                    <p>Fabian Heckl</p>
+                    <p>Fabian Reymann</p>
+                    <p>Moritz Obermeyer</p>
+                </div>
+                <div class="footer__panel">
+                    <p>Pascal Tillner</p>
+                    <p>Henrik Elsner</p>
+                    <p>Julius Noack</p>
+                    <p>Michael Stadelmann</p>
+                    <p>David Vo</p>
+                    <p>Colin Loos</p>
+                    <p>Leopold Fuchs</p>
+                </div>
+            </div>
+            <div class="footer__copyright">
+                <p>© Copyright 2017 B3 Team 2</p>
+            </div>
+        </div>
+    </footer>
+</div>
