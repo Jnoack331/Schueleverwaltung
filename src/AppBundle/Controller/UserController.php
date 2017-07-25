@@ -53,30 +53,30 @@ class UserController extends Controller
     public function reportingAction(Request $request)
     {
         //if method is GET -> render template
-        if($request->getMethod() === "GET"){
+        if ($request->getMethod() === "GET") {
             return $this->render('user/create.html.twig');
         }
         //if method is POST -> create user and redirect
-        if($request->getMethod() === "POST"){
+        if ($request->getMethod() === "POST") {
             //create User Object
             $new_user = new User();
             //get POST data
             $data = $request->request->all();
             $email = $data["email"];
-            if($email === null || $email === ""){
+            if ($email === null || $email === "") {
                 $error = "please specify email";
             }
             //check if user with this email already exists
             $em = $this->getDoctrine()->getManager();
             $existing_user = $em->getRepository('AppBundle:User')->findOneByEmail($email);
-            if($existing_user){
+            if ($existing_user) {
                 $error = "email already taken";
             }
             $new_user->setEmail($email);
             $new_user->setUsername($email);
             $new_user->setName($data["name"]);
             $role = $data["role"];
-            if(!$this->roleExists($role)){
+            if (!$this->roleExists($role)) {
                 $error = "invalid role";
             }
             $new_user->setRoles(array($role));
@@ -98,31 +98,27 @@ class UserController extends Controller
             $em->flush();
             //redirect to show user with new user
             $user_id = $new_user->getId();
-            $this->redirectToRoute("users_show", array("id" => $user_id));
+            return $this->redirectToRoute("users_show", array("id" => $user_id));
         }
-
     }
 
-
-
-
-    private function roleExists($role){
-        if($role == "ROLE_ADMIN"){
-            return true;
+    private function roleExists($role)
+    {
+        $blRoleExists = false;
+        switch (true) {
+            case ($role == "ROLE_ADMIN"):
+                $blRoleExists = true;
+                break;
+            case ($role == "ROLE_AZUBI"):
+                $blRoleExists = true;
+                break;
+            case ($role == "ROLE_MANAGE"):
+                $blRoleExists = true;
+                break;
+            case ($role == "ROLE_TEACHER"):
+                $blRoleExists = true;
+                break;
         }
-
-        if($role == "ROLE_AZUBI"){
-            return true;
-        }
-
-        if($role == "ROLE_MANAGE"){
-            return true;
-        }
-
-        if($role == "ROLE_TEACHER"){
-            return true;
-        }
-        return false;
-
+        return $blRoleExists;
     }
 }
