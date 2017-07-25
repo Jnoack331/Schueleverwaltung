@@ -39,10 +39,10 @@ security:
 
     access_control:
         # require ROLE_ADMIN for /admin*
-        - { path: ^/rooms, roles: [ROLE_ADMIN, ROLE_AZUBI] }
-        - { path: ^/components, roles: [ROLE_ADMIN, ROLE_AZUBI] }
-        - { path: ^/users, roles: [ROLE_ADMIN, ROLE_AZUBI] }
-        - { path: ^/reporting, roles: [ROLE_MANAGE, ROLE_TEACHER] }
+        # - { path: ^/rooms, roles: [ROLE_ADMIN, ROLE_AZUBI] }
+        # - { path: ^/components, roles: [ROLE_ADMIN, ROLE_AZUBI] }
+        # - { path: ^/users, roles: [ROLE_ADMIN, ROLE_AZUBI] }
+        # - { path: ^/reporting, roles: [ROLE_MANAGE, ROLE_TEACHER] }
 
     encoders:
         AppBundle\Entity\User:
