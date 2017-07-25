@@ -36,15 +36,11 @@ class SecurityController extends Controller
     {
         $auth_checker = $this->get('security.authorization_checker');
 
-        if($auth_checker->isGranted('ROLE_ADMIN') || $auth_checker->isGranted('ROLE_AZUBI'))
-        {
+        if ($auth_checker->isGranted('ROLE_ADMIN') || $auth_checker->isGranted('ROLE_AZUBI')) {
             return $this->redirectToRoute('components');
-        }
-        else if($auth_checker->isGranted('ROLE_MANAGE') || $auth_checker->isGranted('ROLE_TEACHER')){
+        } elseif ($auth_checker->isGranted('ROLE_MANAGE') || $auth_checker->isGranted('ROLE_TEACHER')) {
             return $this->redirectToRoute('reporting');
-        }
-        else
-        {
+        } else {
             return $this->redirectToRoute('login');
         }
     }
@@ -75,7 +71,7 @@ class SecurityController extends Controller
         }
         //create hashed password
         $password = $this->get('security.password_encoder')
-            ->encodePassword($user, $plainPassword);
+                         ->encodePassword($user, $plainPassword);
         //set password
         $user->setPassword($password);
 
