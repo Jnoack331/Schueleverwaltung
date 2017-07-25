@@ -6,7 +6,7 @@ namespace AppBundle\Entity;
 class Component extends AbstractModel
 {
     private $roomId;
-    private $supplierID;
+    private $supplierId;
     private $purchaseDate;
     private $warrantyDuration;
     private $note;
@@ -32,17 +32,17 @@ class Component extends AbstractModel
     /**
      * @return mixed
      */
-    public function getSupplierID()
+    public function getSupplierId()
     {
-        return $this->supplierID;
+        return $this->supplierId;
     }
 
     /**
-     * @param mixed $supplierID
+     * @param mixed $supplierId
      */
-    public function setSupplierID($supplierID)
+    public function setSupplierId($supplierId)
     {
-        $this->supplierID = $supplierID;
+        $this->supplierId = $supplierId;
     }
 
     /**
@@ -131,7 +131,7 @@ class Component extends AbstractModel
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("SELECT * FROM lieferant WHERE l_id = ?;");
-        $query->bind_param("i", $this->getSupplierID());
+        $query->bind_param("i", $this->getSupplierId());
         $query->execute();
 
         $result = $connection->query($query);
@@ -189,7 +189,7 @@ class Component extends AbstractModel
         while($row = $result->fetch_assoc()) {
             $attributeValue = new AttributeValue();
             $attributeValue->setId($row["komponenten_k_id"]);
-            $attributeValue->setAttributeID($row["komponentenattribute_kat_id"]);
+            $attributeValue->setAttributeId($row["komponentenattribute_kat_id"]);
             $attributeValue->setValue($row["khkat_wert"]);
 
             $attributeValues[] = $attributeValue;

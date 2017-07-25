@@ -10,16 +10,16 @@ namespace AppBundle\Entity;
 
 class AttributeValue extends AbstractModel
 {
-    private $attributeID;
+    private $attributeId;
     private $value;
 
-    public function setAttributeID($attributeID)
+    public function setAttributeId($attributeId)
     {
-        $this->attributeID = $attributeID;
+        $this->attributeId = $attributeId;
     }
-    public function getAttributeID()
+    public function getAttributeId()
     {
-        return $this->attributeID;
+        return $this->attributeId;
     }
 
     public function setValue($value)
@@ -39,7 +39,7 @@ class AttributeValue extends AbstractModel
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("Select * from komponentenattribute where kat_id = ?;");
-        $query->bind_param("i", $this->getAttributeID());
+        $query->bind_param("i", $this->getAttributeId());
         $query->execute();
 
         $result = $connection->query($query);
