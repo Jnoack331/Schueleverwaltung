@@ -6,7 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class ComponentKindController extends Controller
+class ComponentTypeController extends Controller
 {
     /**
      * Fetches all ComponentKinds from the database and renders a template to display them
