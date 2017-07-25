@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="login-padding container">
+
+        <section class="content" id="login-box">
+
+            <ul class="nav nav-tabs nav-justified">
+                <li class="active"><a href="#">Login</a></li>
+            </ul>
+
+
+
+            <div class="login {% if error %} animated shake {% endif %}">
+                <h1 class="text-center">Login</h1>
+
+                {% if error %}
+                    <div class="alert alert-danger col-md-offset-4 col-md-4 text-center error" role="alert">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
+
+                <form action="{{ path('login') }}" method="post">
+
+                    <div class="row">
+                        <div class="col-md-offset-4 col-md-4 form-group">
+                            <label for="email">Email Address</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><span class="fa fa-envelope"></span></div>
+                                <input type="email" class="form-control" id="username" name="_username"
+                                       {% if last_username %}value="{{ last_username }}"{% else %} placeholder="Email" {% endif %}>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-offset-4 col-md-4 form-group">
+                            <label for="password">Password</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><span class="fa fa-lock fa-lg"></span></div>
+                                <input type="password" class="form-control" id="password" name="_password"
+                                       placeholder="Password"
+                                       required="required">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-offset-4 col-md-4 form-group text-center">
+                            <button type="submit" class="btn btn-lg btn-primary btn-block" id="login-button">Login</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    body { background: #F5F5F5; font: 18px/1.5 sans-serif; }
+    h1, h2 { line-height: 1.2; margin: 0 0 .5em; }
+    h1 { font-size: 36px; }
+    h2 { font-size: 21px; margin-bottom: 1em; }
+    p { margin: 0 0 1em 0; }
+    a { color: #0000F0; }
+    a:hover { text-decoration: none; }
+    code { background: #F5F5F5; max-width: 100px; padding: 2px 6px; word-wrap: break-word; }
+    #wrapper { background: #FFF; margin: 1em auto; max-width: 800px; width: 95%; }
+    #container { padding: 2em; }
+    #welcome, #status { margin-bottom: 2em; }
+    #welcome h1 span { display: block; font-size: 75%; }
+    #icon-status, #icon-book { float: left; height: 64px; margin-right: 1em; margin-top: -4px; width: 64px; }
+    #icon-book { display: none; }
+
+    @media (min-width: 768px) {
+        #wrapper { width: 80%; margin: 2em auto; }
+        #icon-book { display: inline-block; }
+        #status a, #next a { display: block; }
+
+        @-webkit-keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
+        @keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
+        .sf-toolbar { opacity: 0; -webkit-animation: fade-in 1s .2s forwards; animation: fade-in 1s .2s forwards;}
+    }
+</style>
+{% endblock %}
