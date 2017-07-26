@@ -10,7 +10,7 @@
 
                 <dl>
                     <dt>
-                        <label for="name">Komponentenname</label>
+                        <label for="name">Komponentenkennung</label>
                     </dt>
                     <dd>
                         <input name="name" id="name">
@@ -36,12 +36,12 @@
                         <label for="buy_date">Einkaufsdatum</label>
                     </dt>
                     <dd>
-                        <input name="buy_date" id="buy_date" type="date">
+                        <input name="buy_date" id="buy_date" type="date" value="{{ "now"|date("Y-m-d") }}">
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        <label for="warranty">Gewährleistungsdauer</label>
+                        <label for="warranty">Gewährleistungsdauer in Monaten</label>
                     </dt>
                     <dd>
                         <input name="warranty" id="warranty" type="number">
@@ -79,9 +79,9 @@
                     </dd>
                 </dl>
 
-                <p class="table__hint">Speichern um Attributwerte hinzuzufügen</p>
+                <p class="table__hint">*Speichern um Attributwerte hinzuzufügen</p>
 
-                <input type="reset" class="button button--grey">
+                <a href="{{ path('component_index') }}" class="button button--grey">Zurück</a>
                 <input type="submit" class="button button--primary" value="Abschicken">
             </form>
 
