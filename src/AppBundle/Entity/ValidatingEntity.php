@@ -6,7 +6,7 @@
  * Time: 11:09
  */
 
-namespace AppBundle\Entity\Repository;
+namespace AppBundle\Entity;
 
 interface ValidatingEntity {
     public function isValid();

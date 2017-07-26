@@ -2,8 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Repository\ValidatingEntity;
-
 class Room extends AbstractEntity implements ValidatingEntity {
     private $number;
     private $description;
