@@ -79,6 +79,12 @@ class Room extends AbstractEntity implements ValidatingEntity {
 
         $query->execute();
 
+        if($query->error)
+        {
+            $query->close();
+            throw new \Exception("Selektieren der Komponenten fehlgeschlagen");
+        }
+
         $result = $query->get_result();
         $query->close();
         $components = [];

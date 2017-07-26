@@ -36,7 +36,8 @@ class AttributeValue extends AbstractEntity
     }
 
     /**
-     * @return Attribute
+     * @return Attribute|null
+     * @throws \Exception
      */
     public function getAttribute()
     {
@@ -55,6 +56,7 @@ class AttributeValue extends AbstractEntity
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Selektieren des Attributs fehlgeschlagen");
         }
 
