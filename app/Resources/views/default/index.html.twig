@@ -125,30 +125,30 @@
 
             <hr>
 
-            <form action="{{ url('room_create') }}" class="form">
+            <form action="{{ url('room_create') }}" method="post" class="form">
                 <h4>Neuer Raum</h4>
                 <dl>
                     <dt>
-                        <label for="roomnumber">Raum Nummer</label>
+                        <label for="number">Raum Nummer</label>
                     </dt>
                     <dd>
-                        <input name="roomnumber" id="roomnumber">
+                        <input name="number" id="number">
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        <label for="roomname">Raum Bezeichnung</label>
+                        <label for="description">Raum Bezeichnung</label>
                     </dt>
                     <dd>
-                        <input name="roomname" id="roomname">
+                        <input name="description" id="description">
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        <label for="r_notiz">Notiz zum Raum</label>
+                        <label for="note">Notiz zum Raum</label>
                     </dt>
                     <dd>
-                        <textarea rows="5" name="r_notiz" id="r_notiz"></textarea>
+                        <textarea rows="5" name="note" id="note"></textarea>
                     </dd>
                 </dl>
 
@@ -226,7 +226,7 @@
 
             <hr>
 
-            <form action="" class="form">
+            <form action="{{ url("room_create") }}" method="post" class="form">
                 <h4>Neue Komponente</h4>
 
                 <dl>

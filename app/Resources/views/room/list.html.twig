@@ -1,30 +1,27 @@
 {% extends "base.html.twig" %}
 
-{% block "body" %}
+{% block body %}
 <div class="wrap wrap--content">
-
     <main>
         <h1>R&auml;ume</h1>
         <table>
             <thead><tr>
-                <th>Raum-ID</th>
                 <th>Raum-Nr</th>
                 <th>Bezeichnung</th>
-                <th>Notizen</th>
                 <th colspan="2">Interaktionen</th>
             </tr></thead>
             <tbody>
-            {% for raum in raeume %}
+            {% for room in rooms %}
                 <tr>
-                {% for attribute in raum %}
-                    <td>{{ attribute }}</td>
-                {% endfor %}
-                    <td class="table__action">Bearbeiten</td>
-                    <td class="table__action">Löschen</td>
+                    <td>{{ room.getNumber() }}</td>
+                    <td>{{ room.getDescription() }}</td>
+                    <td class="table__action"><a href="{{ url('room_detail', {"id": room.getId()}) }}">Bearbeiten</a></td>
+                    <td class="table__action"><a href="{{ url('room_delete', {"id": room.getId()}) }}">Löschen</a></td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+        <a href="{{ url('room_create') }}"><button class="button button--primary">Neuen Raum erstellen</button></a>
     </main>
-</div>
+ </div>
 {% endblock %}

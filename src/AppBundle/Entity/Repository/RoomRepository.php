@@ -70,7 +70,7 @@ class RoomRepository
         $result = $query->get_result();
         $query->close();
 
-        $row = $result->fetch_row();
+        $row = $result->fetch_assoc();
 
         $room = new Room();
         $room->setId($row["r_id"]);

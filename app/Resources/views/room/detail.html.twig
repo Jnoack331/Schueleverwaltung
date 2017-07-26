@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="wrap wrap--content">
+
+    <main>
+        <br>
+        <a href="{{ url('room_index') }}"><button class="button button--white">Zur&uuml;ck zur Ansicht</button></a>
+        <h1>R&auml;ume</h1>
+        <form method="post">
+            <label for="number">Raum-Nr</label>
+            <input type="text" name="number" id="number" value="{{ room.getNumber() }}">
+
+            <label for="description">Raum Bezeichnung</label>
+            <input type="text" name="description" id="description" value="{{ room.getDescription() }}">
+
+            <label for="note">Notizen</label>
+            <textarea name="note" id="note">{{ room.getNote() }}</textarea>
+
+            <button class="button button--primary">Speichern</button>
+        </form>
+        <form action="{{ url('room_delete', {"id": room.getId()}) }}" method="post">
+            <button class="button button--white">Raum Löschen</button>
+        </form>
+    </main>
+</div>
+{% endblock %}
