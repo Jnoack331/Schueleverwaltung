@@ -20,10 +20,8 @@ use AppBundle\Entity\ManagedConnection;
 class ComponentRepository
 {
     /**
-<<<<<<< HEAD
-     * Creates the component in the database 
+     * Creates the component in the database
      * and adds it to the database.
-=======
      * @return array
      * @throws \Exception
      */
@@ -111,7 +109,6 @@ class ComponentRepository
     }
 
     /**
->>>>>>> origin/master
      * @param Component $component
      * @return int|string
      * @throws \Exception
