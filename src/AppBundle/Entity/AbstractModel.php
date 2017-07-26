@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Defines an entity in the database, accessible
+ * via ID as primary key.
+ */
+
 namespace AppBundle\Entity;
 
 class AbstractModel
@@ -7,7 +12,7 @@ class AbstractModel
     private $id;
 
     /**
-     * @return mixed
+     * @return an id, normally a primary key
      */
     public function getId()
     {

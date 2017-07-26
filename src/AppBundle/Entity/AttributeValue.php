@@ -4,6 +4,10 @@
  * User: Colin
  * Date: 25.07.2017
  * Time: 08:55
+ * 
+ * Specifies a value for a certain Attribute,
+ * e.g. "1 GB" for an attribute "RAM/Memory"
+ * 
  */
 
 namespace AppBundle\Entity;
