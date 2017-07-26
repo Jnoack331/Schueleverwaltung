@@ -20,11 +20,11 @@ class RoomController extends Controller
         try {
             $rooms = RoomRepository::getAllRooms();
         } catch (Exception $e) {
-            return $this->render("room_view", [
+            return $this->render("room/list.html.twig", [
                "message" => "Fehler beim Laden der Räume"
             ]);
         }
-        return $this->render("room_view", ["rooms" => $rooms]);
+        return $this->render("room/list.html.twig", ["rooms" => $rooms]);
     }
 
     /**
@@ -35,7 +35,7 @@ class RoomController extends Controller
      */
     public function createAction(Request $req) {
         if ($req->getMethod() === "GET") {
-            return $this->render("room_create", []);
+            return $this->render("room/create.html.twig", []);
         } else {
             $room = new Room();
             $room->setNumber($req->get("number"));
@@ -45,7 +45,7 @@ class RoomController extends Controller
             try {
                 $id = RoomRepository::createRoom($room);
             } catch (Exception $e) {
-                return $this->render("room_create", [
+                return $this->render("room/list.html.twig", [
                     "message" => "Fehler beim Erstellen des Raums"
                 ]);
             }
@@ -65,17 +65,15 @@ class RoomController extends Controller
         try {
             $room = RoomRepository::getRoomById($id);
         } catch (Exception $e) {
-            return $this->render("room_detail", [
+            return $this->render("room/detail.html.twig", [
                 "message" => "Fehler beim Laden des Raums"
             ]);
         }
 
         if ($req->getMethod() === "GET") {
             // Show the room with $id
-            return $this->render("room_detail", [
-                "number"      => $room->getNumber(),
-                "description" => $room->getDescription(),
-                "note"        => $room->getNote()
+            return $this->render("room/detail.html.twig", [
+                "room"  => $room,
             ]);
         } else {
             // Edit the room with $id
@@ -84,12 +82,15 @@ class RoomController extends Controller
             $room->setNote($req->get("note"));
 
             try {
-                $id = RoomRepository::updateRoom($room);
+                RoomRepository::updateRoom($room);
             } catch (Exception $e) {
-                return $this->render("room_detail", [
+                return $this->render("room/detail.html.twig", [
                    "message" => "Fehler beim Speichern der Änderungen"
                 ]);
             }
+            return $this->render("room/detail.html.twig", [
+                "room" => $room,
+                ]);
         }
     }
 
@@ -100,11 +101,9 @@ class RoomController extends Controller
         try {
             RoomRepository::deleteRoomById($id);
         } catch (Exception $e) {
-            return $this->render("room_delete", [
-                "message" => "Fehler beim Löschen des Raums"
-            ]);
+            return $this->redirectToRoute("room_index");
         }
 
-        $this->redirectToRoute("room_index", []);
+        return $this->redirectToRoute("room_index");
     }
 }
