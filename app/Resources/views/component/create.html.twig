@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="wrap wrap--content">
+        <main>
+            {% if message is defined %}
+                <h3>{{ message }}</h3>
+            {% endif %}
+            <form action="" method="post" class="form">
+                <h4>Neue Komponente</h4>
+
+                <dl>
+                    <dt>
+                        <label for="name">Komponentenname</label>
+                    </dt>
+                    <dd>
+                        <input name="name" id="name">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="room_id">Raum</label>
+                    </dt>
+                    <dd>
+                        <select name="room_id" id="room_id">
+                            <option value="1">303</option>
+                            <option value="2">313</option>
+                        </select>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="buy_date">Einkaufsdatum</label>
+                    </dt>
+                    <dd>
+                        <input name="buy_date" id="buy_date" type="date">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="warranty">Gewährleistungsdauer</label>
+                    </dt>
+                    <dd>
+                        <input name="warranty" id="warranty" type="number">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="note">Notiz zur Komponente</label>
+                    </dt>
+                    <dd>
+                        <textarea rows="5" name="note" id="note"></textarea>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="manufacturer">Hersteller</label>
+                    </dt>
+                    <dd>
+                        <input name="manufacturer" id="manufacturer">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="type_id">Komponentenart</label>
+                    </dt>
+                    <dd>
+                        <select name="type_id" id="type_id">
+                            <option value="1">PC</option>
+                            <option value="2">Drucker</option>
+                        </select>
+                    </dd>
+                </dl>
+
+                <p class="table__hint">Speichern um Attributwerte hinzuzufügen</p>
+
+                <input type="reset" class="button button--grey">
+                <input type="submit" class="button button--primary" value="Abschicken">
+            </form>
+
+        </main>
+    </div>
+
+
+
+{% endblock %}
