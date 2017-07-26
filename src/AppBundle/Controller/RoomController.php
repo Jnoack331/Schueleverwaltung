@@ -19,6 +19,9 @@ class RoomController extends AbstractController {
         try {
             $rooms = RoomRepository::getAllRooms();
         } catch (Exception $e) {
+            return $this->render("room/list.html.twig", [
+               "message" => "Fehler beim Laden der Räume"
+            ]);
             return $this->renderError("room_view", $e);
         }
         return $this->render("room/list.html.twig", ["rooms" => $rooms]);
