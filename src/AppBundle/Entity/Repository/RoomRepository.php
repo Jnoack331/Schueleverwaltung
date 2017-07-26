@@ -8,6 +8,10 @@
 
 namespace AppBundle\Entity\Repository;
 
+/**
+ * Provides functions to modify room entities in
+ * the database.
+ */
 
 use AppBundle\Entity\ManagedConnection;
 use AppBundle\Entity\Room;
