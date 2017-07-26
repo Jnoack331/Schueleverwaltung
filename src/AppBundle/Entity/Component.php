@@ -173,6 +173,7 @@ class Component extends AbstractEntity
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Selektieren des Lieferants fehlgeschlagen");
         }
 
@@ -215,6 +216,7 @@ class Component extends AbstractEntity
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Selektieren der Komponentenart fehlgeschlagen");
         }
 
@@ -255,6 +257,7 @@ class Component extends AbstractEntity
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Selektieren der Attributwerte fehlgeschlagen");
         }
 

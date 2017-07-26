@@ -29,6 +29,7 @@ class ComponentRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Selektieren der Komponenten fehlgeschlagen");
         }
 
@@ -74,6 +75,7 @@ class ComponentRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Erstellen der Komponente fehlgeschlagen");
         }
 
@@ -138,6 +140,7 @@ class ComponentRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Erstellen der Komponente fehlgeschlagen");
         }
 
@@ -183,6 +186,7 @@ class ComponentRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Ändern der Komponente fehlgeschlagen");
         }
 
@@ -210,6 +214,7 @@ class ComponentRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Ändern der Komponente fehlgeschlagen");
         }
 

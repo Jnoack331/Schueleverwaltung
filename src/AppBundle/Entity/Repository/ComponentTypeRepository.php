@@ -37,6 +37,7 @@ class ComponentTypeRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Selektieren der Komponentenart fehlgeschlagen");
         }
 
@@ -71,6 +72,7 @@ class ComponentTypeRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Selektierung der Komponentenarten fehlgeschlagen");
         }
 
@@ -109,6 +111,7 @@ class ComponentTypeRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Selektieren der Komponentenart fehlgeschlagen");
         }
 
@@ -151,6 +154,7 @@ class ComponentTypeRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Erstellen der Komponentenart fehlgeschlagen");
         }
 
@@ -182,12 +186,17 @@ class ComponentTypeRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Ändern der Komponentenart fehlgeschlagen");
         }
 
         $query->close();
     }
 
+    /**
+     * @param $id
+     * @throws \Exception
+     */
     public static function deleteComponentTypeById($id)
     {
         $managedConnection = new ManagedConnection();
@@ -205,6 +214,7 @@ class ComponentTypeRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Löschen der Komponentenart fehlgeschlagen");
         }
 
