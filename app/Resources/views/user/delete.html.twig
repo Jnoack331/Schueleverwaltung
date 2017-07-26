@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h4>Benutzer Löschen</h4>
+    <h3>Wollen sie den Benutzer {{ user.name }} ({{ user.email }}) wirklich löschen?</h3>
+    <a href="{{ path('users_index') }}" class="button button--primary">Zurück</a>
+    <form action="" method="post">
+        <input type="submit" class="button button--primary" value="Löschen">
+    </form>
+
+
+{% endblock %}

@@ -282,15 +282,22 @@ class User implements AdvancedUserInterface, \Serializable
 
     public function roles_to_String(){
         $roles = $this->roles;
-        $rolesShort = [];
-        foreach($roles as $role){
-            //remove ROLE_
-            $role = substr($role, 5);
-            //Capitalize
-            $role = ucfirst(strtolower($role));
-            //write to new Array
-            $rolesShort[] = $role;
+        $role = $roles[0];
+        if($role === "ROLE_ADMIN"){
+            return "Admin";
         }
-        return implode(", ", $rolesShort);
+        if($role === "ROLE_AZUBI"){
+            return "Azubi";
+        }
+        if($role === "ROLE_MANAGE"){
+            return "Verwaltung";
+        }
+        if($role === "ROLE_TEACHER"){
+            return "Lehrer";
+        }
+    }
+
+    public function hasRole($role){
+        return in_array($role, $this->getRoles());
     }
 }
