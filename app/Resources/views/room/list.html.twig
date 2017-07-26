@@ -1,0 +1,26 @@
+<div class="wrap wrap--content">
+
+    <main>
+        <h1>R&auml;ume</h1>
+        <table>
+            <thead><tr>
+                <th>Raum-ID</th>
+                <th>Raum-Nr</th>
+                <th>Bezeichnung</th>
+                <th>Notizen</th>
+                <th colspan="2">Interaktionen</th>
+            </tr></thead>
+            <tbody>
+            {% for raum in raeume %}
+                <tr>
+                {% for attribute in raum %}
+                    <td>{{ attribute }}</td>
+                {% endfor %}
+                    <td class="table__action">Bearbeiten</td>
+                    <td class="table__action">Löschen</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</div>
