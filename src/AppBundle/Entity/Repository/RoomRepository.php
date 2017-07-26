@@ -33,6 +33,7 @@ class RoomRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Selektieren der Räume fehlgeschlagen");
         }
 
@@ -73,6 +74,7 @@ class RoomRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Selektieren des Raumes fehlgeschlagen");
         }
 
@@ -117,6 +119,7 @@ class RoomRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Selektieren des Raumes fehlgeschlagen");
         }
 
@@ -165,6 +168,7 @@ class RoomRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Erstellung des Raumes fehlgeschlagen");
         }
 
@@ -200,6 +204,7 @@ class RoomRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Ändern des Raumes fehlgeschlagen");
         }
 
@@ -225,10 +230,16 @@ class RoomRepository
 
         $query->execute();
 
-            if($row = $result->fetch_assoc())
-            {
-                return false;
-            }
+        if($query->error)
+        {
+            $query->close();
+            throw new \Exception("Selektieren des Raumes fehlgeschlagen");
+        }
+
+        if($row = $result->fetch_assoc())
+        {
+            return false;
+        }
 
         $result = $query->get_result();
         $query->close();
@@ -257,6 +268,7 @@ class RoomRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Löschen des Raumes fehlgeschlagen");
         }
 
