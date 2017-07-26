@@ -45,7 +45,7 @@ class RoomController extends AbstractController {
             try {
                 $id = RoomRepository::createRoom($room);
             } catch (Exception $e) {
-                return $this->renderError("room_create", $e);
+                return $this->renderError("user/create.html.twig", $e);
             }
 
             return $this->redirectToRoute("room_detail", ["id" => $id]);
