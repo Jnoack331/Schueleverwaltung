@@ -12,7 +12,6 @@
 
 namespace AppBundle\Entity\Repository;
 
-
 use AppBundle\Entity\Component;
 use AppBundle\Entity\ComponentType;
 use AppBundle\Entity\ManagedConnection;
