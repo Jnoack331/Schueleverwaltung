@@ -12,6 +12,23 @@ class Component extends AbstractEntity
     private $note;
     private $producer;
     private $componentTypeId;
+    private $name;
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
 
     /**
      * @return mixed

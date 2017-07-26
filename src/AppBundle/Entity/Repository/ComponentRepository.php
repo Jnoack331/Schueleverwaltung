@@ -40,6 +40,7 @@ class ComponentRepository
             $component->setPurchaseDate($row["k_einkaufsdatum"]);
             $component->setRoomId($row["raeume_r_id"]);
             $component->setSupplierId($row["lieferant_l_id"]);
+            $component->setName($row["k_kennung"]);
             $components[] = $component;
         }
 
@@ -84,6 +85,7 @@ class ComponentRepository
         $component->setNote($row["k_notiz"]);
         $component->setProducer($row["k_hersteller"]);
         $component->setComponentTypeId($row["komponentenarten_ka_id"]);
+        $component->setName($row["k_kennung"]);
 
         if($connection->error)
         {
@@ -103,7 +105,7 @@ class ComponentRepository
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
 
-        $query = $connection->prepare("INSERT INTO komponenten(raeume_r_id, lieferant_l_id, k_einkaufsdatum, k_gewaehrleistungsdauer, k_notiz, k_hersteller, komponentenarten_ka_id) VALUES (?, ?, ?, ?, ?, ?, ?);");
+        $query = $connection->prepare("INSERT INTO komponenten(raeume_r_id, lieferant_l_id, k_einkaufsdatum, k_gewaehrleistungsdauer, k_notiz, k_hersteller, komponentenarten_ka_id, k_kennung) VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
 
         $roomId = 0;
         $supplierId = 0;
@@ -112,8 +114,9 @@ class ComponentRepository
         $note = 0;
         $producer = 0;
         $componentTypeId = 0;
+        $name = 0;
 
-        $query->bind_param("iidissi", $roomId, $supplierId, $purchaseDate, $warrantyDuration, $note, $producer, $componentTypeId);
+        $query->bind_param("iidissis", $roomId, $supplierId, $purchaseDate, $warrantyDuration, $note, $producer, $componentTypeId, $name);
 
         $roomId = $component->getRoomId();
         $supplierId = $component->getSupplierId();
@@ -122,6 +125,7 @@ class ComponentRepository
         $note = $component->getNote();
         $producer = $component->getProducer();
         $componentTypeId = $component->getComponentTypeId();
+        $name = $component->getName();
 
         $query->execute();
         $query->close();
@@ -143,7 +147,7 @@ class ComponentRepository
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
 
-        $query = $connection->prepare("UPDATE komponenten SET raeume_id = ?, lieferant_l_id = ?, k_einkaufsdatum = ?, k_gewaehrleistungsdauer = ?, k_notiz = ?, k_hersteller = ?, komponentenarten_ka_id = ? WHERE k_id = ?;");
+        $query = $connection->prepare("UPDATE komponenten SET raeume_id = ?, lieferant_l_id = ?, k_einkaufsdatum = ?, k_gewaehrleistungsdauer = ?, k_notiz = ?, k_hersteller = ?, komponentenarten_ka_id = ?, k_kennung = ? WHERE k_id = ?;");
 
         $roomId = 0;
         $supplierId = 0;
@@ -153,8 +157,9 @@ class ComponentRepository
         $producer = 0;
         $componentTypeId = 0;
         $componentId = 0;
+        $name = 0;
 
-        $query->bind_param("iidissii", $roomId, $supplierId, $purchaseDate, $warrantyDuration, $note, $producer, $componentTypeId, $componentId);
+        $query->bind_param("iidissisi", $roomId, $supplierId, $purchaseDate, $warrantyDuration, $note, $producer, $componentTypeId, $name, $componentId);
 
         $roomId = $component->getRoomId();
         $supplierId = $component->getSupplierId();
@@ -164,6 +169,7 @@ class ComponentRepository
         $producer = $component->getProducer();
         $componentTypeId = $component->getComponentTypeId();
         $componentId = $component->getId();
+        $name = $component->getName();
 
         $query->execute();
         $query->close();
