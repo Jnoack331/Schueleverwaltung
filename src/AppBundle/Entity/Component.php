@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 
+use AppBundle\Entity\Repository\RoomRepository;
+
 class Component extends AbstractEntity
 {
     private $roomId;
@@ -140,6 +142,14 @@ class Component extends AbstractEntity
     public function setComponentTypeId($componentTypeId)
     {
         $this->componentTypeId = $componentTypeId;
+    }
+
+    /**
+     * @return Room
+     */
+    public function getRoom()
+    {
+        return RoomRepository::getRoomById($this->getId());
     }
 
     /**
