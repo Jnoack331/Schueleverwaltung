@@ -103,7 +103,7 @@ class RoomController extends AbstractController {
                 return $this->renderError("room/list.html.twig", $e);
             }
         } else {
-            return $this->render("KEIN_PLAN", [
+            return $this->render("room/detail.html.twig", [
                "message" => "Der Raum kann nicht gelöscht werden, da ihm Komponenten zugeordnet sind"
             ]);
         }
