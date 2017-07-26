@@ -18,5 +18,8 @@
         {% endif %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
+        {% block footer %}
+            {% include "@App/footer.html.twig" %}
+        {% endblock %}
     </body>
 </html>
