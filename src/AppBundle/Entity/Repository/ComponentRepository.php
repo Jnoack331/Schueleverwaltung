@@ -76,6 +76,11 @@ class ComponentRepository
 
         $row = $result->fetch_assoc();
 
+        if($row == NULL)
+        {
+            return NULL;
+        }
+
         $component = new Component();
         $component->setId($row["k_id"]);
         $component->setRoomId($row["raeume_r_id"]);
