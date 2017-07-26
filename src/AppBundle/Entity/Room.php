@@ -2,8 +2,9 @@
 
 namespace AppBundle\Entity;
 
-class Room extends AbstractEntity
-{
+use AppBundle\Entity\Repository\ValidatingEntity;
+
+class Room extends AbstractEntity implements ValidatingEntity {
     private $number;
     private $description;
     private $note;
@@ -93,5 +94,13 @@ class Room extends AbstractEntity
         }
 
         return $components;
+    }
+
+    public function isValid() {
+        if ($this->number === null || $this->number === "") {
+            return false;
+        }
+
+        return true;
     }
 }

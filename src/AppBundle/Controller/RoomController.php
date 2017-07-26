@@ -74,10 +74,16 @@ class RoomController extends AbstractController {
             $room->setDescription($req->get("description"));
             $room->setNote($req->get("note"));
 
+            if (!$room->isValid()) {
+                return $this->render("room/detail.html.twig", [
+                    "message" => "Bitte geben Sie eine gültige Raumnummer ein"
+                ]);
+            }
+
             try {
                 RoomRepository::updateRoom($room);
             } catch (Exception $e) {
-                return $this->renderError("room_detail", $e);
+                return $this->renderError("room/detail.html.twig", $e);
             }
             return $this->render("room/detail.html.twig", [
                 "room" => $room,
