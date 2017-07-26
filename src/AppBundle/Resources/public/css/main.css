@@ -533,7 +533,7 @@ dl {
 
 /* line 13, Scss/elements/_form.scss */
 dd {
-  margin: 0; }
+  margin: 0 0 10px 0; }
 
 /* line 17, Scss/elements/_form.scss */
 select, input, textarea {
@@ -545,6 +545,11 @@ select, input, textarea {
 .form__hint {
   font-size: 10px;
   color: grey; }
+
+/* line 29, Scss/elements/_form.scss */
+.form__button-wrap {
+  display: flex;
+  flex-direction: column; }
 
 /* line 2, Scss/elements/_wrap.scss */
 .wrap {
