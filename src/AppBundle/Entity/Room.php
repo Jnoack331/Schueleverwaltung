@@ -65,10 +65,17 @@ class Room extends AbstractModel
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("SELECT * FROM komponenten WHERE k_id = ?;");
-        $query->bind_param("i", $this->getId());
+
+        $id = 0;
+
+        $query->bind_param("i", $id);
+
+        $id = $this->getId();
+
         $query->execute();
 
-        $result = $connection->query($query);
+        $result = $query->get_result();
+        $query->close();
         $components = [];
         while ($row = $result->fetch_assoc()) {
             $component = new Component();

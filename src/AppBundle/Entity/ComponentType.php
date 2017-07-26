@@ -32,10 +32,17 @@ class ComponentType extends AbstractModel
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("SELECT attribut.* FROM komponentenattribute AS attribut INNER JOIN wird_beschrieben_durch as wbd on attribut.kat_id = wbd.komponentenattribute_kat_id INNER JOIN komponentenarten ON komponentenarten.ka_id = wbd.komponentenarten_ka_id WHERE komponentenarten.ka_id = ?;");
-        $query->bind_param("i", $this->getId());
+
+        $id = 0;
+
+        $query->bind_param("i", $id);
+
+        $id = $this->getId();
+
         $query->execute();
 
-        $result = $connection->query($query);
+        $result = $query->get_result();
+        $query->close();
 
         $attributes = [];
 

@@ -9,7 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
-class RoomController extends Controller {
+class RoomController extends Controller
+{
     /**
      * Fetches all Rooms from the database and renders a template to display them
      *
@@ -23,7 +24,6 @@ class RoomController extends Controller {
                "message" => "Fehler beim Laden der Räume"
             ]);
         }
-
         return $this->render("room_view", ["rooms" => $rooms]);
     }
 

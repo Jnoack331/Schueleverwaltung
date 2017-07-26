@@ -14,16 +14,37 @@ use AppBundle\Entity\ManagedConnection;
 
 class ComponentRepository
 {
+    /**
+     * @param Component $component
+     * @throws \Exception
+     */
     public static function createComponent(Component $component)
     {
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("INSERT INTO komponenten(raeume_r_id, lieferant_l_id, k_einkaufsdatum, k_gewaehrleistungsdauer, k_notiz, k_hersteller, komponentenarten_ka_id) VALUES (?, ?, ?, ?, ?, ?, ?);");
-        $query->bind_param("iidissi", $component->getRoomId(), $component->getSupplierId(), $component->getPurchaseDate(), $component->getWarrantyDuration(), $component->getNote(), $component->getProducer(), $component->getComponentTypeId());
-        $query->execute();
 
-        $connection->query($query);
+        $roomId = 0;
+        $supplierId = 0;
+        $purchaseDate = 0;
+        $warrantyDuration = 0;
+        $note = 0;
+        $producer = 0;
+        $componentTypeId = 0;
+
+        $query->bind_param("iidissi", $roomId, $supplierId, $purchaseDate, $warrantyDuration, $note, $producer, $componentTypeId);
+
+        $roomId = $component->getRoomId();
+        $supplierId = $component->getSupplierId();
+        $purchaseDate = $component->getPurchaseDate();
+        $warrantyDuration = $component->getWarrantyDuration();
+        $note = $component->getNote();
+        $producer = $component->getProducer();
+        $componentTypeId = $component->getComponentTypeId();
+
+        $query->execute();
+        $query->close();
 
         if($connection->error)
         {
@@ -31,16 +52,39 @@ class ComponentRepository
         }
     }
 
+    /**
+     * @param Component $component
+     * @throws \Exception
+     */
     public static function updateComponent(Component $component)
     {
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("UPDATE komponenten SET raeume_id = ?, lieferant_l_id = ?, k_einkaufsdatum = ?, k_gewaehrleistungsdauer = ?, k_notiz = ?, k_hersteller = ?, komponentenarten_ka_id = ? WHERE k_id = ?;");
-        $query->bind_param("iidissii", $component->getRoomId(), $component->getSupplierId(), $component->getPurchaseDate(), $component->getWarrantyDuration(), $component->getNote(), $component->getProducer(), $component->getComponentTypeId(), $component->getId());
-        $query->execute();
 
-        $connection->query($query);
+        $roomId = 0;
+        $supplierId = 0;
+        $purchaseDate = 0;
+        $warrantyDuration = 0;
+        $note = 0;
+        $producer = 0;
+        $componentTypeId = 0;
+        $componentId = 0;
+
+        $query->bind_param("iidissii", $roomId, $supplierId, $purchaseDate, $warrantyDuration, $note, $producer, $componentTypeId, $componentId);
+
+        $roomId = $component->getRoomId();
+        $supplierId = $component->getSupplierId();
+        $purchaseDate = $component->getPurchaseDate();
+        $warrantyDuration = $component->getWarrantyDuration();
+        $note = $component->getNote();
+        $producer = $component->getProducer();
+        $componentTypeId = $component->getComponentTypeId();
+        $componentId = $component->getId();
+
+        $query->execute();
+        $query->close();
 
         if($connection->error)
         {
