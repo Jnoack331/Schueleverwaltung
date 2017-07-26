@@ -9,20 +9,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
-class RoomController extends Controller
-{
+class RoomController extends AbstractController {
     /**
      * Fetches all Rooms from the database and renders a template to display them
      *
-     * @Route("/room", name="room_index")
+     * @Route("/room", name="room_list")
      */
-    public function indexAction(Request $req) {
+    public function listAction(Request $req) {
         try {
             $rooms = RoomRepository::getAllRooms();
         } catch (Exception $e) {
             return $this->render("room/list.html.twig", [
                "message" => "Fehler beim Laden der Räume"
             ]);
+            return $this->renderError("room_view", $e);
         }
         return $this->render("room/list.html.twig", ["rooms" => $rooms]);
     }
@@ -45,9 +45,7 @@ class RoomController extends Controller
             try {
                 $id = RoomRepository::createRoom($room);
             } catch (Exception $e) {
-                return $this->render("room/list.html.twig", [
-                    "message" => "Fehler beim Erstellen des Raums"
-                ]);
+                return $this->renderError("user/create.html.twig", $e);
             }
 
             return $this->redirectToRoute("room_detail", ["id" => $id]);
@@ -65,9 +63,7 @@ class RoomController extends Controller
         try {
             $room = RoomRepository::getRoomById($id);
         } catch (Exception $e) {
-            return $this->render("room/detail.html.twig", [
-                "message" => "Fehler beim Laden des Raums"
-            ]);
+            return $this->renderError("room/detail.html.twig", $e);
         }
 
         if ($req->getMethod() === "GET") {
@@ -81,16 +77,20 @@ class RoomController extends Controller
             $room->setDescription($req->get("description"));
             $room->setNote($req->get("note"));
 
+            if (!$room->isValid()) {
+                return $this->render("room/detail.html.twig", [
+                    "message" => "Bitte geben Sie eine gültige Raumnummer ein"
+                ]);
+            }
+
             try {
                 RoomRepository::updateRoom($room);
             } catch (Exception $e) {
-                return $this->render("room/detail.html.twig", [
-                   "message" => "Fehler beim Speichern der Änderungen"
-                ]);
+                return $this->renderError("room/detail.html.twig", $e);
             }
             return $this->render("room/detail.html.twig", [
                 "room" => $room,
-                ]);
+            ]);
         }
     }
 
@@ -98,12 +98,18 @@ class RoomController extends Controller
      * @Route("/room/delete/{id}", name="room_delete", requirements={"id": "\d+"})
      */
     public function deleteAction($id, Request $req) {
-        try {
-            RoomRepository::deleteRoomById($id);
-        } catch (Exception $e) {
-            return $this->redirectToRoute("room_index");
+        if (RoomRepository::canRoomBeDeleted($id)) {
+            try {
+                RoomRepository::deleteRoomById($id);
+            } catch (Exception $e) {
+                return $this->renderError("room/list.html.twig", $e);
+            }
+        } else {
+            return $this->render("KEIN_PLAN", [
+               "message" => "Der Raum kann nicht gelöscht werden, da ihm Komponenten zugeordnet sind"
+            ]);
         }
 
-        return $this->redirectToRoute("room_index");
+        return $this->redirectToRoute("room_list");
     }
 }
