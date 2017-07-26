@@ -70,7 +70,7 @@ class RoomRepository
         $result = $query->get_result();
         $query->close();
 
-        $row = $result->fetch_row();
+        $row = $result->fetch_assoc();
 
         $room = new Room();
         $room->setId($row["r_id"]);
@@ -149,6 +149,35 @@ class RoomRepository
         {
             throw new \Exception("Ändern des Raumes fehlgeschlagen");
         }
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public static function canRoomBeDeleted($id)
+    {
+        $managedConnection = new ManagedConnection();
+        $connection = $managedConnection->getConnection();
+
+        $query = $connection->prepare("SELECT * FROM raeume INNER JOIN komponenten AS komp ON raeume.r_id = komp.k_id WHERE raeume.r_id = ?;");
+
+        $roomId = 0;
+
+        $query->bind_param("i", $roomId);
+
+        $roomId = $id;
+
+        $query->execute();
+        $result = $query->get_result();
+        $query->close();
+
+        if($row = $result->fetch_assoc())
+        {
+            return false;
+        }
+
+        return true;
     }
 
     /**

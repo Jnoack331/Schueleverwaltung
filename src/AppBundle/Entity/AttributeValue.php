@@ -51,7 +51,7 @@ class AttributeValue extends AbstractEntity
 
         $result = $query->get_result();
         $query->close();
-        $row = $result->fetch_row();
+        $row = $result->fetch_assoc();
 
         $attribute = new Attribute();
         $attribute->setId($row["kat_id"]);
