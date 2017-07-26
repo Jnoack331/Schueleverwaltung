@@ -109,18 +109,18 @@ class ComponentRepository
 
         $roomId = 0;
         $supplierId = 0;
-        $purchaseDate = 0;
+        $purchaseDate = date_create();
         $warrantyDuration = 0;
         $note = 0;
         $producer = 0;
         $componentTypeId = 0;
         $name = 0;
 
-        $query->bind_param("iidissis", $roomId, $supplierId, $purchaseDate, $warrantyDuration, $note, $producer, $componentTypeId, $name);
+        $query->bind_param("iisissis", $roomId, $supplierId, $purchaseDate, $warrantyDuration, $note, $producer, $componentTypeId, $name);
 
         $roomId = $component->getRoomId();
         $supplierId = $component->getSupplierId();
-        $purchaseDate = $component->getPurchaseDate();
+        $purchaseDate = date_format($component->getPurchaseDate(), "Y-m-d");
         $warrantyDuration = $component->getWarrantyDuration();
         $note = $component->getNote();
         $producer = $component->getProducer();
