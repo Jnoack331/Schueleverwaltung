@@ -2,7 +2,7 @@
 
 namespace AppBundle\Entity;
 
-class Room extends AbstractModel
+class Room extends AbstractEntity
 {
     private $number;
     private $description;

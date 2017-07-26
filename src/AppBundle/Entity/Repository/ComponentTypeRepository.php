@@ -9,7 +9,7 @@
 namespace AppBundle\Entity\Repository;
 
 
-use AppBundle\Entity\AbstractModel;
+use AppBundle\Entity\AbstractEntity;
 use AppBundle\Entity\ComponentType;
 use AppBundle\Entity\ManagedConnection;
 

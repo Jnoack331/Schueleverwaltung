@@ -8,7 +8,7 @@
 
 namespace AppBundle\Entity;
 
-class AttributeValue extends AbstractModel
+class AttributeValue extends AbstractEntity
 {
     private $attributeId;
     private $value;
