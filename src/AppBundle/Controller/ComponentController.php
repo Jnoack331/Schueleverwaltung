@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Component;
 use AppBundle\Entity\ComponentType;
+use AppBundle\Entity\Repository\AttributeRepository;
 use AppBundle\Entity\Repository\ComponentRepository;
 use AppBundle\Entity\Repository\ComponentTypeRepository;
 use AppBundle\Entity\Repository\RoomRepository;
@@ -42,95 +43,64 @@ class ComponentController extends Controller
      */
     public function createAction(Request $req)
     {
+        $rooms = array();
+        $types = array();
+        $error = false;
+        try{
+            //get rooms
+            $rooms = RoomRepository::getAllRooms();
+            //get component types
+            $types = ComponentTypeRepository::getAllComponentTypes();
+        }catch(Exception $exception){
+            $error = "Es gab einen Fehler beim Zugriff auf die Datenbank";
+            return $this->render("component/create.html.twig", array(
+                "rooms" => $rooms,
+                "types" => $types,
+                "message" => $error,       //TODO: meldungen verbessern
+            ));
+        }
         //if method is POST -> try to create Component
         if($req->getMethod() === "POST"){
-            $error = false;
             //create Component Object
             $component = new Component();
-            //set name
-            $name = $req->get("name");
-            if($name === null || $name === ""){
-                $error = "Bitte geben sie einen Namen für die Komponente an";
-            }else{
-                $component->setName($name);
-            }
-            //set room id
-            $room_id = $req->get("room_id");
-            if($room_id === null || $room_id === ""){
-                $error = "Bitte geben sie einen gültigen Raum an";
-            }else{
-                //check if room exists
-                try{
-                    $room = RoomRepository::getRoomById($room_id);
-                    if(!$room){
-                        $error = "Der Raum existiert nicht";
-                    }else{
-                        $component->setRoomId($room_id);
-                    }
-                }catch (Exception $exception){
-                    $error = "Es gab einen Fehler beim abfragen des Raumes";
-                }
-            }
-            //create date from string
+            //set values and validate
+            $component->setName($req->get("name"));
+            $component->setRoomId($req->get("room_id"));
             $date_string = $req->get("buy_date");
             $date = date_create_from_format("Y-m-d", $date_string);
-            if(!$date){
-                $error = "Ungültiges Datum";
-            }else{
-                $component->setPurchaseDate($date);
-            }
-            //set warranty duration
+            $component->setPurchaseDate($date);
             $component->setWarrantyDuration($req->get("warranty"));
-            //set note
             $component->setNote($req->get("note"));
-            // set producer
             $component->setProducer($req->get("producer"));
             $component->setSupplierId(0);
-            //component type
-            $type_id = $req->get("type_id");
-            //check if component type with this id exists
-            $type = null;
+            $component->setComponentTypeId($req->get("type_id"));
+            //validate component, show message if not valid
             try{
-                $type = ComponentTypeRepository::getComponentTypeById($type_id);
-            }catch(Exception $ex){
-                $error = "Es gab einen Fehlern beim Laden der Komponententypen";
-            }
-            if(!$type){
-                $error = "Komponententyp existiert nicht";
-            }else{
-                $component->setComponentTypeId($type_id);
-            }
-            if(!$error){
-                //create component object
-                try{
-                    $id = ComponentRepository::createComponent($component);
-                    $component->setId($id);
-                    //redirect to edit if everything was successful
-                    return $this->redirectToRoute("component_edit", array("id" => $component->getId()));
-                }catch(Exception $exception){
-                    return $this->render("component/create.html.twig",
-                        array("message" => "Es gab einen Fehler beim erstellen der Componente"));
-                }
-            }else{
+                $component->validate();
+            }catch (Exception $exception){
                 return $this->render("component/create.html.twig", array(
-                    "message" => $error,
-                ));
+                        "rooms" => $rooms,
+                        "types" => $types,
+                        "message" => $exception->getMessage(),       //TODO: meldungen verbessern
+                    )
+                );
             }
+            try{
+                $id = ComponentRepository::createComponent($component);
+                return $this->redirectToRoute("component_edit", array("id" => $id));
+            }catch (Exception $exception){
+
+                return $this->render("component/create.html.twig", array(
+                        "rooms" => $rooms,
+                        "types" => $types,
+                        "message" => "Es gab einen Fehler beim Zugriff auf die Datenbank",       //TODO: meldungen verbessern
+                    )
+                );
+            }
+
         }
         //if method is GET -> render template
         else{
-            $rooms = array();
-            $types = array();
-            $error = false;
-            try{
-                //get rooms
-                $rooms = RoomRepository::getAllRooms();
-                //get component types
-                $types = ComponentTypeRepository::getAllComponentTypes();
-
-            }catch(Exception $exception){
-                $error = "Es gab einen Fehler beim Datenbankzugriff";
-            }
             return $this->render("component/create.html.twig", array(
                 "rooms" => $rooms,
                 "types" => $types,
@@ -161,14 +131,17 @@ class ComponentController extends Controller
             $rooms = RoomRepository::getAllRooms();
             //get types
             $types = ComponentTypeRepository::getAllComponentTypes();
+            $attributes = AttributeRepository::getAttributesByComponentTypeId($component->getComponentTypeId());
 
         }catch (Exception $ex){
             //TODO: show error
             return $this->createNotFoundException("Server Fehler");
         }
         if($req->getMethod() === "GET"){
+
             return $this->render("component/edit.html.twig", array(
                 "component" => $component,
+                "attributes" => $attributes,
                 "rooms" => $rooms,
                 "types" => $types,
                 "message" => $message
@@ -184,6 +157,11 @@ class ComponentController extends Controller
             $component->setNote($req->get("note"));
             $component->setProducer($req->get("producer"));
             $component->setComponentTypeId($req->get("type_id"));
+            //set attribute values
+            $attribute_values = $req->get("attribute-value");   //key = attribute id, value = new value
+            foreach ($attribute_values as $attribute_id => $value){
+                echo "$attribute_id - $value <br>";
+            }
             try{
                 $component->validate();
                 ComponentRepository::updateComponent($component);
@@ -193,6 +171,7 @@ class ComponentController extends Controller
             }
             return $this->render("component/edit.html.twig", array(
                 "component" => $component,
+                "attributes" => $attributes,
                 "rooms" => $rooms,
                 "types" => $types,
                 "message" => $message

@@ -23,7 +23,7 @@ class ReportingController extends Controller
     {
         try{
             $filter = $request->get("q");
-            if($filter !== null){
+            if($filter !== null && $filter != "all"){
                 //search for rooms with component type
                 $rooms = RoomRepository::getRoomsByTypeID($filter);
             }else{

@@ -82,7 +82,7 @@ class ComponentRepository
         if($query->error)
         {
             $query->close();
-            throw new \Exception("Erstellen der Komponente fehlgeschlagen");
+            throw new \Exception("Lesen der Komponente fehlgeschlagen");
         }
 
         $result = $query->get_result();

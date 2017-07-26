@@ -7,7 +7,7 @@
 
                 <dl>
                     <dt>
-                        <label for="name">Komponentenname</label>
+                        <label for="name">Komponentenkennung</label>
                     </dt>
                     <dd>
                         <input name="name" id="name" value="{{ component.name }}">
@@ -59,7 +59,7 @@
                 </dl>
                 <dl>
                     <dt>
-                        <label for="type_id">Komponentenart</label>
+                        <label for="type_id">Komponentenart <small>(Speichern um Attribute einzutragen)</small></label>
                     </dt>
                     <dd>
                         <select name="type_id" id="type_id" {% if not types %}disabled{% endif %}>
@@ -73,11 +73,23 @@
                     </dd>
                 </dl>
 
-                <p class="table__hint">Speichern um Attributwerte hinzuzufügen</p>
+                <h4>Attributwerte der Komponentenart "{{ component.componentType.type }}"</h4>
+
+                {% for attribute in attributes %}
+                    <dl>
+                        <dt>
+                            <label for="attribute-{{ loop.index }}">{{ attribute.name }}</label>
+                        </dt>
+                        <dd>
+                            <input name="attribute-value[3]" id="attribute-{{ loop.index }}" value="">
+                        </dd>
+                    </dl>
+                {% endfor %}
+
 
                 <a href="{{ path('component_index') }}" class="button button--grey">Zurück</a>
                 <a href="{{ path('component_delete', {id: component.id }) }}" class="button button--grey">Löschen</a>
-                <input type="submit" class="button button--primary" value="Abschicken">
+                <input type="submit" class="button button--primary" value="Speichern">
             </form>
 
         </main>

@@ -257,6 +257,7 @@ class Component extends AbstractEntity implements ValidatingEntity
 
     /**
      * @return array
+     * @throws Exception
      */
     public function getComponentAttributeValues()
     {
@@ -297,10 +298,12 @@ class Component extends AbstractEntity implements ValidatingEntity
         return $attributeValues;
     }
 
-    public function validate() {
-
+    /**
+     * @throws Exception
+     */
+    public function validate(){
         if($this->getName() == null || $this->getName() == ""){
-            throw new Exception("Bitte geben Sie einen Namen an");
+            throw new Exception("Bitte geben Sie eine Kennung an");
         }
         if($this->getRoom() === null){
             throw new Exception("Bitte geben Sie einen gültigen Raum an");

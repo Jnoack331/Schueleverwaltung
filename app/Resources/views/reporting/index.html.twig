@@ -7,6 +7,7 @@
             <form action="" method="get" id="filter_form">
                 <label for="type_filter">Räume anzeigen mit:</label>
                 <select name="q" id="type_filter" style="width: 200px;">
+                    <option value="all">Alles</option>
                     {% for type in types %}
                         <option value="{{ type.id }}" {% if filter == type.id %}selected{% endif %}>{{ type.type }}</option>
                     {% endfor %}
