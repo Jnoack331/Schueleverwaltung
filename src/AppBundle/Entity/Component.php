@@ -128,7 +128,7 @@ class Component extends AbstractModel
     }
 
     /**
-     * Obtains the manufacturer (e.g. Fujitsu, Dell) 
+     * Obtains the supplier
      * of this software component by accessing the database.
      * @return \AppBundle\Entity\Supplier
      */
@@ -200,7 +200,7 @@ class Component extends AbstractModel
 
     /**
      * Obtains all attributes that describe this component.
-     * @return array
+     * @return \AppBundle\Entity\AttributeValue array
      */
     public function getComponentAttributeValues()
     {
