@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="wrap wrap--content">
+    <main>
+        <h1>R&auml;ume</h1>
+        <form method="post" action="{{ url("room_create") }}" class="form">
+            <dl>
+                <dt>
+                    <label for="number">Raum-Nr</label>
+                </dt>
+                <dd>
+                    <input name="number" id="number">
+                </dd>
+                <dt>
+                    <label for="description">Raum Bezeichnung</label>
+                </dt>
+                <dd>
+                    <input name="description" id="description">
+                </dd>
+
+                <dt>
+                    <label for="note">Notizen</label>
+                </dt>
+                <dd>
+                    <textarea name="note" id="note"></textarea>
+                </dd>
+            </dl>
+
+            <div class="form__button-wrap">
+                <input type="submit" class="button button--primary" value="Speichern">
+                <a href="{{ url('room_list') }}" class="button button--white form__link">Abbrechen</a>
+            </div>
+        </form>
+    </main>
+</div>
+{% endblock %}

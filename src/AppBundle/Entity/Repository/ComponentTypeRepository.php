@@ -13,7 +13,7 @@
 namespace AppBundle\Entity\Repository;
 
 
-use AppBundle\Entity\AbstractModel;
+use AppBundle\Entity\AbstractEntity;
 use AppBundle\Entity\ComponentType;
 use AppBundle\Entity\ManagedConnection;
 
@@ -42,7 +42,12 @@ class ComponentTypeRepository
 
         $result = $query->get_result();
         $query->close();
-        $row = $result->fetch_row();
+        $row = $result->fetch_assoc();
+
+        if($row == NULL)
+        {
+            return NULL;
+        }
 
         $componentType = new ComponentType();
         $componentType->setId($row["ka_id"]);

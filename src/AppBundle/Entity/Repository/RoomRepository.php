@@ -74,7 +74,51 @@ class RoomRepository
         $result = $query->get_result();
         $query->close();
 
-        $row = $result->fetch_row();
+        $row = $result->fetch_assoc();
+
+        if($row == NULL)
+        {
+            return NULL;
+        }
+
+        $room = new Room();
+        $room->setId($row["r_id"]);
+        $room->setNumber($row["r_nr"]);
+        $room->setDescription($row["r_bezeichnung"]);
+        $room->setNote($row["r_notiz"]);
+
+        if($connection->error)
+        {
+            throw new \Exception("Selektieren des Raumes fehlgeschlagen");
+        }
+
+        return $room;
+    }
+
+    public static function getRoomByNumber($name)
+    {
+        $managedConnection = new ManagedConnection();
+        $connection = $managedConnection->getConnection();
+
+        $query = $connection->prepare("SELECT * FROM raeume WHERE r_nr = ?;");
+
+        $roomName = 0;
+
+        $query->bind_param("i", $roomName);
+
+        $roomName = $name;
+
+        $query->execute();
+
+        $result = $query->get_result();
+        $query->close();
+
+        $row = $result->fetch_assoc();
+
+        if($row == NULL)
+        {
+            return NULL;
+        }
 
         $room = new Room();
         $room->setId($row["r_id"]);
@@ -153,6 +197,35 @@ class RoomRepository
         {
             throw new \Exception("Ändern des Raumes fehlgeschlagen");
         }
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public static function canRoomBeDeleted($id)
+    {
+        $managedConnection = new ManagedConnection();
+        $connection = $managedConnection->getConnection();
+
+        $query = $connection->prepare("SELECT * FROM raeume INNER JOIN komponenten AS komp ON raeume.r_id = komp.k_id WHERE raeume.r_id = ?;");
+
+        $roomId = 0;
+
+        $query->bind_param("i", $roomId);
+
+        $roomId = $id;
+
+        $query->execute();
+        $result = $query->get_result();
+        $query->close();
+
+        if($row = $result->fetch_assoc())
+        {
+            return false;
+        }
+
+        return true;
     }
 
     /**

@@ -12,7 +12,7 @@
 
 namespace AppBundle\Entity;
 
-class Attribute extends AbstractModel
+class Attribute extends AbstractEntity
 {
     private $name;
 

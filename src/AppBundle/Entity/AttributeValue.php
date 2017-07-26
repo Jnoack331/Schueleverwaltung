@@ -12,7 +12,7 @@
 
 namespace AppBundle\Entity;
 
-class AttributeValue extends AbstractModel
+class AttributeValue extends AbstractEntity
 {
     private $attributeId;
     private $value;
@@ -55,7 +55,12 @@ class AttributeValue extends AbstractModel
 
         $result = $query->get_result();
         $query->close();
-        $row = $result->fetch_row();
+        $row = $result->fetch_assoc();
+
+        if($row == NULL)
+        {
+            return NULL;
+        }
 
         $attribute = new Attribute();
         $attribute->setId($row["kat_id"]);

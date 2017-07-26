@@ -4,8 +4,7 @@
  */
 namespace AppBundle\Entity;
 
-class Room extends AbstractModel
-{
+class Room extends AbstractEntity implements ValidatingEntity {
     private $number;
     private $description;
     private $note;
@@ -79,7 +78,8 @@ class Room extends AbstractModel
         $result = $query->get_result();
         $query->close();
         $components = [];
-        while ($row = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc())
+        {
             $component = new Component();
             $component->setId($row["k_id"]);
             $component->setRoomId($row["raeume_r_id"]);
@@ -89,10 +89,19 @@ class Room extends AbstractModel
             $component->setNote($row["k_notiz"]);
             $component->setProducer($row["k_hersteller"]);
             $component->setComponentTypeId($row["komponentenarten_ka_id"]);
+            $component->setName($row["k_kennung"]);
 
             $components[] = $component;
         }
 
         return $components;
+    }
+
+    public function isValid() {
+        if ($this->number === null || $this->number === "") {
+            return false;
+        }
+
+        return true;
     }
 }

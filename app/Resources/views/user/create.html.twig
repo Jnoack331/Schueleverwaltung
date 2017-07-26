@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="wrap wrap--content">
+    <main>
+        <h4>Benutzer Erstellen</h4>
+        <a href="{{ path('users_index') }}" class="button button--primary">Zurück</a>
+        {% if message is defined %}
+            <h5 style="color: red;">{{ message }}</h5>
+        {% endif %}
+
+        <form method="post" class="form">
+            <dl>
+                <dt>
+                    <label for="name">Name:</label>
+                </dt>
+                <dd>
+                    <input name="name" id="name" value="">
+                </dd>
+
+                <dt>
+                    <label for="email">E-Mail:</label>
+                </dt>
+                <dd>
+                    <input name="email" id="email" value="">
+                </dd>
+
+                <dt>
+                    <label for="plain_password">Passwort:</label>
+                </dt>
+                <dd>
+                    <input name="plain_password" id="plain_password" value="" type="password">
+                </dd>
+
+                <dt>
+                    <label for="role">Rolle</label>
+                </dt>
+                <dd>
+                    <select name="role" id="role">
+                        <option value="ROLE_ADMIN">Systembetreuer</option>
+                        <option value="ROLE_AZUBI">Azubi</option>
+                        <option value="ROLE_MANAGE">Verwaltung</option>
+                        <option value="ROLE_TEACHER">Lehrer</option>
+                    </select>
+                </dd>
+            </dl>
+
+            <input type="submit" class="button button--primary" value="Erstellen">
+        </form>
+    </main>
+
+</div>
+
+
+{% endblock %}

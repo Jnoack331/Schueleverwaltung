@@ -4,7 +4,7 @@
  */
 namespace AppBundle\Entity;
 
-class ComponentType extends AbstractModel
+class ComponentType extends AbstractEntity
 {
     private $type;
 

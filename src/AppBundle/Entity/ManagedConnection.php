@@ -15,9 +15,9 @@ namespace AppBundle\Entity;
 
 class ManagedConnection
 {
-    private $host = "localhost";
-    private $user = "itverwaltung";
-    private $password = "12345678";
+    private $host = "127.0.0.1";
+    private $user = "root";
+    private $password = "";
     private $database = "itverwaltung";
 
     private $conn;

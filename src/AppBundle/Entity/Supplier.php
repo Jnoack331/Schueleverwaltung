@@ -4,7 +4,8 @@ namespace AppBundle\Entity;
 /**
  * A supplier delivering software components.
  */
-class Supplier extends AbstractModel
+
+class Supplier extends AbstractEntity
 {
     private $companyName;
     private $street;

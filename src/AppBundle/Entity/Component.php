@@ -5,7 +5,7 @@
 namespace AppBundle\Entity;
 
 
-class Component extends AbstractModel
+class Component extends AbstractEntity
 {
     private $roomId;
     private $supplierId;
@@ -14,6 +14,23 @@ class Component extends AbstractModel
     private $note;
     private $producer;
     private $componentTypeId;
+    private $name;
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
 
     /**
      * @return mixed
@@ -149,7 +166,7 @@ class Component extends AbstractModel
 
         $result = $query->get_result();
         $query->close();
-        $row = $result->fetch_row();
+        $row = $result->fetch_assoc();
 
         //Data -> Supplier Kann ausgelagert werden in ein 
         //DataAccessObject/Transformer o.ä.
@@ -189,7 +206,12 @@ class Component extends AbstractModel
 
         $result = $query->get_result();
         $query->close();
-        $row = $result->fetch_row();
+        $row = $result->fetch_assoc();
+
+        if($row == NULL)
+        {
+            return NULL;
+        }
 
         $componentType = new ComponentType();
         $componentType->setId($row["ka_id"]);
@@ -222,7 +244,8 @@ class Component extends AbstractModel
 
         $attributeValues = [];
 
-        while($row = $result->fetch_assoc()) {
+        while($row = $result->fetch_assoc())
+        {
             $attributeValue = new AttributeValue();
             $attributeValue->setId($row["komponenten_k_id"]);
             $attributeValue->setAttributeId($row["komponentenattribute_kat_id"]);

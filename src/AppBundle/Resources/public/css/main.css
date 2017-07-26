@@ -18,7 +18,7 @@ a {
 
 /* line 1, Scss/elements/_button.scss */
 .button {
-  width: 10rem;
+  min-width: 10rem;
   text-align: center;
   cursor: pointer;
   border: none;
@@ -46,12 +46,26 @@ a {
 
 /* line 31, Scss/elements/_button.scss */
 .button--white {
+  font-size: 15px;
   background-color: white;
   border: 1px solid grey;
   color: #000000; }
-  /* line 35, Scss/elements/_button.scss */
+  /* line 36, Scss/elements/_button.scss */
   .button--white:hover, .button--white:focus {
     background: gainsboro; }
+
+/* line 42, Scss/elements/_button.scss */
+.button--warning {
+  background-color: #ff3333;
+  color: #fff; }
+  /* line 45, Scss/elements/_button.scss */
+  .button--warning:hover, .button--warning:focus {
+    background: #ba0000; }
+
+/* line 51, Scss/elements/_button.scss */
+.button--small {
+  min-width: 0;
+  padding: .5rem; }
 
 /* line 1, Scss/elements/_navigation.scss */
 #navigation-state {
@@ -187,6 +201,17 @@ a {
       width: 15em;
       padding: 0; } }
 
+/* line 139, Scss/elements/_navigation.scss */
+.navigation__headline {
+  display: none; }
+  @media only screen and (min-width: 57rem) {
+    /* line 139, Scss/elements/_navigation.scss */
+    .navigation__headline {
+      display: block;
+      color: #0688c1;
+      margin-left: 130px;
+      padding-top: 40px; } }
+
 /* line 1, Scss/elements/_dropdown.scss */
 #drop-toggle {
   display: none; }
@@ -288,10 +313,28 @@ a {
     transform: rotate(45deg); }
   /* line 107, Scss/elements/_dropdown.scss */
   .dropdown__toggle:before {
-    color: #000;}
+    color: #000;
+    content: url("../../Images/angle-down.svg"); }
     /* line 111, Scss/elements/_dropdown.scss */
     .dropdown .dropdown__toggle:before {
       color: #0688c1; }
+
+/* line 1, Scss/elements/_handler.scss */
+.handler {
+  max-width: 12rem;
+  height: auto;
+  padding: 10px;
+  text-align: center; }
+
+/* line 8, Scss/elements/_handler.scss */
+.handler--warning {
+  background: #ff3333;
+  color: #fff; }
+
+/* line 13, Scss/elements/_handler.scss */
+.handler--success {
+  background: #35ba35;
+  color: #fff; }
 
 /* line 1, Scss/elements/_top-bar.scss */
 .top-bar {
@@ -490,7 +533,7 @@ dl {
 
 /* line 13, Scss/elements/_form.scss */
 dd {
-  margin: 0; }
+  margin: 0 0 10px 0; }
 
 /* line 17, Scss/elements/_form.scss */
 select, input, textarea {
@@ -502,6 +545,11 @@ select, input, textarea {
 .form__hint {
   font-size: 10px;
   color: grey; }
+
+/* line 29, Scss/elements/_form.scss */
+.form__button-wrap {
+  display: flex;
+  flex-direction: column; }
 
 /* line 2, Scss/elements/_wrap.scss */
 .wrap {
@@ -529,15 +577,15 @@ select, input, textarea {
       height: 7em;
       display: block; } }
 
-/* line 31, Scss/elements/_wrap.scss */
+/* line 29, Scss/elements/_wrap.scss */
 .wrap--content {
   margin: 3rem .5rem; }
   @media only screen and (min-width: 57rem) {
-    /* line 31, Scss/elements/_wrap.scss */
+    /* line 29, Scss/elements/_wrap.scss */
     .wrap--content {
       margin-top: 0; } }
 
-/* line 39, Scss/elements/_wrap.scss */
+/* line 37, Scss/elements/_wrap.scss */
 .wrap--footer {
   background-color: #7DA9C5;
   min-height: 10em;
