@@ -13,13 +13,13 @@ class RoomController extends AbstractController {
     /**
      * Fetches all Rooms from the database and renders a template to display them
      *
-     * @Route("/room", name="room_index")
+     * @Route("/room", name="room_list")
      */
-    public function indexAction(Request $req) {
+    public function listAction(Request $req) {
         try {
             $rooms = RoomRepository::getAllRooms();
         } catch (Exception $e) {
-            return $this->renderError("detail", $e);
+            return $this->renderError("room/list.html.twig", $e);
         }
         return $this->render("room/list.html.twig", ["rooms" => $rooms]);
     }
@@ -60,7 +60,7 @@ class RoomController extends AbstractController {
         try {
             $room = RoomRepository::getRoomById($id);
         } catch (Exception $e) {
-            return $this->renderError("room_detail", $e);
+            return $this->renderError("room/detail.html.twig", $e);
         }
 
         if ($req->getMethod() === "GET") {
@@ -81,7 +81,7 @@ class RoomController extends AbstractController {
             }
             return $this->render("room/detail.html.twig", [
                 "room" => $room,
-                ]);
+            ]);
         }
     }
 
@@ -92,9 +92,9 @@ class RoomController extends AbstractController {
         try {
             RoomRepository::deleteRoomById($id);
         } catch (Exception $e) {
-            return $this->redirectToRoute("room_index");
+            return $this->renderError("room/list.html.twig", $e);
         }
 
-        return $this->redirectToRoute("room_index");
+        return $this->redirectToRoute("room_list");
     }
 }
