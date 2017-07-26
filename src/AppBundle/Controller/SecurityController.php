@@ -2,6 +2,10 @@
 
 namespace AppBundle\Controller;
 
+/**
+ * Handles security logic.
+ */
+
 use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
