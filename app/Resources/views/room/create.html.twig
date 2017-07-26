@@ -4,19 +4,34 @@
 <div class="wrap wrap--content">
     <main>
         <h1>R&auml;ume</h1>
-        <form method="post" action="{{ url("room_create") }}">
-            <label for="number">Raum-Nr</label>
-            <input type="text" name="number" id="number">
+        <form method="post" action="{{ url("room_create") }}" class="form">
+            <dl>
+                <dt>
+                    <label for="number">Raum-Nr</label>
+                </dt>
+                <dd>
+                    <input name="number" id="number">
+                </dd>
+                <dt>
+                    <label for="description">Raum Bezeichnung</label>
+                </dt>
+                <dd>
+                    <input name="description" id="description">
+                </dd>
 
-            <label for="description">Raum Bezeichnung</label>
-            <input type="text" name="description" id="description">
+                <dt>
+                    <label for="note">Notizen</label>
+                </dt>
+                <dd>
+                    <textarea name="note" id="note"></textarea>
+                </dd>
+            </dl>
 
-            <label for="note">Notizen</label>
-            <textarea name="note" id="note"></textarea>
-
-            <button class="button button--primary">Speichern</button>
+            <div class="form__button-wrap">
+                <input type="submit" class="button button--primary" value="Speichern">
+                <a href="{{ url('room_list') }}" class="button button--white form__link">Abbrechen</a>
+            </div>
         </form>
-        <a href="{{ url('room_list') }}"><button class="button button--white">Abbrechen</button></a>
     </main>
 </div>
 {% endblock %}
