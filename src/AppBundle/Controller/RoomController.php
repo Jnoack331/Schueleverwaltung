@@ -9,14 +9,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
-class RoomController extends Controller {
+class RoomController extends Controller
+{
     /**
      * Fetches all Rooms from the database and renders a template to display them
      *
      * @Route("/room", name="room_index")
      */
     public function indexAction(Request $req) {
-<<<<<<< master
         try {
             $rooms = RoomRepository::getAllRooms();
         } catch (Exception $e) {
@@ -24,12 +24,7 @@ class RoomController extends Controller {
                "message" => "Fehler beim Laden der Räume"
             ]);
         }
-
         return $this->render("room_view", ["rooms" => $rooms]);
-=======
-        $rooms = RoomRepository::getAllRooms();
-        return $this->render(":default:index.html.twig", ["rooms" => $rooms]);
->>>>>>> fixed sql methods fixed destructor of ManagedConnection
     }
 
     /**
@@ -39,7 +34,6 @@ class RoomController extends Controller {
      * @Route("/room/create", name="room_create")
      */
     public function createAction(Request $req) {
-<<<<<<< master
         if ($req->getMethod() === "GET") {
             return $this->render("room_create", []);
         } else {
@@ -58,16 +52,6 @@ class RoomController extends Controller {
 
             return $this->redirectToRoute("room_detail", ["id" => $id]);
         }
-=======
-        $room = new Room();
-        $room->setNumber($req->get("roomnumber"));
-        $room->setDescription($req->get("roomname"));
-        $room->setNote($req->get("r_notiz"));
-
-        RoomRepository::createRoom($room);
-
-        return $this->redirectToRoute("homepage");
->>>>>>> fixed sql methods fixed destructor of ManagedConnection
     }
 
     /**
