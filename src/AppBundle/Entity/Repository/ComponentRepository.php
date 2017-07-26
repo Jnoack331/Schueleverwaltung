@@ -33,7 +33,7 @@ class ComponentRepository
         $query = "SELECT * FROM komponenten;";
         $result = $connection->query($query);
 
-        if($query->error)
+        if($result === false)
         {
             $query->close();
             throw new \Exception("Selektieren der Komponenten fehlgeschlagen");
