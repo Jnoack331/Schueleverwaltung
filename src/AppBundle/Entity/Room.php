@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * A room that holds one or more software components.
+ */
 namespace AppBundle\Entity;
 
 class Room extends AbstractModel
@@ -57,7 +59,7 @@ class Room extends AbstractModel
     }
 
     /**
-     * returns all components to this room
+     * @return all components located in this room
      */
     public function getComponents()
     {

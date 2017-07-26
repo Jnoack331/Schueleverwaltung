@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Defines a type of software component.
+ */
 namespace AppBundle\Entity;
 
 class ComponentType extends AbstractModel
@@ -23,6 +25,8 @@ class ComponentType extends AbstractModel
     }
 
     /**
+     * Obtains all attributes available for this component type
+     * by accessing the database.
      * @return array
      * @throws \Exception
      */
