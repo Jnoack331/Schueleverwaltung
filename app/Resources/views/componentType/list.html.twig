@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="wrap wrap--content">
+    <main>
+        <h4>Komponentenarten verwalten</h4>
+        <table>
+            <thead><tr>
+                <th>Name</th>
+                <th>Attribute</th>
+                <th colspan="2">Interaktionen</th>
+            </tr></thead>
+            <tbody>
+            {% for componenttype in componenttypes %}
+                <tr>
+                    <td>{{ componenttype.getType() }}</td>
+                    <td>{{ componenttype.getAttributeNames() }}</td>
+                    <td class="table__action"><a href="{{ url('') }}">Bearbeiten</a></td>
+                    <td class="table__action"><a href="{{ url('') }}">Löschen</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <p class="table__hint">Scrollbar ></p>
+    </main>
+ </div>
+{% endblock %}
