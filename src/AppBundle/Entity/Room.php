@@ -88,6 +88,7 @@ class Room extends AbstractEntity
             $component->setNote($row["k_notiz"]);
             $component->setProducer($row["k_hersteller"]);
             $component->setComponentTypeId($row["komponentenarten_ka_id"]);
+            $component->setName($row["k_kennung"]);
 
             $components[] = $component;
         }
