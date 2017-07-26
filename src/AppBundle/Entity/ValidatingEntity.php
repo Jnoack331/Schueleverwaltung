@@ -9,5 +9,5 @@
 namespace AppBundle\Entity;
 
 interface ValidatingEntity {
-    public function isValid();
+    public function validate();
 }

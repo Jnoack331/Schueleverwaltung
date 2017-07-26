@@ -49,6 +49,7 @@ class ComponentTypeController extends AbstractController {
             $componentType->setType($req->get("type"));
 
             try {
+                $componentType->validate();
                 ComponentTypeRepository::updateComponentType($componentType);
             } catch (Exception $e) {
                 return $this->renderError("component_kind_edit", $e);
@@ -70,6 +71,7 @@ class ComponentTypeController extends AbstractController {
         $componentType->setType($req->get("kind"));
 
         try {
+            $componentType->validate();
             ComponentTypeRepository::createComponentType($componentType);
         } catch (Exception $e) {
             return $this->renderError("component_kind_index", $e);
