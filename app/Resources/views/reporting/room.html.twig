@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="wrap wrap--content">
+        <main>
+            <h4>Komponenten in Raum {{ room.number }} - {{ room.description }}</h4>
+
+            <a href="{{ path('reporting_index') }}" class="button button--primary">Zurück</a>
+            <table>
+                <thead><tr>
+                    <th>Kennung</th>
+                    <th>Typ</th>
+                </tr></thead>
+                <tbody>
+                {% for component in components %}
+                    <tr>
+                        <td>{{ component.name }}</td>
+                        <td>{{ component.GetComponentType().type}}</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+            <p class="table__hint">Scrollbar ></p>
+
+        </main>
+    </div>
+
+
+
+{% endblock %}

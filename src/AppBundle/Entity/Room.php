@@ -69,7 +69,7 @@ class Room extends AbstractEntity implements ValidatingEntity {
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
 
-        $query = $connection->prepare("SELECT * FROM komponenten WHERE k_id = ?;");
+        $query = $connection->prepare("SELECT * FROM komponenten WHERE raeume_r_id = ?;");
 
         $id = 0;
 
