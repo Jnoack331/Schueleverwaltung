@@ -2,6 +2,9 @@
 
 namespace AppBundle\Controller;
 
+/**
+ * Controller for ComponentType View.
+ */
 use AppBundle\Entity\ComponentType;
 use AppBundle\Entity\Repository\ComponentTypeRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

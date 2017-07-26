@@ -4,6 +4,10 @@
  * User: Colin
  * Date: 25.07.2017
  * Time: 10:32
+ * 
+ * Provides functions to modify component entities in
+ * the database.
+ * 
  */
 
 namespace AppBundle\Entity\Repository;
@@ -16,6 +20,8 @@ use AppBundle\Entity\ManagedConnection;
 class ComponentRepository
 {
     /**
+     * Creates the component in the database
+     * and adds it to the database.
      * @return array
      * @throws \Exception
      */
@@ -27,8 +33,9 @@ class ComponentRepository
         $query = "SELECT * FROM komponenten;";
         $result = $connection->query($query);
 
-        if($query->error)
+        if($result === false)
         {
+            $query->close();
             throw new \Exception("Selektieren der Komponenten fehlgeschlagen");
         }
 
@@ -74,6 +81,7 @@ class ComponentRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Erstellen der Komponente fehlgeschlagen");
         }
 
@@ -138,6 +146,7 @@ class ComponentRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Erstellen der Komponente fehlgeschlagen");
         }
 
@@ -147,6 +156,8 @@ class ComponentRepository
     }
 
     /**
+     * Updates a component in the 
+     * database using an existing php component object.
      * @param Component $component
      * @throws \Exception
      */
@@ -183,6 +194,7 @@ class ComponentRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Ändern der Komponente fehlgeschlagen");
         }
 
@@ -210,6 +222,7 @@ class ComponentRepository
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Ändern der Komponente fehlgeschlagen");
         }
 

@@ -1,9 +1,11 @@
 <?php
-
+/**
+ * A room that holds one or more software components.
+ */
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Repository\RoomRepository;
-use AppBundle\Entity\Repository\ValidatingEntity;
+use AppBundle\Entity\ValidatingEntity;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class Room extends AbstractEntity implements ValidatingEntity {
@@ -60,7 +62,7 @@ class Room extends AbstractEntity implements ValidatingEntity {
     }
 
     /**
-     * returns all components to this room
+     * @return all components located in this room
      */
     public function getComponents()
     {
@@ -76,6 +78,12 @@ class Room extends AbstractEntity implements ValidatingEntity {
         $id = $this->getId();
 
         $query->execute();
+
+        if($query->error)
+        {
+            $query->close();
+            throw new \Exception("Selektieren der Komponenten fehlgeschlagen");
+        }
 
         $result = $query->get_result();
         $query->close();

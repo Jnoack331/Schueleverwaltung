@@ -4,6 +4,10 @@
  * User: Colin
  * Date: 25.07.2017
  * Time: 08:55
+ * 
+ * Specifies a value for a certain Attribute,
+ * e.g. "1 GB" for an attribute "RAM/Memory"
+ * 
  */
 
 namespace AppBundle\Entity;
@@ -32,7 +36,8 @@ class AttributeValue extends AbstractEntity
     }
 
     /**
-     * @return Attribute
+     * @return Attribute|null
+     * @throws \Exception
      */
     public function getAttribute()
     {
@@ -51,6 +56,7 @@ class AttributeValue extends AbstractEntity
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Selektieren des Attributs fehlgeschlagen");
         }
 

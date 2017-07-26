@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * A software component. 
+ */
 namespace AppBundle\Entity;
 
 
@@ -151,8 +153,9 @@ class Component extends AbstractEntity
     {
         return RoomRepository::getRoomById($this->getId());
     }
-
     /**
+     * Obtains the supplier
+     * of this software component by accessing the database.
      * @return Supplier
      * @throws \Exception
      */
@@ -173,6 +176,7 @@ class Component extends AbstractEntity
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Selektieren des Lieferants fehlgeschlagen");
         }
 
@@ -180,6 +184,8 @@ class Component extends AbstractEntity
         $query->close();
         $row = $result->fetch_assoc();
 
+        //Data -> Supplier Kann ausgelagert werden in ein 
+        //DataAccessObject/Transformer o.ä.
         $supplier = new Supplier();
         $supplier->setId($row["l_id"]);
         $supplier->setCompanyName($row["l_firmenname"]);
@@ -194,10 +200,6 @@ class Component extends AbstractEntity
         return $supplier;
     }
 
-    /**
-     * @return ComponentType|null
-     * @throws \Exception
-     */
     public function GetComponentType()
     {
         $managedConnection = new ManagedConnection();
@@ -215,6 +217,7 @@ class Component extends AbstractEntity
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Selektieren der Komponentenart fehlgeschlagen");
         }
 
@@ -236,7 +239,6 @@ class Component extends AbstractEntity
 
     /**
      * @return array
-     * @throws \Exception
      */
     public function getComponentAttributeValues()
     {
@@ -255,6 +257,7 @@ class Component extends AbstractEntity
 
         if($query->error)
         {
+            $query->close();
             throw new \Exception("Selektieren der Attributwerte fehlgeschlagen");
         }
 

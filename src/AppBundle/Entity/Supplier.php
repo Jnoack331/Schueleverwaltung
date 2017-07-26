@@ -1,6 +1,9 @@
 <?php
 
 namespace AppBundle\Entity;
+/**
+ * A supplier delivering software components.
+ */
 
 class Supplier extends AbstractEntity
 {

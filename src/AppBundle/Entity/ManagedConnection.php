@@ -4,6 +4,9 @@
  * User: Colin
  * Date: 24.07.2017
  * Time: 15:35
+ *
+ * Handles a database connection.
+ * Opens/close the database connection on construct/destruct.
  */
 
 namespace AppBundle\Entity;
@@ -14,7 +17,6 @@ class ManagedConnection
     private $user = "root";
     private $password = "";
     private $database = "itverwaltung";
-
     private $conn;
 
     public function getConnection() {
