@@ -77,7 +77,7 @@ class RoomController extends AbstractController {
             try {
                 RoomRepository::updateRoom($room);
             } catch (Exception $e) {
-                return $this->renderError("room_detail", $e);
+                return $this->renderError("room/list.html.twig", $e);
             }
             return $this->render("room/detail.html.twig", [
                 "room" => $room,
