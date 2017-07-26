@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="wrap wrap--content">
+        <main>
+            <h1>R&auml;ume</h1>
+            <form action="" method="get">
+                <select name="q" id="type_search" style="width: 300px;">
+                    {% for type in types %}
+                        <option value="{{ type.id }}">{{ type.type }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" class="button button--primary" value="Filtern" style="display: inline-block; width: 200px;">
+            </form>
+            
+            <table>
+                <thead><tr>
+                    <th>Raum-Nr</th>
+                    <th>Bezeichnung</th>
+                    <th colspan="2">Interaktionen</th>
+                </tr></thead>
+                <tbody>
+                {% for room in rooms %}
+                    <tr>
+                        <td>{{ room.getNumber() }}</td>
+                        <td>{{ room.getDescription() }}</td>
+                        <td class="table__action"><a href="{{ url('reporting_room', {"id": room.id}) }}">Ansehen</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <a href="{{ url('room_create') }}" class="button button--primary">Neuen Raum erstellen</a>
+        </main>
+    </div>
+{% endblock %}

@@ -9,6 +9,7 @@
                 <thead><tr>
                     <th>ID</th>
                     <th>Kennung</th>
+                    <th>Typ</th>
                     <th>Raum</th>
                     <th>Einkaufsdatum</th>
                     <th>Gewährleistung</th>
@@ -20,6 +21,7 @@
                     <tr>
                         <td>{{ component.id }}</td>
                         <td>{{ component.name }}</td>
+                        <td>{{ component.GetComponentType().type }}</td>
                         <td>{{ component.roomid }}</td>
                         <td>{{ component.purchaseDate}}</td>
                         <td>{{ component.warrantyDuration }}</td>
