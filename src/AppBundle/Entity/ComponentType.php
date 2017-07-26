@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Repository\ComponentTypeRepository;
-use AppBundle\Entity\Repository\ValidatingEntity;
+use AppBundle\Entity\ValidatingEntity;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class ComponentType extends AbstractEntity implements ValidatingEntity {
