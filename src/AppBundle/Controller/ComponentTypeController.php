@@ -70,13 +70,8 @@ class ComponentTypeController extends AbstractController {
         $componentType = new ComponentType();
         $componentType->setType($req->get("kind"));
 
-        if (!$componentType->isNotValid()) {
-            return $this->render("", [
-                "message" => "Bitte geben Sie eine Bezeichnung für die Komponentenkategorie ein"
-            ]);
-        }
-
         try {
+            $componentType->validate();
             ComponentTypeRepository::createComponentType($componentType);
         } catch (Exception $e) {
             return $this->renderError("component_kind_index", $e);
