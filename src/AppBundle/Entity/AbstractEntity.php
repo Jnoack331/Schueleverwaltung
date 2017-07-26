@@ -2,8 +2,7 @@
 
 namespace AppBundle\Entity;
 
-class AbstractEntity
-{
+class AbstractEntity {
     private $id;
 
     /**

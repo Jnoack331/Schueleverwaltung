@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 
-class Component extends AbstractModel
+class Component extends AbstractEntity
 {
     private $roomId;
     private $supplierId;
