@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * A software component. 
+ */
 namespace AppBundle\Entity;
 
 
@@ -126,7 +128,9 @@ class Component extends AbstractModel
     }
 
     /**
-     * @return Supplier
+     * Obtains the manufacturer (e.g. Fujitsu, Dell) 
+     * of this software component by accessing the database.
+     * @return \AppBundle\Entity\Supplier
      */
     public function getSupplier()
     {
@@ -147,6 +151,8 @@ class Component extends AbstractModel
         $query->close();
         $row = $result->fetch_row();
 
+        //Data -> Supplier Kann ausgelagert werden in ein 
+        //DataAccessObject/Transformer o.ä.
         $supplier = new Supplier();
         $supplier->setId($row["l_id"]);
         $supplier->setCompanyName($row["l_firmenname"]);
@@ -161,6 +167,11 @@ class Component extends AbstractModel
         return $supplier;
     }
 
+    /**
+     * Obtains the component type (e.g. PC, Laptop) 
+     * of this software component by accessing the database.
+     * @return \AppBundle\Entity\ComponentType
+     */
     public function GetComponentType()
     {
         $managedConnection = new ManagedConnection();
@@ -188,6 +199,7 @@ class Component extends AbstractModel
     }
 
     /**
+     * Obtains all attributes that describe this component.
      * @return array
      */
     public function getComponentAttributeValues()
