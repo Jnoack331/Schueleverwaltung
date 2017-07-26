@@ -95,6 +95,7 @@ class ComponentRepository
 
     /**
      * @param Component $component
+     * @return int|string
      * @throws \Exception
      */
     public static function createComponent(Component $component)
@@ -129,6 +130,8 @@ class ComponentRepository
         {
             throw new \Exception("Erstellen der Komponente fehlgeschlagen");
         }
+
+        return mysqli_insert_id($connection);
     }
 
     /**
