@@ -27,6 +27,11 @@ class ComponentRepository
         $query = "SELECT * FROM komponenten;";
         $result = $connection->query($query);
 
+        if($query->error)
+        {
+            throw new \Exception("Selektieren der Komponenten fehlgeschlagen");
+        }
+
         $components = [];
 
         while($row = $result->fetch_assoc())
@@ -42,11 +47,6 @@ class ComponentRepository
             $component->setSupplierId($row["lieferant_l_id"]);
             $component->setName($row["k_kennung"]);
             $components[] = $component;
-        }
-
-        if($connection->error)
-        {
-            throw new \Exception("Selektieren der Komponenten fehlgeschlagen");
         }
 
         return $components;
@@ -71,7 +71,14 @@ class ComponentRepository
         $componentId = $id;
 
         $query->execute();
+
+        if($query->error)
+        {
+            throw new \Exception("Erstellen der Komponente fehlgeschlagen");
+        }
+
         $result = $query->get_result();
+
         $query->close();
 
         $row = $result->fetch_assoc();
@@ -91,11 +98,6 @@ class ComponentRepository
         $component->setProducer($row["k_hersteller"]);
         $component->setComponentTypeId($row["komponentenarten_ka_id"]);
         $component->setName($row["k_kennung"]);
-
-        if($connection->error)
-        {
-            throw new \Exception("Erstellen der Komponente fehlgeschlagen");
-        }
 
         return $component;
     }
@@ -133,12 +135,13 @@ class ComponentRepository
         $name = $component->getName();
 
         $query->execute();
-        $query->close();
 
-        if($connection->error)
+        if($query->error)
         {
             throw new \Exception("Erstellen der Komponente fehlgeschlagen");
         }
+
+        $query->close();
 
         return mysqli_insert_id($connection);
     }
@@ -177,12 +180,13 @@ class ComponentRepository
         $name = $component->getName();
 
         $query->execute();
-        $query->close();
 
-        if($connection->error)
+        if($query->error)
         {
             throw new \Exception("Ändern der Komponente fehlgeschlagen");
         }
+
+        $query->close();
     }
 
     /**
@@ -203,11 +207,12 @@ class ComponentRepository
         $componentId = $id;
 
         $query->execute();
-        $query->close();
 
-        if($connection->error)
+        if($query->error)
         {
             throw new \Exception("Ändern der Komponente fehlgeschlagen");
         }
+
+        $query->close();
     }
 }

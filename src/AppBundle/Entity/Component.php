@@ -144,6 +144,7 @@ class Component extends AbstractEntity
 
     /**
      * @return Supplier
+     * @throws \Exception
      */
     public function getSupplier()
     {
@@ -159,6 +160,11 @@ class Component extends AbstractEntity
         $supplierId = $this->getSupplierId();
 
         $query->execute();
+
+        if($query->error)
+        {
+            throw new \Exception("Selektieren des Lieferants fehlgeschlagen");
+        }
 
         $result = $query->get_result();
         $query->close();
@@ -178,6 +184,10 @@ class Component extends AbstractEntity
         return $supplier;
     }
 
+    /**
+     * @return ComponentType|null
+     * @throws \Exception
+     */
     public function GetComponentType()
     {
         $managedConnection = new ManagedConnection();
@@ -192,6 +202,11 @@ class Component extends AbstractEntity
         $componentTypeId = $this->getComponentTypeId();
 
         $query->execute();
+
+        if($query->error)
+        {
+            throw new \Exception("Selektieren der Komponentenart fehlgeschlagen");
+        }
 
         $result = $query->get_result();
         $query->close();
@@ -211,6 +226,7 @@ class Component extends AbstractEntity
 
     /**
      * @return array
+     * @throws \Exception
      */
     public function getComponentAttributeValues()
     {
@@ -226,6 +242,11 @@ class Component extends AbstractEntity
         $id = $this->getId();
 
         $query->execute();
+
+        if($query->error)
+        {
+            throw new \Exception("Selektieren der Attributwerte fehlgeschlagen");
+        }
 
         $result = $query->get_result();
         $query->close();
