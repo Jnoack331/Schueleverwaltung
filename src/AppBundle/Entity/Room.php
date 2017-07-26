@@ -2,7 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Repository\RoomRepository;
 use AppBundle\Entity\Repository\ValidatingEntity;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 class Room extends AbstractEntity implements ValidatingEntity {
     private $number;
@@ -97,11 +99,13 @@ class Room extends AbstractEntity implements ValidatingEntity {
         return $components;
     }
 
-    public function isValid() {
+    public function validate() {
         if ($this->number === null || $this->number === "") {
-            return false;
+            throw new Exception("Bitte geben Sie eine Raumnummer ein");
         }
 
-        return true;
+        if (RoomRepository::getRoomByNumber($this->getNumber()) !== null) {
+            throw new Exception("Dieser Raumnummer existiert bereits");
+        }
     }
 }

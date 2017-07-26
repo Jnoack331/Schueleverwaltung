@@ -49,6 +49,7 @@ class ComponentTypeController extends AbstractController {
             $componentType->setType($req->get("type"));
 
             try {
+                $componentType->validate();
                 ComponentTypeRepository::updateComponentType($componentType);
             } catch (Exception $e) {
                 return $this->renderError("component_kind_edit", $e);
@@ -68,6 +69,12 @@ class ComponentTypeController extends AbstractController {
     public function createAction(Request $req) {
         $componentType = new ComponentType();
         $componentType->setType($req->get("kind"));
+
+        if (!$componentType->isNotValid()) {
+            return $this->render("", [
+                "message" => "Bitte geben Sie eine Bezeichnung für die Komponentenkategorie ein"
+            ]);
+        }
 
         try {
             ComponentTypeRepository::createComponentType($componentType);

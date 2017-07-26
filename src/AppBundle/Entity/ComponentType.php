@@ -2,8 +2,11 @@
 
 namespace AppBundle\Entity;
 
-class ComponentType extends AbstractEntity
-{
+use AppBundle\Entity\Repository\ComponentTypeRepository;
+use AppBundle\Entity\Repository\ValidatingEntity;
+use Symfony\Component\Config\Definition\Exception\Exception;
+
+class ComponentType extends AbstractEntity implements ValidatingEntity {
     private $type;
 
     /**
@@ -61,5 +64,15 @@ class ComponentType extends AbstractEntity
         }
 
         return $attributes;
+    }
+
+    public function validate() {
+        if ($this->type === null || $this->type === "") {
+            throw new Exception("Bitte geben Sie einen Namen für die Komponentenkategorie ein");
+        }
+
+        if (ComponentTypeRepository::getComponentTypeByName($this->type) !== null) {
+            throw new Exception("Diese Komponentenkategorie existiert bereits");
+        }
     }
 }
