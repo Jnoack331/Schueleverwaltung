@@ -98,10 +98,16 @@ class RoomController extends AbstractController {
      * @Route("/room/delete/{id}", name="room_delete", requirements={"id": "\d+"})
      */
     public function deleteAction($id, Request $req) {
-        try {
-            RoomRepository::deleteRoomById($id);
-        } catch (Exception $e) {
-            return $this->renderError("room/list.html.twig", $e);
+        if (RoomRepository::canRoomBeDeleted($id)) {
+            try {
+                RoomRepository::deleteRoomById($id);
+            } catch (Exception $e) {
+                return $this->renderError("room/list.html.twig", $e);
+            }
+        } else {
+            return $this->render("KEIN_PLAN", [
+               "message" => "Der Raum kann nicht gelöscht werden, da ihm Komponenten zugeordnet sind"
+            ]);
         }
 
         return $this->redirectToRoute("room_list");
