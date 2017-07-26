@@ -76,7 +76,7 @@ class ComponentTypeRepository
         $query = "SELECT * FROM komponentenarten;";
         $result = $connection->query($query);
 
-        if($query->error)
+        if($result === false)
         {
             $query->close();
             throw new \Exception("Selektierung der Komponentenarten fehlgeschlagen");

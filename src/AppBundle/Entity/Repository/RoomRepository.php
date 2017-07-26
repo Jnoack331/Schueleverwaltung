@@ -236,13 +236,13 @@ class RoomRepository
             throw new \Exception("Selektieren des Raumes fehlgeschlagen");
         }
 
+        $result = $query->get_result();
+        $query->close();
+
         if($row = $result->fetch_assoc())
         {
             return false;
         }
-
-        $result = $query->get_result();
-        $query->close();
 
         return true;
     }
