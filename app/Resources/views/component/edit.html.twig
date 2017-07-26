@@ -27,15 +27,15 @@
                 </dl>
                 <dl>
                     <dt>
-                        <label for="buy_date">Einkaufsdatum</label>
+                        <label for="buy_date">Einkaufsdatum (Format YYYY-mm-dd)</label>
                     </dt>
                     <dd>
-                        <input name="buy_date" id="buy_date" type="date">
+                        <input name="buy_date" id="buy_date" type="date" value="{{ component.purchaseDate | date("Y-m-d")}}">
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        <label for="warranty">Gewährleistungsdauer</label>
+                        <label for="warranty">Gewährleistungsdauer in Monate</label>
                     </dt>
                     <dd>
                         <input name="warranty" id="warranty" type="number" value="{{ component.warrantyDuration }}">
@@ -51,10 +51,10 @@
                 </dl>
                 <dl>
                     <dt>
-                        <label for="manufacturer">Hersteller</label>
+                        <label for="producer">Hersteller</label>
                     </dt>
                     <dd>
-                        <input name="manufacturer" id="manufacturer" value="{{ component.producer }}">
+                        <input name="producer" id="producer" value="{{ component.producer }}">
                     </dd>
                 </dl>
                 <dl>
@@ -67,7 +67,7 @@
                                 <option value="-1">Keine Räume vorhanden</option>
                             {% endif %}
                             {% for type in types %}
-                                <option value="type.id">{{ type.type }}</option>
+                                <option value="{{ type.id }}"{% if type.id == component.componentTypeId %}selected{% endif %}>{{ type.type }}</option>
                             {% endfor %}
                         </select>
                     </dd>

@@ -51,6 +51,47 @@ class RoomRepository
 
         return $rooms;
     }
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    public static function getRoomsByTypeID($id)
+    {
+        $managedConnection = new ManagedConnection();
+        $connection = $managedConnection->getConnection();
+
+        $query_string = "SELECT DISTINCT r.r_id, r.r_nr, r_bezeichnung, r.r_notiz FROM raeume r ";
+        $query_string .= "LEFT JOIN komponenten k ON r.r_id = k.raeume_r_id ";
+        $query_string .= "LEFT JOIN komponentenarten ka ON ka.ka_id = k.komponentenarten_ka_id ";
+        $query_string .= "WHERE ka.ka_id = ?;";
+        $query = $connection->prepare($query_string);
+
+        $query->bind_param("i", $id);
+
+        $query->execute();
+
+        $result = $query->get_result();
+
+        if($result === false)
+        {
+            $query->close();
+            throw new \Exception("Selektieren der Räume fehlgeschlagen");
+        }
+
+        $rooms = [];
+
+        while ($row = $result->fetch_assoc())
+        {
+            $room = new Room();
+            $room->setId($row["r_id"]);
+            $room->setNumber($row["r_nr"]);
+            $room->setDescription($row["r_bezeichnung"]);
+            $room->setNote($row["r_notiz"]);
+            $rooms[] = $room;
+        }
+
+        return $rooms;
+    }
 
     /**
      * @param $id

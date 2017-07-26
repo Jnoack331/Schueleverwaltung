@@ -5,9 +5,11 @@
 namespace AppBundle\Entity;
 
 
+use AppBundle\Entity\Repository\ComponentTypeRepository;
 use AppBundle\Entity\Repository\RoomRepository;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
-class Component extends AbstractEntity
+class Component extends AbstractEntity implements ValidatingEntity
 {
     private $roomId;
     private $supplierId;
@@ -151,8 +153,18 @@ class Component extends AbstractEntity
      */
     public function getRoom()
     {
-        return RoomRepository::getRoomById($this->getId());
+        return RoomRepository::getRoomById($this->getRoomId());
     }
+
+    /**
+     * @return ComponentType|null
+     */
+    /*
+    public function getComponentType(){
+        return ComponentTypeRepository::getComponentTypeById($this->getComponentTypeId());
+    }
+    */
+
     /**
      * Obtains the supplier
      * of this software component by accessing the database.
@@ -200,8 +212,12 @@ class Component extends AbstractEntity
         return $supplier;
     }
 
-    public function GetComponentType()
+    //TODO: checken ob das nicht doch noch gebraucht wird
+
+    public function getComponentType()
     {
+        return ComponentTypeRepository::getComponentTypeById($this->getComponentTypeId());
+        /*
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
 
@@ -235,7 +251,9 @@ class Component extends AbstractEntity
         $componentType->setType($row["ka_komponentenart"]);
 
         return $componentType;
+        */
     }
+
 
     /**
      * @return array
@@ -277,5 +295,21 @@ class Component extends AbstractEntity
         }
 
         return $attributeValues;
+    }
+
+    public function validate() {
+
+        if($this->getName() == null || $this->getName() == ""){
+            throw new Exception("Bitte geben Sie einen Namen an");
+        }
+        if($this->getRoom() === null){
+            throw new Exception("Bitte geben Sie einen gültigen Raum an");
+        }
+        if($this->getPurchaseDate() === null){
+            throw new Exception("Bitte geben Sie ein gültiges Datum an");
+        }
+        if($this->GetComponentType() === null){
+            throw new Exception("Bitte geben Sie eine gültige Komponentenart an");
+        }
     }
 }

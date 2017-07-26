@@ -30,13 +30,13 @@ class ReportingController extends Controller
                 //get all rooms
                 $rooms = RoomRepository::getAllRooms();
             }
-
             //get types
             $types = ComponentTypeRepository::getAllComponentTypes();
             //render template with users
             return $this->render('reporting/index.html.twig', [
                 'rooms' => $rooms,
                 'types' => $types,
+                'filter' => $filter
             ]);
         }catch (Exception $exception){
 
@@ -55,7 +55,6 @@ class ReportingController extends Controller
                 return $this->createNotFoundException("Room not found");
             }
             $components = $room->getComponents();
-
             //render template with users
             return $this->render('reporting/room.html.twig', [
                 'room' => $room,

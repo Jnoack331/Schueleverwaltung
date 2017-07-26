@@ -151,18 +151,54 @@ class ComponentController extends Controller
         //get error message from session
         $message = $session->get('message');
         $session->remove('message');
-        //get component by id
-        $component = ComponentRepository::getComponentById($id);
-        //get rooms
-        $rooms = RoomRepository::getAllRooms();
-        //get types
-        $types = ComponentTypeRepository::getAllComponentTypes();
-        return $this->render("component/edit.html.twig", array(
-            "component" => $component,
-            "rooms" => $rooms,
-            "types" => $types,
-            "message" => $message
-        ));
+        try{
+            //get component by id
+            $component = ComponentRepository::getComponentById($id);
+            if(!$component){
+                return $this->createNotFoundException("Komponente nicht gefunden");
+            }
+            //get rooms
+            $rooms = RoomRepository::getAllRooms();
+            //get types
+            $types = ComponentTypeRepository::getAllComponentTypes();
+
+        }catch (Exception $ex){
+            //TODO: show error
+            return $this->createNotFoundException("Server Fehler");
+        }
+        if($req->getMethod() === "GET"){
+            return $this->render("component/edit.html.twig", array(
+                "component" => $component,
+                "rooms" => $rooms,
+                "types" => $types,
+                "message" => $message
+            ));
+        }else{
+            //create component and validate
+            $component->setName($req->get("name"));
+            $component->setRoomId($req->get("room_id"));
+            $date_string = $req->get("buy_date");
+            $date = date_create_from_format("Y-m-d", $date_string);
+            $component->setPurchaseDate($date);
+            $component->setWarrantyDuration($req->get("warranty"));
+            $component->setNote($req->get("note"));
+            $component->setProducer($req->get("producer"));
+            $component->setComponentTypeId($req->get("type_id"));
+            try{
+                $component->validate();
+                ComponentRepository::updateComponent($component);
+                $message = "Komponente erfolgreich bearbeitet";
+            }catch (Exception $exception){
+                $message = $exception->getMessage();
+            }
+            return $this->render("component/edit.html.twig", array(
+                "component" => $component,
+                "rooms" => $rooms,
+                "types" => $types,
+                "message" => $message
+            ));
+        }
+
     }
 
     /**
@@ -189,6 +225,5 @@ class ComponentController extends Controller
                 return $this->redirect($request->headers->get('referer'));
             }
         }
-
     }
 }
