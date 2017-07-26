@@ -14,4 +14,20 @@ use Doctrine\ORM\Query;
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
 
+    /**
+     * @param $email
+     * @param User $user
+     * @return User
+     */
+    public function getDifferentUserWithEmail($email, $user){
+        /** @var \Doctrine\ORM\QueryBuilder $qb */
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('u')
+            ->from("AppBundle:User", 'u')
+            ->where("u.email like :email")
+            ->andWhere("u.id <> :id")
+            ->setParameter('email', $email)
+            ->setParameter('id', $user->getId());
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

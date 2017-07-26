@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="wrap wrap--content">
+    <main>
+        <h4>Benutzerübersicht</h4>
+
+        <a href="{{ path('users_create') }}" class="button button--primary">Neuer Benutzer</a>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Benutzer-ID</th>
+                <th>Name</th>
+                <th>E-Mail</th>
+                <th>Rolle</th>
+                <th colspan="2">Interaktionen</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.roles_to_String }}</td>
+                    <td class="table__action"><a href="{{ path('users_show', {'id': user.id}) }}">Bearbeiten</a></td>
+                    <td class="table__action"><a href="{{ path('users_delete', {'id': user.id}) }}">Löschen</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</div>
+
+
+
+{% endblock %}
