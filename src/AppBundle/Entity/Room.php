@@ -77,7 +77,8 @@ class Room extends AbstractEntity
         $result = $query->get_result();
         $query->close();
         $components = [];
-        while ($row = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc())
+        {
             $component = new Component();
             $component->setId($row["k_id"]);
             $component->setRoomId($row["raeume_r_id"]);

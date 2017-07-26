@@ -153,6 +153,35 @@ class RoomRepository
 
     /**
      * @param $id
+     * @return bool
+     */
+    public static function canRoomBeDeleted($id)
+    {
+        $managedConnection = new ManagedConnection();
+        $connection = $managedConnection->getConnection();
+
+        $query = $connection->prepare("SELECT * FROM raeume INNER JOIN komponenten AS komp ON raeume.r_id = komp.k_id WHERE raeume.r_id = ?;");
+
+        $roomId = 0;
+
+        $query->bind_param("i", $roomId);
+
+        $roomId = $id;
+
+        $query->execute();
+        $result = $query->get_result();
+        $query->close();
+
+        if($row = $result->fetch_assoc())
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param $id
      * @throws \Exception
      */
     public static function deleteRoomById($id)

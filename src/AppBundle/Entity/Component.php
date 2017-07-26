@@ -145,7 +145,7 @@ class Component extends AbstractEntity
 
         $result = $query->get_result();
         $query->close();
-        $row = $result->fetch_row();
+        $row = $result->fetch_assoc();
 
         $supplier = new Supplier();
         $supplier->setId($row["l_id"]);
@@ -178,7 +178,7 @@ class Component extends AbstractEntity
 
         $result = $query->get_result();
         $query->close();
-        $row = $result->fetch_row();
+        $row = $result->fetch_assoc();
 
         $componentType = new ComponentType();
         $componentType->setId($row["ka_id"]);
@@ -210,7 +210,8 @@ class Component extends AbstractEntity
 
         $attributeValues = [];
 
-        while($row = $result->fetch_assoc()) {
+        while($row = $result->fetch_assoc())
+        {
             $attributeValue = new AttributeValue();
             $attributeValue->setId($row["komponenten_k_id"]);
             $attributeValue->setAttributeId($row["komponentenattribute_kat_id"]);

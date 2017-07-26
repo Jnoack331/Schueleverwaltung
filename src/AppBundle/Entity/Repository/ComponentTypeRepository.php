@@ -37,7 +37,7 @@ class ComponentTypeRepository
 
         $result = $query->get_result();
         $query->close();
-        $row = $result->fetch_row();
+        $row = $result->fetch_assoc();
 
         $componentType = new ComponentType();
         $componentType->setId($row["ka_id"]);
