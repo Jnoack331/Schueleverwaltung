@@ -2,79 +2,36 @@
 {% block body %}
     <div class="wrap wrap--content">
         <main>
-            <h4>Neue Komponente</h4>
+            <h4>Komponenten</h4>
 
-            <form action="" class="form">
-                <h4>Neue Komponente</h4>
+            <a href="{{ path('component_create') }}" class="button button--primary">Neue Komponente</a>
+            <table>
+                <thead><tr>
+                    <th>ID</th>
+                    <th>Kennung</th>
+                    <th>Raum</th>
+                    <th>Einkaufsdatum</th>
+                    <th>Gewährleistung</th>
+                    <th>Hersteller</th>
+                    <th colspan="2">Interaktionen</th>
+                </tr></thead>
+                <tbody>
+                {% for component in components %}
+                    <tr>
+                        <td>{{ component.id }}</td>
+                        <td>{{ component.name }}</td>
+                        <td>{{ component.roomid }}</td>
+                        <td>{{ component.purchaseDate}}</td>
+                        <td>{{ component.warrantyDuration }}</td>
+                        <td>{{ component.producer }}</td>
+                        <td class="table__action"><a href="{{ path('component_edit', {id: component.id}) }}">Bearbeiten</a></td>
+                        <td class="table__action"><a href="{{ path('component_delete', {id: component.id}) }}">Löschen</a></td>
+                    </tr>
+                {% endfor %}
 
-                <dl>
-                    <dt>
-                        <label for="k_name">Komponentenname</label>
-                    </dt>
-                    <dd>
-                        <input name="k_name" id="k_name">
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        <label for="k_raum">Raum</label>
-                    </dt>
-                    <dd>
-                        <select name="k_raum" id="k_raum">
-                            <option value="">303</option>
-                            <option value="">313</option>
-                        </select>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        <label for="k_datum">Einkaufsdatum</label>
-                    </dt>
-                    <dd>
-                        <input name="k_datum" id="k_datum" type="date">
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        <label for="k_gewährleistung">Gewährleistungsdauer</label>
-                    </dt>
-                    <dd>
-                        <input name="k_gewährleistung" id="k_gewährleistung" type="number">
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        <label for="k_notiz">Notiz zur Komponente</label>
-                    </dt>
-                    <dd>
-                        <textarea rows="5" name="k_notiz" id="k_notiz"></textarea>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        <label for="k_hersteller">Hersteller</label>
-                    </dt>
-                    <dd>
-                        <input name="k_hersteller" id="k_hersteller">
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        <label for="k_art">Komponentenart</label>
-                    </dt>
-                    <dd>
-                        <select name="k_art" id="k_art">
-                            <option value="">PC</option>
-                            <option value="">Drucker</option>
-                        </select>
-                    </dd>
-                </dl>
-
-                <p class="table__hint">Speichern um Attributwerte hinzuzufügen</p>
-
-                <input type="reset" class="button button--grey">
-                <input type="submit" class="button button--primary" value="Abschicken">
-            </form>
+                </tbody>
+            </table>
+            <p class="table__hint">Scrollbar ></p>
 
         </main>
     </div>

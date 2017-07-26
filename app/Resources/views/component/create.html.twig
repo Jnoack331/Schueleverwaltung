@@ -21,9 +21,13 @@
                         <label for="room_id">Raum</label>
                     </dt>
                     <dd>
-                        <select name="room_id" id="room_id">
-                            <option value="1">303</option>
-                            <option value="2">313</option>
+                        <select name="room_id" id="room_id" {% if not rooms %}disabled{% endif %}>
+                            {% if not rooms %}
+                                <option value="-1">Keine Räume vorhanden</option>
+                            {% endif %}
+                            {% for room in rooms %}
+                                <option value="{{ room.id }}">{{ room.number }} - {{ room.description }}</option>
+                            {% endfor %}
                         </select>
                     </dd>
                 </dl>
@@ -53,10 +57,10 @@
                 </dl>
                 <dl>
                     <dt>
-                        <label for="manufacturer">Hersteller</label>
+                        <label for="producer">Hersteller</label>
                     </dt>
                     <dd>
-                        <input name="manufacturer" id="manufacturer">
+                        <input name="producer" id="producer">
                     </dd>
                 </dl>
                 <dl>
@@ -64,9 +68,13 @@
                         <label for="type_id">Komponentenart</label>
                     </dt>
                     <dd>
-                        <select name="type_id" id="type_id">
-                            <option value="1">PC</option>
-                            <option value="2">Drucker</option>
+                        <select name="type_id" id="type_id" {% if not types %}disabled{% endif %}>
+                            {% if not types %}
+                                <option value="-1">Keine Komponentypen vorhanden</option>
+                            {% endif %}
+                            {% for type in types %}
+                                <option value="{{ type.id }}">{{ type.type }}</option>
+                            {% endfor %}
                         </select>
                     </dd>
                 </dl>
