@@ -92,4 +92,19 @@ class RoomController extends Controller
             }
         }
     }
+
+    /**
+     * @Route("/room/delete/{id}", name="room_delete", requirements={"id": "\d+"})
+     */
+    public function deleteAction($id, Request $req) {
+        try {
+            RoomRepository::deleteRoomById($id);
+        } catch (Exception $e) {
+            return $this->render("room_delete", [
+                "message" => "Fehler beim Löschen des Raums"
+            ]);
+        }
+
+        $this->redirectToRoute("room_index", []);
+    }
 }
