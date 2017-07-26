@@ -3,8 +3,9 @@
 {% block body %}
 <div class="wrap wrap--content">
     <main>
-        <h4>Benutzer Erstellen</h4>
-        <a href="{{ path('users_index') }}" class="button button--primary">Zurück</a>
+        <br>
+        <a href="{{ path('users_index') }}" class="button button--white">Zurück zur Ansicht</a>
+        <h1>Benutzer Erstellen</h1>
         {% if message is defined %}
             <h5 style="color: red;">{{ message }}</h5>
         {% endif %}
@@ -45,7 +46,9 @@
                 </dd>
             </dl>
 
-            <input type="submit" class="button button--primary" value="Erstellen">
+            <div class="form__button-wrap">
+                <input type="submit" class="button button--primary" value="Erstellen">
+            </div>
         </form>
     </main>
 

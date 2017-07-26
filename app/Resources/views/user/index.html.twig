@@ -2,9 +2,7 @@
 {% block body %}
 <div class="wrap wrap--content">
     <main>
-        <h4>Benutzerübersicht</h4>
-
-        <a href="{{ path('users_create') }}" class="button button--primary">Neuer Benutzer</a>
+        <h1>Benutzer</h1>
 
         <table>
             <thead>
@@ -29,6 +27,8 @@
             {% endfor %}
             </tbody>
         </table>
+        <hr>
+        <a href="{{ path('users_create') }}" class="button button--primary">Neuer Benutzer</a>
     </main>
 </div>
 

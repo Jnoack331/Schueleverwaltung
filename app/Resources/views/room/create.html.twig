@@ -3,6 +3,9 @@
 {% block body %}
 <div class="wrap wrap--content">
     <main>
+        <br>
+        <a href="{{ path('room_list') }}" class="button button--white">Zurück zur Ansicht</a>
+
         <h1>R&auml;ume</h1>
         <form method="post" action="{{ url("room_create") }}" class="form">
             <dl>
@@ -29,7 +32,6 @@
 
             <div class="form__button-wrap">
                 <input type="submit" class="button button--primary" value="Speichern">
-                <a href="{{ url('room_list') }}" class="button button--white form__link">Abbrechen</a>
             </div>
         </form>
     </main>

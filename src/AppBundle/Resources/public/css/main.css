@@ -56,7 +56,7 @@ a {
 
 /* line 42, Scss/elements/_button.scss */
 .button--warning {
-  background-color: #ff3333;
+  background-color: #d04646;
   color: #fff; }
   /* line 45, Scss/elements/_button.scss */
   .button--warning:hover, .button--warning:focus {
@@ -328,7 +328,7 @@ a {
 
 /* line 8, Scss/elements/_handler.scss */
 .handler--warning {
-  background: #ff3333;
+  background: #d04646;
   color: #fff; }
 
 /* line 13, Scss/elements/_handler.scss */
@@ -487,8 +487,12 @@ tr:nth-child(odd) td {
 .table__hint {
   font-size: 10px;
   color: grey; }
+  @media only screen and (min-width: 57rem) {
+    /* line 24, Scss/elements/_table.scss */
+    .table__hint {
+      display: none; } }
 
-/* line 29, Scss/elements/_table.scss */
+/* line 33, Scss/elements/_table.scss */
 .table__action {
   color: #0688c1; }
 
