@@ -48,15 +48,20 @@ class UserController extends Controller
             ]);
         }
         if($request->getMethod() === "POST"){
+            $error = false;
             //get POST data
             $data = $request->request->all();
             //name
             $name = $data["name"];
+            if($name === null || $name === ""){
+                $error = "Ungültiger Name";
+            }
             $user->setName($name);
-            //email
+
             $email = $data["email"];
             //check if other user exists with new email
-            if(false){
+            $user_repo = $this->getDoctrine()->getManager()->getRepository("AppBundle:User");
+            if($user_repo->getDifferentUserWithEmail($email, $user)){
                 $error = "Ein Benutzer mit dieser E-Mail Addresse existiert bereits";
             }
             $user->setEmail($email);
@@ -64,23 +69,38 @@ class UserController extends Controller
             //set new password
 
             $plainPassword = $data["plain_password"];
-
-            //password can be max 4096 characters long
-            if (strlen($plainPassword) > 4096 || strlen($plainPassword) < 1) {
-                $error = "Das Passwort hat eine ungültige Länge. Es muss zwischen 1 und 4069 zeichen enthalten";
+            if(strlen($plainPassword) > 0){
+                //password can be max 4096 characters long
+                if (strlen($plainPassword) > 4096) {
+                    $error = "Die maximale Passwortlänge beträgt 4096 Zeichen";
+                }else{
+                    //create hashed password
+                    $password = $this->get('security.password_encoder')
+                        ->encodePassword($user, $plainPassword);
+                    //set password
+                    $user->setPassword($password);
+                }
             }
-            //create hashed password
-            $password = $this->get('security.password_encoder')
-                ->encodePassword($user, $plainPassword);
-            //set password
-            $user->setPassword($password);
-            $em->persist($user);
-            $em->flush();
+
+            $role = $data["role"];
+            if($this->roleExists($role)){
+                $user->setRoles(array($role));
+            }else{
+                $error = "Rolle existiert nicht";
+            }
+
+            if($error){
+                $message = $error;
+            }else{
+                $em->persist($user);
+                $em->flush();
+                $message = "Benutzer wurde bearbeitet";
+            }
 
             //render template with new user
             return $this->render('user/show.html.twig', [
                 'user' => $user,
-                'message' => "Benutzer wurde restellt",
+                'message' => $message,
                 'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
             ]);
         }

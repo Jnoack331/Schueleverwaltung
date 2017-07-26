@@ -284,7 +284,7 @@ class User implements AdvancedUserInterface, \Serializable
         $roles = $this->roles;
         $role = $roles[0];
         if($role === "ROLE_ADMIN"){
-            return "Admin";
+            return "Systembetreuer";
         }
         if($role === "ROLE_AZUBI"){
             return "Azubi";
