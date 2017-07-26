@@ -9,12 +9,14 @@
                 <thead><tr>
                     <th>Kennung</th>
                     <th>Typ</th>
+                    <th>Hersteller</th>
                 </tr></thead>
                 <tbody>
                 {% for component in components %}
                     <tr>
-                        <td>{{ component.name }}</td>
-                        <td>{{ component.GetComponentType().type}}</td>
+                        <td style="min-width: 200px;">{{ component.name }}</td>
+                        <td style="min-width: 200px;">{{ component.GetComponentType().type}}</td>
+                        <td style="min-width: 200px;">{{ component.producer}}</td>
                     </tr>
                 {% endfor %}
 

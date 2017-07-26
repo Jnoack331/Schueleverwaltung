@@ -166,11 +166,11 @@ class ComponentRepository
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
 
-        $query = $connection->prepare("UPDATE komponenten SET raeume_id = ?, lieferant_l_id = ?, k_einkaufsdatum = ?, k_gewaehrleistungsdauer = ?, k_notiz = ?, k_hersteller = ?, komponentenarten_ka_id = ?, k_kennung = ? WHERE k_id = ?;");
+        $query = $connection->prepare("UPDATE komponenten SET raeume_r_id = ?, lieferant_l_id = ?, k_einkaufsdatum = ?, k_gewaehrleistungsdauer = ?, k_notiz = ?, k_hersteller = ?, komponentenarten_ka_id = ?, k_kennung = ? WHERE k_id = ?;");
 
         $roomId = 0;
         $supplierId = 0;
-        $purchaseDate = 0;
+        $purchaseDate = date_create();
         $warrantyDuration = 0;
         $note = 0;
         $producer = 0;
@@ -178,11 +178,11 @@ class ComponentRepository
         $componentId = 0;
         $name = 0;
 
-        $query->bind_param("iidissisi", $roomId, $supplierId, $purchaseDate, $warrantyDuration, $note, $producer, $componentTypeId, $name, $componentId);
+        $query->bind_param("iisissisi", $roomId, $supplierId, $purchaseDate, $warrantyDuration, $note, $producer, $componentTypeId, $name, $componentId);
 
         $roomId = $component->getRoomId();
         $supplierId = $component->getSupplierId();
-        $purchaseDate = $component->getPurchaseDate();
+        $purchaseDate = date_format($component->getPurchaseDate(), "Y-m-d");
         $warrantyDuration = $component->getWarrantyDuration();
         $note = $component->getNote();
         $producer = $component->getProducer();
