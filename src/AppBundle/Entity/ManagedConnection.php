@@ -17,7 +17,6 @@ class ManagedConnection
     private $user = "root";
     private $password = "";
     private $database = "itverwaltung";
-
     private $conn;
 
     public function getConnection() {

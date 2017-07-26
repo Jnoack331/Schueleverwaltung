@@ -31,7 +31,7 @@ class RoomRepository
         $query = "SELECT * FROM raeume;";
         $result = $connection->query($query);
 
-        if($query->error)
+        if($result === false)
         {
             $query->close();
             throw new \Exception("Selektieren der Räume fehlgeschlagen");

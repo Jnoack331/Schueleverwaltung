@@ -5,7 +5,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Repository\RoomRepository;
-use AppBundle\Entity\Repository\ValidatingEntity;
+use AppBundle\Entity\ValidatingEntity;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class Room extends AbstractEntity implements ValidatingEntity {
