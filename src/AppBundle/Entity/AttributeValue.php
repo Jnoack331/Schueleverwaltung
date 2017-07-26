@@ -49,6 +49,11 @@ class AttributeValue extends AbstractEntity
 
         $query->execute();
 
+        if($query->error)
+        {
+            throw new \Exception("Selektieren des Attributs fehlgeschlagen");
+        }
+
         $result = $query->get_result();
         $query->close();
         $row = $result->fetch_assoc();

@@ -27,6 +27,11 @@ class RoomRepository
         $query = "SELECT * FROM raeume;";
         $result = $connection->query($query);
 
+        if($query->error)
+        {
+            throw new \Exception("Selektieren der Räume fehlgeschlagen");
+        }
+
         $rooms = [];
 
         while ($row = $result->fetch_assoc())
@@ -37,11 +42,6 @@ class RoomRepository
             $room->setDescription($row["r_bezeichnung"]);
             $room->setNote($row["r_notiz"]);
             $rooms[] = $room;
-        }
-
-        if($connection->error)
-        {
-            throw new \Exception("Selektieren der Räume fehlgeschlagen");
         }
 
         return $rooms;
@@ -67,6 +67,11 @@ class RoomRepository
 
         $query->execute();
 
+        if($query->error)
+        {
+            throw new \Exception("Selektieren des Raumes fehlgeschlagen");
+        }
+
         $result = $query->get_result();
         $query->close();
 
@@ -83,14 +88,14 @@ class RoomRepository
         $room->setDescription($row["r_bezeichnung"]);
         $room->setNote($row["r_notiz"]);
 
-        if($connection->error)
-        {
-            throw new \Exception("Selektieren des Raumes fehlgeschlagen");
-        }
-
         return $room;
     }
 
+    /**
+     * @param $name
+     * @return Room|null
+     * @throws \Exception
+     */
     public static function getRoomByNumber($name)
     {
         $managedConnection = new ManagedConnection();
@@ -106,6 +111,11 @@ class RoomRepository
 
         $query->execute();
 
+        if($query->error)
+        {
+            throw new \Exception("Selektieren des Raumes fehlgeschlagen");
+        }
+
         $result = $query->get_result();
         $query->close();
 
@@ -121,11 +131,6 @@ class RoomRepository
         $room->setNumber($row["r_nr"]);
         $room->setDescription($row["r_bezeichnung"]);
         $room->setNote($row["r_notiz"]);
-
-        if($connection->error)
-        {
-            throw new \Exception("Selektieren des Raumes fehlgeschlagen");
-        }
 
         return $room;
     }
@@ -153,12 +158,13 @@ class RoomRepository
         $roomNote = $room->getNote();
 
         $query->execute();
-        $query->close();
 
-        if($connection->error)
+        if($query->error)
         {
             throw new \Exception("Erstellung des Raumes fehlgeschlagen");
         }
+
+        $query->close();
 
         return mysqli_insert_id($connection);
     }
@@ -187,12 +193,13 @@ class RoomRepository
         $roomId = $room->getId();
 
         $query->execute();
-        $query->close();
 
-        if($connection->error)
+        if($query->error)
         {
             throw new \Exception("Ändern des Raumes fehlgeschlagen");
         }
+
+        $query->close();
     }
 
     /**
@@ -213,13 +220,14 @@ class RoomRepository
         $roomId = $id;
 
         $query->execute();
+
+            if($row = $result->fetch_assoc())
+            {
+                return false;
+            }
+
         $result = $query->get_result();
         $query->close();
-
-        if($row = $result->fetch_assoc())
-        {
-            return false;
-        }
 
         return true;
     }
@@ -242,11 +250,12 @@ class RoomRepository
         $roomId = $id;
 
         $query->execute();
-        $query->close();
 
-        if($connection->error)
+        if($query->error)
         {
             throw new \Exception("Löschen des Raumes fehlgeschlagen");
         }
+
+        $query->close();
     }
 }

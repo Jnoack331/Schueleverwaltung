@@ -17,7 +17,7 @@ class ComponentTypeRepository
 {
     /**
      * @param $id
-     * @return ComponentType
+     * @return ComponentType|null
      * @throws \Exception
      */
     public static function getComponentTypeById($id)
@@ -35,7 +35,13 @@ class ComponentTypeRepository
 
         $query->execute();
 
+        if($query->error)
+        {
+            throw new \Exception("Selektieren der Komponentenart fehlgeschlagen");
+        }
+
         $result = $query->get_result();
+
         $query->close();
         $row = $result->fetch_assoc();
 
@@ -47,11 +53,6 @@ class ComponentTypeRepository
         $componentType = new ComponentType();
         $componentType->setId($row["ka_id"]);
         $componentType->setType($row["ka_komponentenart"]);
-
-        if($connection->error)
-        {
-            throw new \Exception("Selektieren der Komponentenart fehlgeschlagen");
-        }
 
         return $componentType;
     }
@@ -65,7 +66,13 @@ class ComponentTypeRepository
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
 
-        $result = $connection->query("SELECT * FROM komponentenarten");
+        $query = "SELECT * FROM komponentenarten;";
+        $result = $connection->query($query);
+
+        if($query->error)
+        {
+            throw new \Exception("Selektierung der Komponentenarten fehlgeschlagen");
+        }
 
         $componentTypes = [];
 
@@ -77,12 +84,49 @@ class ComponentTypeRepository
             $componentTypes[] = $componentType;
         }
 
-        if($connection->error)
+        return $componentTypes;
+    }
+
+    /**
+     * @param $name
+     * @return ComponentType|null
+     * @throws \Exception
+     */
+    public static function getComponentTypeByName($name)
+    {
+        $managedConnection = new ManagedConnection();
+        $connection = $managedConnection->getConnection();
+
+        $query = $connection->prepare("SELECT * FROM komponentenarten WHERE ka_komponentenart = ?;");
+
+        $componentTypeName = 0;
+
+        $query->bind_param("i", $componentTypeName);
+
+        $componentTypeName = $name;
+
+        $query->execute();
+
+        if($query->error)
         {
-            throw new \Exception("Selektierung der Komponentenarten fehlgeschlagen");
+            throw new \Exception("Selektieren der Komponentenart fehlgeschlagen");
         }
 
-        return $componentTypes;
+        $result = $query->get_result();
+
+        $query->close();
+        $row = $result->fetch_assoc();
+
+        if($row == NULL)
+        {
+            return NULL;
+        }
+
+        $componentType = new ComponentType();
+        $componentType->setId($row["ka_id"]);
+        $componentType->setType($row["ka_komponentenart"]);
+
+        return $componentType;
     }
 
     /**
@@ -104,12 +148,13 @@ class ComponentTypeRepository
         $type = $componentType->getType();
 
         $query->execute();
-        $query->close();
 
-        if($connection->error)
+        if($query->error)
         {
             throw new \Exception("Erstellen der Komponentenart fehlgeschlagen");
         }
+
+        $query->close();
 
         return mysqli_insert_id($connection);
     }
@@ -134,12 +179,13 @@ class ComponentTypeRepository
         $id = $componentType->getId();
 
         $query->execute();
-        $query->close();
 
-        if($connection->error)
+        if($query->error)
         {
             throw new \Exception("Ändern der Komponentenart fehlgeschlagen");
         }
+
+        $query->close();
     }
 
     public static function deleteComponentTypeById($id)
@@ -156,11 +202,12 @@ class ComponentTypeRepository
         $componentId = $id;
 
         $query->execute();
-        $query->close();
 
-        if($connection->error)
+        if($query->error)
         {
             throw new \Exception("Löschen der Komponentenart fehlgeschlagen");
         }
+
+        $query->close();
     }
 }
