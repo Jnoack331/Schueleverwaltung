@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Component;
 use AppBundle\Entity\Repository\ComponentRepository;
+use AppBundle\Entity\Repository\ComponentTypeRepository;
+use AppBundle\Entity\Repository\RoomRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -40,14 +42,24 @@ class ComponentController extends Controller
             if($name === null || $name === ""){
                 $error = "Bitte geben sie einen Namen für die Komponente an";
             }else{
-
+                $component->setName($name);
             }
             //set room id
             $room_id = $req->get("room_id");
             if($room_id === null || $room_id === ""){
                 $error = "Bitte geben sie einen gültigen Raum an";
             }else{
-                $component->setRoomId($room_id);
+                //check if room exists
+                try{
+                    $room = RoomRepository::getRoomById($room_id);
+                    if(!$room){
+                        $error = "Der Raum existiert nicht";
+                    }else{
+                        $component->setRoomId($room_id);
+                    }
+                }catch (Exception $exception){
+                    $error = "Es gab einen Fehler beim abfragen des Raumes";
+                }
             }
             //create date from string
             $date_string = $req->get("buy_date");
@@ -67,10 +79,10 @@ class ComponentController extends Controller
             if(!$error){
                 //create component object
                 try{
-                    //$id = ComponentRepository::createComponent($component);
-                    //$component->setId($id);
-                    // $this->redirectToRoute("component_edit", array("id" => $component->getId()));
-                    $this->render("component/create.html.twig", array());
+                    $id = ComponentRepository::createComponent($component);
+                    $component->setId($id);
+                    //redirect to edit if everything was successful
+                    return $this->redirectToRoute("component_edit", array("id" => $component->getId()));
                 }catch(Exception $exception){
                     return $this->render("component/create.html.twig",
                         array("message" => "Es gab einen Fehler beim erstellen der Componente"));
@@ -80,19 +92,11 @@ class ComponentController extends Controller
                     "message" => $error,
                 ));
             }
-
-
-
-
         }
         //if method is GET -> render template
         else{
             //get component types
-            $types = array(
-                0 => "PC",
-                1 => "Drucker",
-                2 => "Beamer",
-            );
+            $types = ComponentTypeRepository::getAllComponentTypes();
             return $this->render("component/create.html.twig", array(
                 "types" => $types
             ));
@@ -108,6 +112,10 @@ class ComponentController extends Controller
      */
     public function editAction($id, Request $req)
     {
-
+        //get component by id
+        $component = null;
+        return $this->render("component/edit.html.twig", array(
+            "component" => $component,
+        ));
     }
 }
