@@ -19,7 +19,7 @@ class RoomController extends AbstractController {
         try {
             $rooms = RoomRepository::getAllRooms();
         } catch (Exception $e) {
-            return $this->renderError("room_view", $e);
+            return $this->renderError("detail", $e);
         }
         return $this->render("room/list.html.twig", ["rooms" => $rooms]);
     }
@@ -42,7 +42,7 @@ class RoomController extends AbstractController {
             try {
                 $id = RoomRepository::createRoom($room);
             } catch (Exception $e) {
-                return $this->renderError("room_create", $e);
+                return $this->renderError("user/create.html.twig", $e);
             }
 
             return $this->redirectToRoute("room_detail", ["id" => $id]);
