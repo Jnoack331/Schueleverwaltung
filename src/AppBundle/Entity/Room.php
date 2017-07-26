@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * A room that holds one or more software components.
+ */
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Repository\RoomRepository;
@@ -60,7 +62,7 @@ class Room extends AbstractEntity implements ValidatingEntity {
     }
 
     /**
-     * returns all components to this room
+     * @return all components located in this room
      */
     public function getComponents()
     {

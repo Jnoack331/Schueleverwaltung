@@ -4,6 +4,10 @@
  * User: Colin
  * Date: 25.07.2017
  * Time: 09:49
+ * 
+ * Provides functions to modify component type entities in
+ * the database.
+ * 
  */
 
 namespace AppBundle\Entity\Repository;
@@ -16,6 +20,7 @@ use AppBundle\Entity\ManagedConnection;
 class ComponentTypeRepository
 {
     /**
+     * Gets a component by its primary key.
      * @param $id
      * @return ComponentType|null
      * @throws \Exception
@@ -58,6 +63,7 @@ class ComponentTypeRepository
     }
 
     /**
+     * Obtains a list of all component types.
      * @return array
      * @throws \Exception
      */
@@ -130,6 +136,8 @@ class ComponentTypeRepository
     }
 
     /**
+     * Creates a component type in the database using
+     * the provided Component Type object.
      * @param ComponentType $componentType
      * @return int|string
      * @throws \Exception
@@ -160,6 +168,8 @@ class ComponentTypeRepository
     }
 
     /**
+     * Updates a component type in the database
+     * using a php object.
      * @param ComponentType $componentType
      * @throws \Exception
      */
@@ -188,6 +198,11 @@ class ComponentTypeRepository
         $query->close();
     }
 
+    /**
+     * Deletes a component type from the database via id.
+     * @param type $id
+     * @throws \Exception
+     */
     public static function deleteComponentTypeById($id)
     {
         $managedConnection = new ManagedConnection();

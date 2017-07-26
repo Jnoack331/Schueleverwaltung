@@ -2,8 +2,12 @@
 
 namespace AppBundle\Controller;
 
+/**
+ * Controller for ComponentType View.
+ */
 use AppBundle\Entity\ComponentType;
 use AppBundle\Entity\Repository\ComponentTypeRepository;
+>>>>>>> origin/master
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;

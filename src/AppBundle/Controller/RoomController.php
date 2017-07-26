@@ -1,7 +1,9 @@
 <?php
 
 namespace AppBundle\Controller;
-
+/**
+ * Controller for Room-View. 
+ */
 use AppBundle\Entity\Repository\RoomRepository;
 use AppBundle\Entity\Room;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

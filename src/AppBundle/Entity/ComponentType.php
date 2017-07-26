@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Defines a type of software component.
+ */
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Repository\ComponentTypeRepository;
@@ -26,6 +28,8 @@ class ComponentType extends AbstractEntity implements ValidatingEntity {
     }
 
     /**
+     * Obtains all attributes available for this component type
+     * by accessing the database.
      * @return array
      * @throws \Exception
      */
