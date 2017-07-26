@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
-class RoomController extends Controller {
+class RoomController extends AbstractController {
     /**
      * Fetches all Rooms from the database and renders a template to display them
      *
@@ -19,9 +19,7 @@ class RoomController extends Controller {
         try {
             $rooms = RoomRepository::getAllRooms();
         } catch (Exception $e) {
-            return $this->render("room_view", [
-               "message" => "Fehler beim Laden der Räume"
-            ]);
+            return $this->renderError("room_view", $e);
         }
 
         return $this->render("room_view", ["rooms" => $rooms]);
@@ -45,9 +43,7 @@ class RoomController extends Controller {
             try {
                 $id = RoomRepository::createRoom($room);
             } catch (Exception $e) {
-                return $this->render("room_create", [
-                    "message" => "Fehler beim Erstellen des Raums"
-                ]);
+                return $this->renderError("room_create", $e);
             }
 
             return $this->redirectToRoute("room_detail", ["id" => $id]);
@@ -65,9 +61,7 @@ class RoomController extends Controller {
         try {
             $room = RoomRepository::getRoomById($id);
         } catch (Exception $e) {
-            return $this->render("room_detail", [
-                "message" => "Fehler beim Laden des Raums"
-            ]);
+            return $this->renderError("room_detail", $e);
         }
 
         if ($req->getMethod() === "GET") {
@@ -84,11 +78,9 @@ class RoomController extends Controller {
             $room->setNote($req->get("note"));
 
             try {
-                $id = RoomRepository::updateRoom($room);
+                RoomRepository::updateRoom($room);
             } catch (Exception $e) {
-                return $this->render("room_detail", [
-                   "message" => "Fehler beim Speichern der Änderungen"
-                ]);
+                return $this->renderError("room_detail", $e);
             }
         }
     }

@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
-class ComponentTypeController extends Controller {
+class ComponentTypeController extends AbstractController {
     /**
      * Fetches all ComponentKinds from the database and renders a template to display them
      *
@@ -19,9 +19,7 @@ class ComponentTypeController extends Controller {
         try {
             $componentTypes = ComponentTypeRepository::getAllComponentTypes();
         } catch (Exception $e) {
-            return $this->render("component_kind_index", [
-                "message" => "Fehler beim Laden der Komponentenarten"
-            ]);
+            return $this->renderError("component_kind_index", $e);
         }
 
         return $this->render("component_kind_index", ["types" => $componentTypes]);
@@ -37,14 +35,15 @@ class ComponentTypeController extends Controller {
     public function editAction($id, Request $req) {
         try {
             $componentType = ComponentTypeRepository::getComponentTypeById($id);
+            $attributes = $componentType->getAttributes();
         } catch (Exception $e) {
-
+            return $this->renderError("component_kind_index", $e);
         }
 
         if ($req->getMethod() === "GET") {
             return $this->render("edit_component_types", [
                 "type"       => $componentType->getType(),
-                "attributes" => $componentType->getAttributes()
+                "attributes" => $attributes
             ]);
         } else {
             $componentType->setType($req->get("type"));
@@ -52,8 +51,10 @@ class ComponentTypeController extends Controller {
             try {
                 ComponentTypeRepository::updateComponentType($componentType);
             } catch (Exception $e) {
-
+                return $this->renderError("component_kind_edit", $e);
             }
+
+            return $this->redirectToRoute("component_kind_index", []);
         }
     }
 
@@ -68,6 +69,10 @@ class ComponentTypeController extends Controller {
         $componentType = new ComponentType();
         $componentType->setType($req->get("kind"));
 
-        ComponentTypeRepository::createComponentType($componentType);
+        try {
+            ComponentTypeRepository::createComponentType($componentType);
+        } catch (Exception $e) {
+            return $this->renderError("component_kind_index", $e);
+        }
     }
 }
