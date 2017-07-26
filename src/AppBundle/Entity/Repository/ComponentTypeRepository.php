@@ -39,6 +39,11 @@ class ComponentTypeRepository
         $query->close();
         $row = $result->fetch_assoc();
 
+        if($row == NULL)
+        {
+            return NULL;
+        }
+
         $componentType = new ComponentType();
         $componentType->setId($row["ka_id"]);
         $componentType->setType($row["ka_komponentenart"]);
