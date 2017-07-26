@@ -4,13 +4,14 @@
     <div class="wrap wrap--content">
 
         <main>
-            <h1>#DummyContent</h1>
-            <!-- content -->
 
             <h3>Buttons</h3>
             <a class="button button--grey">Neuer Raum</a>
             <a class="button button--primary">Neue Kompente</a>
             <a class="button button--white">Neue Kompentenart</a>
+            <a class="button button--warning">Löschen</a>
+            <p class="handler handler--warning">Interaktion fehlgeschlagen</p>
+            <p class="handler handler--success">Interaktion erfolgreich</p>
             <p></p>
             <p></p>
             <h3>Tabellen</h3>
@@ -86,69 +87,104 @@
             <p class="table__hint">Scrollbar ></p>
             <br>
 
+            <h4>Benutzer verwalten</h4>
+            <table>
+                <thead><tr>
+                    <th>Benutzer-ID</th>
+                    <th>Name</th>
+                    <th>E-Mail</th>
+                    <th>Rolle</th>
+                    <th colspan="2">Interaktionen</th>
+                </tr></thead>
+                <tbody>
+                <tr>
+                    <td>01</td>
+                    <td>Thomas Schäfer</td>
+                    <td>tschäfer@beispiel.de</td>
+                    <td>Systembetreuer</td>
+                    <td class="table__action">Bearbeiten</td>
+                    <td class="table__action">Löschen</td>
+                </tr>
+                <tr>
+                    <td>02</td>
+                    <td>Henrik Elsner</td>
+                    <td>helsner@test.de</td>
+                    <td>Azubi</td>
+                    <td class="table__action">Bearbeiten</td>
+                    <td class="table__action">Löschen</td>
+                </tr>
+                <tr>
+                    <td>03</td>
+                    <td>Markus Bader</td>
+                    <td>mbader@b3-fuerth.de</td>
+                    <td>Lehrer</td>
+                    <td class="table__action">Bearbeiten</td>
+                    <td class="table__action">Löschen</td>
+                </tr>
+                </tbody>
+            </table>
+            <p class="table__hint">Scrollbar ></p>
+
+            <h4>Komponentenarten verwalten</h4>
+            <table>
+                <thead><tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Attribute</th>
+                    <th colspan="2">Interaktionen</th>
+                </tr></thead>
+                <tbody>
+                <tr>
+                    <td>01</td>
+                    <td>PC</td>
+                    <td>Prozessor, Grafikkarte, Maus </td>
+                    <td class="table__action">Bearbeiten</td>
+                    <td class="table__action">Löschen</td>
+                </tr>
+                <tr>
+                    <td>02</td>
+                    <td>Drucker</td>
+                    <td>Bunt, Laser, Scanner</td>
+                    <td class="table__action">Bearbeiten</td>
+                    <td class="table__action">Löschen</td>
+                </tr>
+                <tr>
+                    <td>03</td>
+                    <td>Beamer</td>
+                    <td>Eingang, Lautsprecher</td>
+                    <td class="table__action">Bearbeiten</td>
+                    <td class="table__action">Löschen</td>
+                </tr>
+                </tbody>
+            </table>
+            <p class="table__hint">Scrollbar ></p>
+
             <h3>Formulare</h3>
 
             <form action="" class="form">
-                <h4>Dummy</h4>
-
-                <dl>
-                    <dt>
-                        <label for="inputdummy">Inputdummy</label>
-                    </dt>
-                    <dd>
-                        <input name="inputdummy" id="inputdummy">
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        <label for="selectdummy">Selectdummy</label>
-                    </dt>
-                    <dd>
-                        <select name="selectdummy" id="selectdummy">
-                            <option value="">Hallo</option>
-                            <option value="">Welt</option>
-                        </select>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        <label for="textdummy">Textdummy</label>
-                    </dt>
-                    <dd>
-                        <textarea rows="5" name="textdummy" id="textdummy" ></textarea>
-                    </dd>
-                </dl>
-
-                <input type="reset" class="button button--grey">
-                <input type="submit" class="button button--primary" value="Abschicken">
-            </form>
-
-            <hr>
-
-            <form action="{{ url('room_create') }}" method="post" class="form">
                 <h4>Neuer Raum</h4>
                 <dl>
                     <dt>
-                        <label for="number">Raum Nummer</label>
+                        <label for="roomnumber">Raum Nummer</label>
                     </dt>
                     <dd>
-                        <input name="number" id="number">
+                        <input name="roomnumber" id="roomnumber">
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        <label for="description">Raum Bezeichnung</label>
+                        <label for="roomname">Raum Bezeichnung</label>
                     </dt>
                     <dd>
-                        <input name="description" id="description">
+                        <input name="roomname" id="roomname">
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        <label for="note">Notiz zum Raum</label>
+                        <label for="r_notiz">Notiz zum Raum</label>
                     </dt>
                     <dd>
-                        <textarea rows="5" name="note" id="note"></textarea>
+                        <textarea rows="5" name="r_notiz" id="r_notiz"></textarea>
                     </dd>
                 </dl>
 
@@ -159,7 +195,7 @@
 
             <hr>
 
-            <form action="{{ url("component_kind_create") }}" class="form">
+            <form action="" class="form">
                 <h4>Neue Komponentenart</h4>
                 <dl>
                     <dt>
@@ -220,21 +256,52 @@
                         <input name="k_attributwert5" id="k_attributwert5">
                     </dd>
                 </dl>
+                <dl>
+                    <dt>
+                        <label for="k_attributwert6">Attributname 6</label>
+                    </dt>
+                    <dd>
+                        <input name="k_attributwert6" id="k_attributwert6">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="k_attributwert7">Attributname 7</label>
+                    </dt>
+                    <dd>
+                        <input name="k_attributwert7" id="k_attributwert7">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="k_attributwert8">Attributname 8</label>
+                    </dt>
+                    <dd>
+                        <input name="k_attributwert8" id="k_attributwert8">
+                    </dd>
+                </dl>
                 <input type="reset" class="button button--grey">
                 <input type="submit" class="button button--primary" value="Abschicken">
             </form>
 
             <hr>
 
-            <form action="{{ url("room_create") }}" method="post" class="form">
+            <form action="" class="form">
                 <h4>Neue Komponente</h4>
-
                 <dl>
                     <dt>
-                        <label for="k_name">Komponentenname</label>
+                        <label for="k_name">Komponentenkennung</label>
                     </dt>
                     <dd>
                         <input name="k_name" id="k_name">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="k_anzahl">Anzahl der zu erstellenden Komponenten</label>
+                    </dt>
+                    <dd>
+                        <input name="k_anzahl" id="k_anzahl" type="number">
                     </dd>
                 </dl>
                 <dl>
@@ -293,9 +360,11 @@
                 </dl>
 
                 <p class="table__hint">Speichern um Attributwerte hinzuzufügen</p>
+                <div class="form__button-wrap">
 
-                <input type="reset" class="button button--grey">
-                <input type="submit" class="button button--primary" value="Abschicken">
+                    <input type="reset" class="button button--grey">
+                    <input type="submit" class="button button--primary" value="Abschicken">
+                </div>
             </form>
 
             <hr>
@@ -348,38 +417,32 @@
             </form>
 
             <hr>
+
+            <form action="" class="form">
+                <h4>Login</h4>
+                <dl>
+                    <dt>
+                        <label for="b_mail">E-Mail</label>
+                    </dt>
+                    <dd>
+                        <input name="b_mail" id="b_mail">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="b_password">Passwort</label>
+                    </dt>
+                    <dd>
+                        <input name="b_password" id="b_password" type="password">
+                    </dd>
+                </dl>
+
+                <p class="form__hint">Bei Problemen wenden Sie sich an einen Systembetreuer</p>
+
+                <input type="reset" class="button button--grey">
+                <input type="submit" class="button button--primary" value="Login">
+            </form>
         </main>
 
-    </div>
-
-    <div class="wrap wrap--footer">
-        <footer class="footer">
-            <div class="footer__content">
-                <h4 class="footer__headline">Teilnehmer</h4>
-                <div class="footer__container">
-                    <div class="footer__panel">
-                        <p>Marina Saueressig</p>
-                        <p>Thomas Schäfer</p>
-                        <p>Bettina Schuller</p>
-                        <p>Jolanda Wilfer</p>
-                        <p>Fabian Heckl</p>
-                        <p>Fabian Reymann</p>
-                        <p>Moritz Obermeyer</p>
-                    </div>
-                    <div class="footer__panel">
-                        <p>Pascal Tillner</p>
-                        <p>Henrik Elsner</p>
-                        <p>Julius Noack</p>
-                        <p>Michael Stadelmann</p>
-                        <p>David Vo</p>
-                        <p>Colin Loos</p>
-                        <p>Leopold Fuchs</p>
-                    </div>
-                </div>
-                <div class="footer__copyright">
-                    <p>© Copyright 2017 B3 Team 2</p>
-                </div>
-            </div>
-        </footer>
     </div>
 {% endblock %}
