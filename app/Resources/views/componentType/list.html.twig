@@ -15,13 +15,15 @@
                 <tr>
                     <td>{{ componenttype.getType() }}</td>
                     <td>{{ componenttype.getAttributeNames() }}</td>
-                    <td class="table__action"><a href="{{ url('component_kind_edit') }}">Bearbeiten</a></td>
-                    <td class="table__action"><a href="{{ url('') }}">Löschen</a></td>
+                    <td class="table__action"><a href="{{ url('component_kind_edit', {"id": componenttype.getId()}) }}">Bearbeiten</a></td>
+                    <td class="table__action"><a href="{{ url('component_kind_delete', {"id": componenttype.getId()}) }}">Löschen</a></td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
         <p class="table__hint">Scrollbar ></p>
+        <hr>
+        <a href="{{ url('component_kind_create') }}" class="button button--primary">Neuen Komponentenart erstellen</a>
     </main>
  </div>
 {% endblock %}

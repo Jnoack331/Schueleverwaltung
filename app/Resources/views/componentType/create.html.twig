@@ -3,18 +3,18 @@
 {% block body %}
 <div class="wrap wrap--content">
     <main>
-        <form action="{{ url('component_kind_create') }}"  method="post" class="form">
+        <form  method="post" class="form">
             <h4>Neue Komponentenart</h4>
             <dl>
                 <dt>
-                    <label for="ka_art">Komponentenart</label>
+                    <label for="kind">Komponentenart</label>
                 </dt>
                 <dd>
-                    <input name="ka_art" id="ka_art">
+                    <input name="kind" id="kind">
                 </dd>
             </dl>
 
-            <p class="table__hint">Speichern um Attribute hinzuzufügen</p>
+            <p class="table__hint">Speichern um Komponenten Art hinzuzufügen</p>
 
             <input type="reset" class="button button--grey">
             <input type="submit" class="button button--primary" value="Abschicken">
