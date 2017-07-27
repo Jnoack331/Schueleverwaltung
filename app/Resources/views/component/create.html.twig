@@ -4,6 +4,16 @@
     <a href="{{ path('component_index') }}" class="button button--white">Zurück zur Ansicht</a>
     <h1>Komponente erstellen</h1>
         <form action="" method="post" class="form">
+
+            <dl>
+                <dt>
+                    <label for="amount">Anzahl</label>
+                </dt>
+                <dd>
+                    <input name="amount" id="amount" type="number" value="1" min="1">
+                </dd>
+            </dl>
+
             <dl>
                 <dt>
                     <label for="name">Komponentenkennung</label>

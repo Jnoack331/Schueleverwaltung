@@ -39,7 +39,12 @@ class ReportingController extends Controller
                 'filter' => $filter
             ]);
         }catch (Exception $exception){
-
+            return $this->render('reporting/index.html.twig', [
+                'rooms' => array(),
+                'types' => array(),
+                'filter' => array(),
+                'message' => "Fehler beim Laden"
+            ]);
         }
 
     }
@@ -61,7 +66,7 @@ class ReportingController extends Controller
                 'components' => $components
             ]);
         }catch (Exception $ex){
-            //TODO: THIS
+            return $this->redirectToRoute('reporting_index');
         }
 
     }

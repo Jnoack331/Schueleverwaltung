@@ -89,18 +89,31 @@ class ComponentController extends Controller
                 );
             }
             try{
-                $id = ComponentRepository::createComponent($component);
-                $component->setId($id);
-                //get attributes
-                $attributes = $component->getAttributes();
-                /** @var Attribute $attribute */
-                foreach ($attributes as $attribute) {
-                    //create attribute values
-                    $attribute_value = new AttributeValue();
-                    $attribute_value->setId($component->getId());
-                    $attribute_value->setAttributeId($attribute->getId());
-                    $attribute_value->setValue("");
-                    AttributeValueRepository::createAttributeValue($attribute_value);
+                // parse amount to create
+                $amount = intval($req->get("amount"));
+                if($amount){
+                    if($amount < 1){
+                        $amount = 1;
+                    }
+                }else{
+                    $amount = 1;
+                }
+                //create multiple components
+                for($i = 0; $i < $amount; $i++){
+                    $component->setName($req->get("name") . "-" . ($i+1));
+                    $id = ComponentRepository::createComponent($component);
+                    $component->setId($id);
+                    //get attributes
+                    $attributes = $component->getAttributes();
+                    /** @var Attribute $attribute */
+                    foreach ($attributes as $attribute) {
+                        //create attribute values
+                        $attribute_value = new AttributeValue();
+                        $attribute_value->setId($component->getId());
+                        $attribute_value->setAttributeId($attribute->getId());
+                        $attribute_value->setValue("");
+                        AttributeValueRepository::createAttributeValue($attribute_value);
+                    }
                 }
                 return $this->redirectToRoute("component_edit", array("id" => $id));
             }catch (Exception $exception){
