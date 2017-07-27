@@ -300,27 +300,22 @@ a {
   cursor: pointer;
   transition: 0.25s ease-in-out;
   padding: 0; }
-  @media only screen and (max-width: 57rem) {
-    /* line 79, Scss/elements/_dropdown.scss */
-    .dropdown__toggle {
-      position: relative;
-      top: .2rem; } }
   @media only screen and (min-width: 57rem) {
     /* line 79, Scss/elements/_dropdown.scss */
     .dropdown__toggle {
       width: 1em; } }
-  /* line 98, Scss/elements/_dropdown.scss */
+  /* line 93, Scss/elements/_dropdown.scss */
   .dropdown .dropdown__toggle {
     margin: 0;
     line-height: 0; }
-  /* line 103, Scss/elements/_dropdown.scss */
+  /* line 98, Scss/elements/_dropdown.scss */
   .state:checked ~ .dropdown__toggle {
     transform: rotate(45deg); }
-  /* line 107, Scss/elements/_dropdown.scss */
+  /* line 102, Scss/elements/_dropdown.scss */
   .dropdown__toggle:before {
     color: #000;
     content: url("../../Images/angle-down.svg"); }
-    /* line 111, Scss/elements/_dropdown.scss */
+    /* line 106, Scss/elements/_dropdown.scss */
     .dropdown .dropdown__toggle:before {
       color: #0688c1; }
 
