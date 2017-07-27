@@ -21,25 +21,25 @@
                 <input name="email" id="email" value="">
             </dd>
 
-            <dt>
-                <label for="plain_password">Passwort:</label>
-            </dt>
-            <dd>
-                <input name="plain_password" id="plain_password" value="" type="password">
-            </dd>
+                <dt>
+                    <label for="role">Rolle</label>
+                </dt>
+                <dd>
+                    <select name="role" id="role">
+                        <option value="ROLE_ADMIN">Systembetreuer</option>
+                        <option value="ROLE_AZUBI">Azubi</option>
+                        <option value="ROLE_MANAGE">Verwaltung</option>
+                        <option value="ROLE_TEACHER">Lehrer</option>
+                    </select>
+                </dd>
 
-            <dt>
-                <label for="role">Rolle:</label>
-            </dt>
-            <dd>
-                <select name="role" id="role">
-                    <option value="ROLE_ADMIN">Systembetreuer</option>
-                    <option value="ROLE_AZUBI">Azubi</option>
-                    <option value="ROLE_MANAGE">Verwaltung</option>
-                    <option value="ROLE_TEACHER">Lehrer</option>
-                </select>
-            </dd>
-        </dl>
+                <dt>
+                    <label for="plain_password">Passwort:</label>
+                </dt>
+                <dd>
+                    <input name="plain_password" id="plain_password" value="" type="password">
+                </dd>
+            </dl>
 
         <div class="form__button-wrap">
             <input type="submit" class="button button--primary" value="Erstellen">

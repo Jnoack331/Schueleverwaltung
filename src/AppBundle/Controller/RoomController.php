@@ -21,9 +21,6 @@ class RoomController extends AbstractController {
         try {
             $rooms = RoomRepository::getAllRooms();
         } catch (Exception $e) {
-            return $this->render("room/list.html.twig", [
-               "message" => "Fehler beim Laden der Räume"
-            ]);
             return $this->renderError("room_view", $e);
         }
         return $this->render("room/list.html.twig", ["rooms" => $rooms]);
@@ -86,8 +83,8 @@ class RoomController extends AbstractController {
                 return $this->renderError("room/detail.html.twig", $e);
             }
 
-            return $this->render("room/detail.html.twig", [
-                "room" => $room,
+            return $this->redirectToRoute("room_list", [
+                "message" => "Raum wurde erfolgreich bearbeitet"
             ]);
         }
     }
@@ -96,18 +93,20 @@ class RoomController extends AbstractController {
      * @Route("/room/delete/{id}", name="room_delete", requirements={"id": "\d+"})
      */
     public function deleteAction($id, Request $req) {
-        if (RoomRepository::canRoomBeDeleted($id)) {
-            try {
+        try {
+            if (RoomRepository::canRoomBeDeleted($id)) {
                 RoomRepository::deleteRoomById($id);
-            } catch (Exception $e) {
-                return $this->renderError("room/list.html.twig", $e);
+            } else {
+                return $this->render("room/detail.html.twig", [
+                    "message" => "Der Raum kann nicht gelöscht werden, da ihm Komponenten zugeordnet sind"
+                ]);
             }
-        } else {
-            return $this->render("KEIN_PLAN", [
-               "message" => "Der Raum kann nicht gelöscht werden, da ihm Komponenten zugeordnet sind"
-            ]);
+        } catch (Exception $e) {
+            return $this->renderError("room/list.html.twig", $e);
         }
 
-        return $this->redirectToRoute("room_list");
+        return $this->redirectToRoute("room_list", [
+            "message" => "Raum wurde erfolgreich gelöscht"
+        ]);
     }
 }

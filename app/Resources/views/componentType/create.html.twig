@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="wrap wrap--content">
+    <main>
+        <form  method="post" class="form">
+            <h4>Neue Komponentenart</h4>
+            <dl>
+                <dt>
+                    <label for="kind">Komponentenart</label>
+                </dt>
+                <dd>
+                    <input name="kind" id="kind">
+                </dd>
+            </dl>
+
+            <p class="table__hint">Speichern um Komponenten Art hinzuzufügen</p>
+
+            <input type="reset" class="button button--grey">
+            <input type="submit" class="button button--primary" value="Abschicken">
+        </form>
+    </main>
+</div>
+{% endblock %}

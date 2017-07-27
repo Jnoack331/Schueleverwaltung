@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="wrap wrap--content">
+        <main>
+            {% if message is defined %}
+                <h3>{{ message }}</h3>
+            {% endif %}
+            <form action="" method="post" class="form">
+                <h4>Neue Komponente</h4>
+
+                <dl>
+                    <dt>
+                        <label for="name">Komponentenkennung</label>
+                    </dt>
+                    <dd>
+                        <input name="name" id="name">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="room_id">Raum</label>
+                    </dt>
+                    <dd>
+                        <select name="room_id" id="room_id" {% if not rooms %}disabled{% endif %}>
+                            {% if not rooms %}
+                                <option value="-1">Keine Räume vorhanden</option>
+                            {% endif %}
+                            {% for room in rooms %}
+                                <option value="{{ room.id }}">{{ room.number }} - {{ room.description }}</option>
+                            {% endfor %}
+                        </select>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="buy_date">Einkaufsdatum</label>
+                    </dt>
+                    <dd>
+                        <input name="buy_date" id="buy_date" type="date" value="{{ "now"|date("Y-m-d") }}">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="warranty">Gewährleistungsdauer in Monaten</label>
+                    </dt>
+                    <dd>
+                        <input name="warranty" id="warranty" type="number">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="note">Notiz zur Komponente</label>
+                    </dt>
+                    <dd>
+                        <textarea rows="5" name="note" id="note"></textarea>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="producer">Hersteller</label>
+                    </dt>
+                    <dd>
+                        <input name="producer" id="producer">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        <label for="type_id">Komponentenart</label>
+                    </dt>
+                    <dd>
+                        <select name="type_id" id="type_id" {% if not types %}disabled{% endif %}>
+                            {% if not types %}
+                                <option value="-1">Keine Komponentypen vorhanden</option>
+                            {% endif %}
+                            {% for type in types %}
+                                <option value="{{ type.id }}">{{ type.type }}</option>
+                            {% endfor %}
+                        </select>
+                    </dd>
+                </dl>
+
+                <p class="table__hint">*Speichern um Attributwerte hinzuzufügen</p>
+
+                <a href="{{ path('component_index') }}" class="button button--grey">Zurück</a>
+                <input type="submit" class="button button--primary" value="Abschicken">
+            </form>
+
+        </main>
+    </div>
+
+
+
+{% endblock %}

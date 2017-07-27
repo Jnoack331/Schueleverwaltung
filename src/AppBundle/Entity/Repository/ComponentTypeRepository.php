@@ -14,8 +14,11 @@ namespace AppBundle\Entity\Repository;
 
 
 use AppBundle\Entity\AbstractEntity;
+use AppBundle\Entity\Attribute;
 use AppBundle\Entity\ComponentType;
 use AppBundle\Entity\ManagedConnection;
+use Doctrine\Bundle\DoctrineCacheBundle\Tests\Acl\Domain\AclCacheTest;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 class ComponentTypeRepository
 {

@@ -5,9 +5,14 @@
 namespace AppBundle\Entity;
 
 
+use AppBundle\Entity\Repository\AttributeRepository;
+use AppBundle\Entity\Repository\AttributeValueRepository;
+use AppBundle\Entity\Repository\ComponentTypeRepository;
 use AppBundle\Entity\Repository\RoomRepository;
+use Doctrine\ORM\Tools\Export\ExportException;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
-class Component extends AbstractEntity
+class Component extends AbstractEntity implements ValidatingEntity
 {
     private $roomId;
     private $supplierId;
@@ -151,8 +156,18 @@ class Component extends AbstractEntity
      */
     public function getRoom()
     {
-        return RoomRepository::getRoomById($this->getId());
+        return RoomRepository::getRoomById($this->getRoomId());
     }
+
+    /**
+     * @return ComponentType|null
+     */
+    /*
+    public function getComponentType(){
+        return ComponentTypeRepository::getComponentTypeById($this->getComponentTypeId());
+    }
+    */
+
     /**
      * Obtains the supplier
      * of this software component by accessing the database.
@@ -200,8 +215,12 @@ class Component extends AbstractEntity
         return $supplier;
     }
 
-    public function GetComponentType()
+    //TODO: checken ob das nicht doch noch gebraucht wird
+
+    public function getComponentType()
     {
+        return ComponentTypeRepository::getComponentTypeById($this->getComponentTypeId());
+        /*
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
 
@@ -235,11 +254,13 @@ class Component extends AbstractEntity
         $componentType->setType($row["ka_komponentenart"]);
 
         return $componentType;
+        */
     }
+
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function getComponentAttributeValues()
     {
@@ -278,5 +299,49 @@ class Component extends AbstractEntity
         }
 
         return $attributeValues;
+    }
+
+    public function deleteAttributeValues(){
+        //get old attribute values
+        $old_attribute_values = $this->getComponentAttributeValues();
+        //delete old attribute values
+        foreach ($old_attribute_values as $old_attribute_value) {
+            AttributeValueRepository::deleteAttributeValue($old_attribute_value);
+        }
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function getAttributes(){
+        return AttributeRepository::getAttributesByComponentTypeId($this->getId());
+    }
+
+    public function getAttributeValueByAttributeId($attribute_id){
+        $value =  AttributeValueRepository::getAttributeValue($this->getId(), $attribute_id);
+        if(!$value){
+            return new AttributeValue();
+        }else{
+            return $value;
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function validate(){
+        if($this->getName() == null || $this->getName() == ""){
+            throw new Exception("Bitte geben Sie eine Kennung an");
+        }
+        if($this->getRoom() === null){
+            throw new Exception("Bitte geben Sie einen gültigen Raum an");
+        }
+        if($this->getPurchaseDate() === null){
+            throw new Exception("Bitte geben Sie ein gültiges Datum an");
+        }
+        if($this->GetComponentType() === null){
+            throw new Exception("Bitte geben Sie eine gültige Komponentenart an");
+        }
     }
 }

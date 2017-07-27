@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/app/js/AttributeTypes.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+<div class="wrap wrap--content">
+
+    <main>
+        <form method="post" class="form">
+            <h4>Komponentenart bearbeiten</h4>
+            <dl>
+                <dt>
+                    <label for="type">Komponentenart</label>
+                </dt>
+                <dd>
+                    <input name="type" id="type" value="{{ componenttype.type }}">
+                </dd>
+            </dl>
+            <div id="valueWrapper">
+                {% set lastLoopId = 0 %}
+                {% for attribut in attributes %}
+                    <dl>
+                        <dt>
+                            <label for="k_attributwert{{ loop.index }}">Attributname {{ loop.index }}</label>
+                        </dt>
+                        <dd>
+                            <input name="attributevalues[]" id="k_attributwert{{ loop.index }}">
+                        </dd>
+                    </dl>
+                    {% set lastLoopId = loop.index %}
+                {% endfor %}
+            </div>
+            <input type="button" id="newValue" class="button button--white" value="Neuen Wert anlegen">
+            <input type="reset" class="button button--grey">
+            <input type="submit" class="button button--primary" value="Abschicken">
+        </form>
+    </main>
+</div>
+{% endblock %}

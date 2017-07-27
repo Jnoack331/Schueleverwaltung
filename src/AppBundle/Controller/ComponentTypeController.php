@@ -6,11 +6,14 @@ namespace AppBundle\Controller;
  * Controller for ComponentType View.
  */
 use AppBundle\Entity\ComponentType;
+use AppBundle\Entity\Repository\AttributeRepository;
 use AppBundle\Entity\Repository\ComponentTypeRepository;
+use Doctrine\Common\Annotations\Annotation\Attribute;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\VarDumper\VarDumper;
 
 class ComponentTypeController extends AbstractController {
     /**
@@ -22,13 +25,14 @@ class ComponentTypeController extends AbstractController {
         try {
             $componentTypes = ComponentTypeRepository::getAllComponentTypes();
         } catch (Exception $e) {
-            return $this->renderError("component_kind_index", $e);
+            return $this->renderError("componentType/list.html.twig", $e);
         }
 
-        return $this->render("component_kind_index", ["types" => $componentTypes]);
+        return $this->render("componentType/list.html.twig", ["componenttypes" => $componentTypes]);
     }
 
     /**
+     * Fetches the object identified by $id from the database
      * Fetches the object identified by $id from the database
      * Edits the object with the data passed in $req
      * Saves the edited object back into the database
@@ -38,15 +42,14 @@ class ComponentTypeController extends AbstractController {
     public function editAction($id, Request $req) {
         try {
             $componentType = ComponentTypeRepository::getComponentTypeById($id);
-            $attributes = $componentType->getAttributes();
         } catch (Exception $e) {
-            return $this->renderError("component_kind_index", $e);
+            return $this->renderError("componentType/list.html.twig", $e);
         }
 
         if ($req->getMethod() === "GET") {
-            return $this->render("edit_component_types", [
-                "type"       => $componentType->getType(),
-                "attributes" => $attributes
+            return $this->render("componentType/detail.html.twig", [
+                "componenttype"       => $componentType,
+                "attributes"          => $componentType->getAttributes(),
             ]);
         } else {
             $componentType->setType($req->get("type"));
@@ -55,11 +58,28 @@ class ComponentTypeController extends AbstractController {
                 $componentType->validate();
                 ComponentTypeRepository::updateComponentType($componentType);
             } catch (Exception $e) {
-                return $this->renderError("component_kind_edit", $e);
+                return $this->renderError("componentType/detail.html.twig", $e);
             }
 
-            return $this->redirectToRoute("component_kind_index", []);
+            return $this->redirectToRoute("component_kind_index", [
+                "message" => "Komponentenkategorie wurde erfolgreich bearbeitet"
+            ]);
         }
+    }
+
+    /**
+     * @Route("/component_kind/attribute/delete/{id}", name="component_kind_delete_attr", requirements={"id": "\d+"})
+     */
+    public function deleteAttributeAction($id, Request $req) {
+        try {
+            if (AttributeRepository::canAttributeBeDeleted($id)) {
+                AttributeRepository::deleteAttributeById($id);
+            }
+        } catch (Exception $e) {
+            return $this->renderError("componentType/detail.html.twig", $e);
+        }
+
+        return $this->redirectToRoute("component_kind_edit");
     }
 
     /**
@@ -70,14 +90,39 @@ class ComponentTypeController extends AbstractController {
      * @Route("/component_kind/create", name="component_kind_create")
      */
     public function createAction(Request $req) {
-        $componentType = new ComponentType();
-        $componentType->setType($req->get("kind"));
-
-        try {
-            $componentType->validate();
-            ComponentTypeRepository::createComponentType($componentType);
-        } catch (Exception $e) {
-            return $this->renderError("component_kind_index", $e);
+        if ($req->getMethod() === "GET") {
+            return $this->render('componentType/create.html.twig');
+        } else {
+            try {
+                $componentType = new ComponentType();
+                $componentType->setType($req->get("kind"));
+                $componentType->validate();
+                $id = ComponentTypeRepository::createComponentType($componentType);
+            } catch (Exception $e) {
+                return $this->renderError("componentType/create.html.twig", $e);
+            }
+            return $this->redirectToRoute('component_kind_edit', ['id' => $id]);
         }
+
+        return $this->redirectToRoute("component_kind_index", [
+            "message" => "Komponentenkategorie erfolgreich erstellt"
+        ]);
+    }
+
+    /**
+     * @Route("/component_kind/delete/{id}", name="component_kind_delete")
+     */
+    public function deleteAction($id, Request $req) {
+        try {
+            if (ComponentTypeRepository::canComponentTypeBeDeleted($id)) {
+                ComponentTypeRepository::deleteComponentTypeById($id);
+            }
+        } catch (Exception $e) {
+            return $this->renderError("componentType/list.html.twig", $e);
+        }
+
+        return $this->redirectToRoute("component_kind_index", [
+            "message" => "Komponentenkategorie erfolgreich gelöscht"
+        ]);
     }
 }

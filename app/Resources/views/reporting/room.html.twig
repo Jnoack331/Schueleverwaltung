@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="wrap wrap--content">
+        <main>
+            <h4>Komponenten in "{{ room.number }}" ({{ room.description }})</h4>
+
+            <a href="{{ path('reporting_index') }}" class="button button--primary">Zurück</a>
+            <table>
+                <thead><tr>
+                    <th>Kennung</th>
+                    <th>Typ</th>
+                    <th>Hersteller</th>
+                </tr></thead>
+                <tbody>
+                {% for component in components %}
+                    <tr>
+                        <td style="min-width: 200px;">{{ component.name }}</td>
+                        <td style="min-width: 200px;">{{ component.GetComponentType().type}}</td>
+                        <td style="min-width: 200px;">{{ component.producer}}</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+            <p class="table__hint">Scrollbar ></p>
+
+        </main>
+    </div>
+
+
+
+{% endblock %}
