@@ -319,22 +319,32 @@ a {
     .dropdown .dropdown__toggle:before {
       color: #0688c1; }
 
-/* line 1, Scss/elements/_handler.scss */
-.handler {
-  max-width: 12rem;
+/* line 1, Scss/elements/_alert.scss */
+.alert {
   height: auto;
-  padding: 10px;
-  text-align: center; }
+  text-align: center;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px; }
 
-/* line 8, Scss/elements/_handler.scss */
-.handler--warning {
-  background: #d04646;
-  color: #fff; }
+/* line 10, Scss/elements/_alert.scss */
+.alert--warning {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #a94442; }
 
-/* line 13, Scss/elements/_handler.scss */
-.handler--success {
-  background: #35ba35;
-  color: #fff; }
+/* line 16, Scss/elements/_alert.scss */
+.alert--success {
+  color: #3c763d;
+  background: #dff0d8;
+  border-color: #3c763d; }
+
+/* line 22, Scss/elements/_alert.scss */
+.alert--neutral {
+  color: #4f4f4f;
+  background: gainsboro;
+  border-color: #4f4f4f; }
 
 /* line 1, Scss/elements/_top-bar.scss */
 .top-bar {

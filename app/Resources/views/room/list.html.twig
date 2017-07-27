@@ -1,28 +1,23 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-<div class="wrap wrap--content">
-    <main>
-        <h1>R&auml;ume</h1>
-        <table>
-            <thead><tr>
-                <th>Raum-Nr</th>
-                <th>Bezeichnung</th>
-                <th colspan="2">Interaktionen</th>
-            </tr></thead>
-            <tbody>
-            {% for room in rooms %}
-                <tr>
-                    <td>{{ room.getNumber() }}</td>
-                    <td>{{ room.getDescription() }}</td>
-                    <td class="table__action"><a href="{{ url('room_detail', {"id": room.getId()}) }}">Bearbeiten</a></td>
-                    <td class="table__action"><a href="{{ url('room_delete', {"id": room.getId()}) }}">Löschen</a></td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        <hr>
-        <a href="{{ url('room_create') }}" class="button button--primary">Neuen Raum erstellen</a>
-    </main>
- </div>
+    <h1>R&auml;ume</h1>
+    <a href="{{ url('room_create') }}" class="button button--primary">Neuen Raum erstellen</a>
+    <table>
+        <thead><tr>
+            <th>Raum-Nr</th>
+            <th>Bezeichnung</th>
+            <th colspan="2">Interaktionen</th>
+        </tr></thead>
+        <tbody>
+        {% for room in rooms %}
+            <tr>
+                <td>{{ room.getNumber() }}</td>
+                <td>{{ room.getDescription() }}</td>
+                <td class="table__action"><a href="{{ url('room_detail', {"id": room.getId()}) }}">Bearbeiten</a></td>
+                <td class="table__action"><a href="{{ url('room_delete', {"id": room.getId()}) }}">Löschen</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
