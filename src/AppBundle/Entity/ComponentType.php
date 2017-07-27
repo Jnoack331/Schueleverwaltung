@@ -106,11 +106,11 @@ class ComponentType extends AbstractEntity implements ValidatingEntity {
             return NULL;
         }
 
-        $attributeNames = $firstRow["ka_komponentenart"];
+        $attributeNames = $firstRow["kat_bezeichnung"];
 
         while($row = $result->fetch_assoc())
         {
-            $attributeNames .= "," . $row["ka_komponentenart"];
+            $attributeNames .= "," . $row["kat_bezeichnung"];
         }
 
         return $attributeNames;

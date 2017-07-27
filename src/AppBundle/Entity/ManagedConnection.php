@@ -15,7 +15,7 @@ class ManagedConnection
 {
     private $host = "127.0.0.1";
     private $user = "root";
-    private $password = "123456";
+    private $password = "";
     private $database = "itverwaltung";
     private $conn;
 

@@ -17,6 +17,7 @@ use AppBundle\Entity\Attribute;
 use AppBundle\Entity\Component;
 use AppBundle\Entity\ManagedConnection;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\VarDumper\VarDumper;
 
 class AttributeRepository
 {
@@ -219,7 +220,7 @@ class AttributeRepository
         $managedConn = new ManagedConnection();
         $conn = $managedConn->getConnection();
 
-        $query = $conn->prepare("DELETE FROM komponentenattribute WHERE kat_id = ?;");
+        $query = $conn->prepare("DELETE FROM komponente_hat_attribute WHERE komponentenattribute_kat_id = ?;");
 
         $attributeId = 0;
         $query->bind_param("i", $attributeId);
@@ -228,6 +229,23 @@ class AttributeRepository
 
         $query->execute();
 
+        $query = $conn->prepare("DELETE FROM wird_beschrieben_durch WHERE komponentenattribute_kat_id = ?;");
+
+        $attributeId = 0;
+        $query->bind_param("i", $attributeId);
+
+        $attributeId = $id;
+
+        $query->execute();
+
+        $query = $conn->prepare("DELETE FROM komponentenattribute WHERE kat_id = ?;");
+
+        $attributeId = 0;
+        $query->bind_param("i", $attributeId);
+
+        $attributeId = $id;
+
+        $query->execute();
         if($query->error) {
             $query->close();
             throw new Exception("Löschen des Attributs fehlgeschlagen");

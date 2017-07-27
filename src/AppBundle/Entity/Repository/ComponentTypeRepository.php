@@ -18,7 +18,7 @@ use AppBundle\Entity\Attribute;
 use AppBundle\Entity\ComponentType;
 use AppBundle\Entity\ManagedConnection;
 use Doctrine\Bundle\DoctrineCacheBundle\Tests\Acl\Domain\AclCacheTest;
-use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\VarDumper\VarDumper;
 
 class ComponentTypeRepository
 {
@@ -174,7 +174,7 @@ class ComponentTypeRepository
         $connection = $managedConnection->getConnection();
 
         // select 'wird_beschrieben_durch' rows with the id of Component Type
-        $query = $connection->prepare("SELECT * FROM wird_beschrieben_durch WHERE komponentenarten_ka_id = ?");
+        $query = $connection->prepare("SELECT komponentenattribute_kat_id FROM wird_beschrieben_durch WHERE komponentenarten_ka_id = ?");
         $componentTypeId = 0;
         $query->bind_param("i", $componentTypeId);
         $componentTypeId = $id;
@@ -184,18 +184,6 @@ class ComponentTypeRepository
         $query->close();
         // ---
 
-        while($row = $result->fetch_assoc())
-        {
-            // delete component attributes
-            $query = $connection->prepare("DELETE FROM komponentenattribute WHERE kat_id = ?");
-            $attributeId = 0;
-            $query->bind_param("i", $attributeId);
-            $attributeId = $row["komponentenattribute_kat_id"];
-            $query->execute();
-            if($query->error) {$query->close(); throw new \Exception("Selektieren der Attribute fehlgeshlagen");}
-            $query->close();
-            // ---
-        }
 
         // delete linking table rows between 'komponentenarten' and 'Komponentenattribute'
         $query = $connection->prepare("DELETE FROM wird_beschrieben_durch WHERE komponentenarten_ka_id = ?");
@@ -207,15 +195,27 @@ class ComponentTypeRepository
         $query->close();
         // ---
 
+        $row = $result->fetch_assoc();
+        // delete component attributes
+        $query = $connection->prepare("DELETE FROM komponentenattribute WHERE kat_id = ?");
+        $attributeId = 0;
+        $query->bind_param("i", $attributeId);
+        $attributeId = $row["komponentenattribute_kat_id"];
+        $query->execute();
+        if($query->error) {$query->close(); throw new \Exception("Selektieren der Attribute fehlgeshlagen");}
+        $query->close();
+
         // delete Component Types
         $query = $connection->prepare("DELETE FROM komponentenarten WHERE ka_id = ?;");
         $componentTypeId = 0;
         $query->bind_param("i", $componentTypeId);
         $componentTypeId = $id;
         $query->execute();
+        VarDumper::dump($query->error);
         if($query->error) {$query->close(); throw new \Exception("Löschen der Komponentenarten fehlgeschlagen");}
         $query->close();
         // ---
+
     }
 
     /**
@@ -237,12 +237,10 @@ class ComponentTypeRepository
         if($query->error) {$query->close(); throw new \Exception("Selektieren der Komponentenarten fehlgeschlagen");}
         $result = $query->get_result();
         $query->close();
-
-        if($row = $result->fetch_assoc())
+        $row = $result->fetch_assoc();
+        if(!empty($row))
         {
-            return false;
+            throw new \Exception("Komponentenart konnte nicht gel&ouml;scht werden");
         }
-
-        return true;
     }
 }

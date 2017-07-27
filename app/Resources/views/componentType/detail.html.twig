@@ -18,17 +18,16 @@
             </dd>
         </dl>
         <div id="valueWrapper">
-            {% set lastLoopId = 0 %}
-            {% for attribut in attributes %}
+            {% for attribute in attributes %}
                 <dl>
                     <dt>
-                        <label for="k_attributwert{{ loop.index }}">Attributname {{ loop.index }}</label>
+                        <label for="k_attributwert">Attributname</label>
                     </dt>
                     <dd>
-                        <input name="attributevalues[]" id="k_attributwert{{ loop.index }}">
+                        <input name="attributevalues[{{ attribute.getId()}}][id]" type="hidden" value="{{ attribute.getId()}}">
+                        <input name="attributevalues[{{ attribute.getId()}}][name]" id="k_attributwert" value="{{ attribute.getName() }}">
                     </dd>
                 </dl>
-                {% set lastLoopId = loop.index %}
             {% endfor %}
         </div>
         <input type="button" id="newValue" class="button button--white" value="Neues Attribut hinzufügen">
