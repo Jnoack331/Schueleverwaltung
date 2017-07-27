@@ -126,6 +126,7 @@ class ComponentTypeController extends AbstractController {
             } catch (Exception $e) {
                 return $this->renderError("componentType/create.html.twig", $e);
             }
+            
             return $this->redirectToRoute('component_kind_edit', ['id' => $id]);
         }
     }
