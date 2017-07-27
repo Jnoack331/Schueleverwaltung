@@ -80,4 +80,19 @@ class ComponentTypeController extends AbstractController {
             return $this->renderError("component_kind_index", $e);
         }
     }
+
+    /**
+     * @Route("/component_kind/delete/{id}", name="component_kind_delete")
+     */
+    public function deleteAction($id, Request $req) {
+        try {
+            if (ComponentTypeRepository::canComponentTypeBeDeleted($id)) {
+                ComponentTypeRepository::deleteComponentTypeById($id);
+            }
+        } catch (Exception $e) {
+            return $this->renderError("componentType/list.html.twig", $e);
+        }
+
+        return $this->redirectToRoute("component_kind_index");
+    }
 }
