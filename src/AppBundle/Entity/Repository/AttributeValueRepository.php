@@ -75,8 +75,6 @@ class AttributeValueRepository
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
 
-        var_dump($attributeValue);
-
         $query = $connection->prepare("INSERT INTO komponente_hat_attribute(komponenten_k_id, komponentenattribute_kat_id, khkat_wert) VALUES (?, ?, ?);");
 
         $komp_id = 0;
@@ -93,7 +91,6 @@ class AttributeValueRepository
 
         if($query->error)
         {
-            var_dump($query->error);
             $query->close();
             throw new \Exception("Erstellen des Wertes fehlgeschlagen");
         }

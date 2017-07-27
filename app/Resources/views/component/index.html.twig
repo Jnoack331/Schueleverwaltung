@@ -21,7 +21,7 @@
                 <td>{{ component.GetComponentType().type }}</td>
                 <td>{{ component.roomid }}</td>
                 <td>{{ component.purchaseDate}}</td>
-                <td>{{ component.warrantyDuration }}</td>
+                <td>{{ component.warrantyDuration }} Monate</td>
                 <td>{{ component.producer }}</td>
                 <td class="table__action"><a href="{{ path('component_edit', {id: component.id}) }}">Bearbeiten</a></td>
                 <td class="table__action"><a href="{{ path('component_delete', {id: component.id}) }}">Löschen</a></td>

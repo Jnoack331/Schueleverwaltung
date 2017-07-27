@@ -29,40 +29,45 @@ a {
   margin-bottom: 0.75rem; }
 
 /* line 13, Scss/elements/_button.scss */
+.button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.3; }
+
+/* line 18, Scss/elements/_button.scss */
 .button--primary {
   background-color: #7DA9C5;
   color: #ffffff; }
-  /* line 16, Scss/elements/_button.scss */
+  /* line 21, Scss/elements/_button.scss */
   .button--primary:hover, .button--primary:focus {
     background: #0688c1; }
 
-/* line 22, Scss/elements/_button.scss */
+/* line 27, Scss/elements/_button.scss */
 .button--grey {
   background-color: grey;
   color: #ffffff; }
-  /* line 25, Scss/elements/_button.scss */
+  /* line 30, Scss/elements/_button.scss */
   .button--grey:hover, .button--grey:focus {
     background: #4f4f4f; }
 
-/* line 31, Scss/elements/_button.scss */
+/* line 36, Scss/elements/_button.scss */
 .button--white {
   font-size: 15px;
   background-color: white;
   border: 1px solid grey;
   color: #000000; }
-  /* line 36, Scss/elements/_button.scss */
+  /* line 41, Scss/elements/_button.scss */
   .button--white:hover, .button--white:focus {
     background: gainsboro; }
 
-/* line 42, Scss/elements/_button.scss */
+/* line 47, Scss/elements/_button.scss */
 .button--warning {
   background-color: #d04646;
   color: #fff; }
-  /* line 45, Scss/elements/_button.scss */
+  /* line 50, Scss/elements/_button.scss */
   .button--warning:hover, .button--warning:focus {
     background: #ba0000; }
 
-/* line 51, Scss/elements/_button.scss */
+/* line 56, Scss/elements/_button.scss */
 .button--small {
   min-width: 0;
   padding: .5rem; }
@@ -295,27 +300,22 @@ a {
   cursor: pointer;
   transition: 0.25s ease-in-out;
   padding: 0; }
-  @media only screen and (max-width: 57rem) {
-    /* line 79, Scss/elements/_dropdown.scss */
-    .dropdown__toggle {
-      position: relative;
-      top: .2rem; } }
   @media only screen and (min-width: 57rem) {
     /* line 79, Scss/elements/_dropdown.scss */
     .dropdown__toggle {
       width: 1em; } }
-  /* line 98, Scss/elements/_dropdown.scss */
+  /* line 93, Scss/elements/_dropdown.scss */
   .dropdown .dropdown__toggle {
     margin: 0;
     line-height: 0; }
-  /* line 103, Scss/elements/_dropdown.scss */
+  /* line 98, Scss/elements/_dropdown.scss */
   .state:checked ~ .dropdown__toggle {
     transform: rotate(45deg); }
-  /* line 107, Scss/elements/_dropdown.scss */
+  /* line 102, Scss/elements/_dropdown.scss */
   .dropdown__toggle:before {
     color: #000;
     content: url("../../Images/angle-down.svg"); }
-    /* line 111, Scss/elements/_dropdown.scss */
+    /* line 106, Scss/elements/_dropdown.scss */
     .dropdown .dropdown__toggle:before {
       color: #0688c1; }
 
@@ -559,12 +559,16 @@ select, input, textarea {
   font-size: 15px;
   border: 1px solid gainsboro; }
 
-/* line 28, Scss/elements/_form.scss */
+/* line 27, Scss/elements/_form.scss */
+input[disabled], select[disabled] {
+  cursor: not-allowed; }
+
+/* line 31, Scss/elements/_form.scss */
 .form__hint {
   font-size: 10px;
   color: grey; }
 
-/* line 33, Scss/elements/_form.scss */
+/* line 36, Scss/elements/_form.scss */
 .form__button-wrap {
   display: flex;
   flex-direction: column; }

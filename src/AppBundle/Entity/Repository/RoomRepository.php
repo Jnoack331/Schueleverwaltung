@@ -183,6 +183,55 @@ class RoomRepository
     }
 
     /**
+     * @param $name
+     * @param $id
+     * @return Room|null
+     * @throws \Exception
+     */
+    public static function getRoomByNumberWithDifferentId($name, $id)
+    {
+        $managedConnection = new ManagedConnection();
+        $connection = $managedConnection->getConnection();
+
+        $query = $connection->prepare("SELECT * FROM raeume WHERE r_nr = ? AND r_id <> ?;");
+
+        $roomName = 0;
+        $roomId = 0;
+
+        $query->bind_param("si", $roomName, $roomId);
+
+        $roomName = $name;
+        $roomId = $id;
+
+        $query->execute();
+
+        if($query->error)
+        {
+            $query->close();
+            throw new \Exception("Selektieren des Raumes fehlgeschlagen");
+        }
+
+
+        $result = $query->get_result();
+        $query->close();
+
+        $row = $result->fetch_assoc();
+
+        if($row == NULL)
+        {
+            return NULL;
+        }
+
+        $room = new Room();
+        $room->setId($row["r_id"]);
+        $room->setNumber($row["r_nr"]);
+        $room->setDescription($row["r_bezeichnung"]);
+        $room->setNote($row["r_notiz"]);
+
+        return $room;
+    }
+
+    /**
      * @param Room $room
      * @return int|string
      * @throws \Exception
@@ -255,7 +304,6 @@ class RoomRepository
 
     /**
      * @param $id
-     * @return bool
      * @throws \Exception
      */
     public static function updateRoom(Room $room)
@@ -285,15 +333,7 @@ class RoomRepository
             throw new \Exception("Ändern des Raumes fehlgeschlagen");
         }
 
-        $result = $query->get_result();
         $query->close();
-
-        if($row = $result->fetch_assoc())
-        {
-            return false;
-        }
-
-        return true;
     }
 
     /**
