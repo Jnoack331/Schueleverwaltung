@@ -58,7 +58,9 @@ class ComponentTypeController extends AbstractController {
                 return $this->renderError("componentType/detail.html.twig", $e);
             }
 
-            return $this->redirectToRoute("component_kind_index", []);
+            return $this->redirectToRoute("component_kind_index", [
+                "message" => "Komponentenkategorie wurde erfolgreich bearbeitet"
+            ]);
         }
     }
 
@@ -106,6 +108,8 @@ class ComponentTypeController extends AbstractController {
             return $this->renderError("componentType/list.html.twig", $e);
         }
 
-        return $this->redirectToRoute("component_kind_index");
+        return $this->redirectToRoute("component_kind_index", [
+            "message" => "Komponentenkategorie erfolgreich gelöscht"
+        ]);
     }
 }
