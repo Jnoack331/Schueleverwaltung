@@ -14,6 +14,7 @@ namespace AppBundle\Entity\Repository;
 
 
 use AppBundle\Entity\Attribute;
+use AppBundle\Entity\Component;
 use AppBundle\Entity\ManagedConnection;
 
 class AttributeRepository
@@ -85,17 +86,10 @@ class AttributeRepository
         $query->close();
 
         $attributes = [];
-
         while($row = $result->fetch_assoc())
         {
             $attribute = new Attribute();
-            if($row["kat_id"] == NULL){
-                break;
-            }
             $attribute->setId($row["kat_id"]);
-            if($row["kat_bezeichnung"] == NULL){
-                break;
-            }
             $attribute->setName($row["kat_bezeichnung"]);
 
             $attributes[] = $attribute;
