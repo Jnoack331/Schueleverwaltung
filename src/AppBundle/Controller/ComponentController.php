@@ -90,6 +90,18 @@ class ComponentController extends Controller
             }
             try{
                 $id = ComponentRepository::createComponent($component);
+                $component->setId($id);
+                //get attributes
+                $attributes = $component->getAttributes();
+                /** @var Attribute $attribute */
+                foreach ($attributes as $attribute) {
+                    //create attribute values
+                    $attribute_value = new AttributeValue();
+                    $attribute_value->setId($component->getId());
+                    $attribute_value->setAttributeId($attribute->getId());
+                    $attribute_value->setValue("");
+                    AttributeValueRepository::createAttributeValue($attribute_value);
+                }
                 return $this->redirectToRoute("component_edit", array("id" => $id));
             }catch (Exception $exception){
 
@@ -185,6 +197,9 @@ class ComponentController extends Controller
             }else{
                 //get attribute values from form
                 $attribute_value_parameters = $req->get("attribute-value");   //array(attribute_id => value, ...);
+                if($attribute_value_parameters == null){
+                    $attribute_value_parameters = array();
+                }
                 foreach ($attribute_value_parameters as $attribute_id => $value){
                     //get existing attribute values
                     try{

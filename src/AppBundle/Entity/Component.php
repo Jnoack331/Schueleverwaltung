@@ -315,7 +315,7 @@ class Component extends AbstractEntity implements ValidatingEntity
      * @throws Exception
      */
     public function getAttributes(){
-        return AttributeRepository::getAttributesByComponentTypeId($this->getId());
+        return AttributeRepository::getAttributesByComponentTypeId($this->getComponentTypeId());
     }
 
     public function getAttributeValueByAttributeId($attribute_id){

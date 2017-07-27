@@ -209,7 +209,14 @@ class ComponentRepository
     {
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
-
+        //get component
+        $component = ComponentRepository::getComponentById($id);
+        //get component values
+        $attribute_values = $component->getComponentAttributeValues();
+        //delete component values
+        foreach ($attribute_values as $attribute_value) {
+            AttributeValueRepository::deleteAttributeValue($attribute_value);
+        }
         $query = $connection->prepare("DELETE FROM komponenten WHERE k_id = ?;");
 
         $componentId = 0;
