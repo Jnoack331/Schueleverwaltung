@@ -18,6 +18,16 @@
             </dd>
         </dl>
         <div id="valueWrapper">
+            {% if attributes is empty %}
+                <dl>
+                    <dt>
+                        <label for="k_attributwert">Attributname</label>
+                    </dt>
+                    <dd>
+                        <input name="attributevalues[][name]" id="k_attributwert">
+                    </dd>
+                </dl>
+            {% endif %}
             {% for attribute in attributes %}
                 <dl>
                     <dt>
