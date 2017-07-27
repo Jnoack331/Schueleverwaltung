@@ -48,8 +48,9 @@ class ComponentTypeController extends AbstractController {
 
         if ($req->getMethod() === "GET") {
             return $this->render("componentType/detail.html.twig", [
-                "componenttype"       => $componentType,
-                "attributes"          => $componentType->getAttributes(),
+                "componenttype" => $componentType,
+                "attributes" => $componentType->getAttributes(),
+                "id" => $id
             ]);
         } else {
             $componentType->setType($req->get("type"));
@@ -59,7 +60,7 @@ class ComponentTypeController extends AbstractController {
                 $componentType->validate();
                 ComponentTypeRepository::updateComponentType($componentType);
             } catch (Exception $e) {
-                return $this->renderError("componentType/detail.html.twig", $e);
+                return $this->renderError("componentType/detail.html.twig", $e, $id);
             }
 
             return $this->redirectToRoute("component_kind_index", [
@@ -118,15 +119,16 @@ class ComponentTypeController extends AbstractController {
         if ($req->getMethod() === "GET") {
             return $this->render('componentType/create.html.twig');
         } else {
+            $componentType = new ComponentType();
+            $componentType->setType($req->get("kind"));
+
             try {
-                $componentType = new ComponentType();
-                $componentType->setType($req->get("kind"));
                 $componentType->validate();
                 $id = ComponentTypeRepository::createComponentType($componentType);
             } catch (Exception $e) {
                 return $this->renderError("componentType/create.html.twig", $e);
             }
-            
+
             return $this->redirectToRoute('component_kind_edit', ['id' => $id]);
         }
     }
