@@ -509,12 +509,12 @@ tr:nth-child(odd) td {
 /* line 1, Scss/elements/_footer.scss */
 .footer {
   width: 100%;
-  bottom: 0;
   padding: 3px;
   max-width: 80rem;
   margin: 0 auto;
   height: 100%;
-  display: block; }
+  display: block;
+  bottom: 0; }
   /* line 10, Scss/elements/_footer.scss */
   .footer * {
     color: white; }
@@ -605,9 +605,10 @@ input[disabled], select[disabled] {
   @media only screen and (min-width: 57rem) {
     /* line 29, Scss/elements/_wrap.scss */
     .wrap--content {
-      margin-top: 0; } }
+      margin-top: 0;
+      min-height: 30vh; } }
 
-/* line 37, Scss/elements/_wrap.scss */
+/* line 38, Scss/elements/_wrap.scss */
 .wrap--footer {
   background-color: #7DA9C5;
   min-height: 10em;
