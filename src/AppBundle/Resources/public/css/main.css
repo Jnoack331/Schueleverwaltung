@@ -235,7 +235,6 @@ a {
   @media only screen and (min-width: 57rem) {
     /* line 5, Scss/elements/_dropdown.scss */
     .dropdown {
-      width: 17rem;
       padding: 0;
       height: auto;
       position: absolute;
