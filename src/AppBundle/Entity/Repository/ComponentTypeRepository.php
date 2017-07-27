@@ -35,7 +35,7 @@ class ComponentTypeRepository
         $query->bind_param("i", $roomId);
         $roomId = $id;
         $query->execute();
-        if($query->error) {$query->close(); throw new \Exception("Löschen der Attribute");}
+        if($query->error) {$query->close(); throw new \Exception("Selektieren der Komponentenart fehlgeschlagen");}
         $result = $query->get_result();
         $query->close();
         $row = $result->fetch_assoc();
@@ -98,7 +98,7 @@ class ComponentTypeRepository
         $query->bind_param("i", $componentTypeName);
         $componentTypeName = $name;
         $query->execute();
-        if($query->error) {$query->close(); throw new \Exception("Löschen der Attribute");}
+        if($query->error) {$query->close(); throw new \Exception("Selektieren der Komponentenarten fehlgeschlagen");}
         $result = $query->get_result();
         $query->close();
         $row = $result->fetch_assoc();
@@ -132,7 +132,7 @@ class ComponentTypeRepository
         $query->bind_param("s", $type);
         $type = $componentType->getType();
         $query->execute();
-        if($query->error) {$query->close(); throw new \Exception("Löschen der Attribute");}
+        if($query->error) {$query->close(); throw new \Exception("Speichern der Komponentenart fehlgeschlagen");}
         $query->close();
 
         return mysqli_insert_id($connection);
@@ -156,7 +156,7 @@ class ComponentTypeRepository
         $type = $componentType->getType();
         $id = $componentType->getId();
         $query->execute();
-        if($query->error) {$query->close(); throw new \Exception("Löschen der Attribute");}
+        if($query->error) {$query->close(); throw new \Exception("Ändern der Komponentenarte fehlgeschlagen");}
         $query->close();
     }
 
@@ -189,7 +189,7 @@ class ComponentTypeRepository
             $query->bind_param("i", $attributeId);
             $attributeId = $row["komponentenattribute_kat_id"];
             $query->execute();
-            if($query->error) {$query->close(); throw new \Exception("Löschen der Attribute");}
+            if($query->error) {$query->close(); throw new \Exception("Selektieren der Attribute fehlgeshlagen");}
             $query->close();
             // ---
         }
@@ -200,7 +200,7 @@ class ComponentTypeRepository
         $query->bind_param("i", $componentTypeId);
         $componentTypeId = $id;
         $query->execute();
-        if($query->error) {$query->close(); throw new \Exception("Löschen der Attribute");}
+        if($query->error) {$query->close(); throw new \Exception("Löschen der Verknüpfungstabelle fehlgeschlagen");}
         $query->close();
         // ---
 
@@ -210,7 +210,7 @@ class ComponentTypeRepository
         $query->bind_param("i", $componentTypeId);
         $componentTypeId = $id;
         $query->execute();
-        if($query->error) {$query->close(); throw new \Exception("Löschen der Attribute");}
+        if($query->error) {$query->close(); throw new \Exception("Löschen der Komponentenarten fehlgeschlagen");}
         $query->close();
         // ---
     }
@@ -231,7 +231,7 @@ class ComponentTypeRepository
         $query->bind_param("i", $componentTypeId);
         $componentTypeId = $id;
         $query->execute();
-        if($query->error) {$query->close(); throw new \Exception("Löschen der Attribute");}
+        if($query->error) {$query->close(); throw new \Exception("Selektieren der Komponentenarten fehlgeschlagen");}
         $result = $query->get_result();
         $query->close();
 
