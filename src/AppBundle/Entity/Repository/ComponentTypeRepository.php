@@ -98,7 +98,7 @@ class ComponentTypeRepository
 
         $query = $connection->prepare("SELECT * FROM komponentenarten WHERE ka_komponentenart = ?;");
         $componentTypeName = 0;
-        $query->bind_param("i", $componentTypeName);
+        $query->bind_param("s", $componentTypeName);
         $componentTypeName = $name;
         $query->execute();
         if($query->error) {$query->close(); throw new \Exception("Selektieren der Komponentenarten fehlgeschlagen");}
