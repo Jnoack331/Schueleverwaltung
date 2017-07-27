@@ -3,11 +3,13 @@
 {% block body %}
 <div class="wrap wrap--content">
     <main>
-        <h4>Benutzer Bearbeiten</h4>
+        <br>
+        <a href="{{ path('users_index') }}" class="button button--white">Zurück zur Ansicht</a>
+        <h1>Benutzer Bearbeiten</h1>
         {% if message is defined %}
             <h3>{{ message }}</h3>
         {% endif %}
-        <a href="{{ path('users_index') }}" class="button button--primary">Zurück</a>
+
         <form method="post" class="form">
             <dl>
                 <dt>
@@ -42,11 +44,13 @@
                 <dd>
                     <input type="password" name="plain_password" id="plain_password" value="">
                 </dd>
-
             </dl>
-
-            <input type="submit" class="button button--primary" value="Speichern">
+                <input type="submit" class="button button--primary" value="Speichern">
         </form>
+        <form action="{{ url('room_delete', {"id": user.getId()}) }}" method="post" class="form">
+            <input type="submit" class="button button--warning" value="Raum Löschen">
+        </form>
+
     </main>
 </div>
 

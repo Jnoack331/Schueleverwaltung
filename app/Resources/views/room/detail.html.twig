@@ -6,21 +6,35 @@
     <main>
         <br>
         <a href="{{ url('room_list') }}" class="button button--white">Zur&uuml;ck zur Ansicht</a>
-        <h1>R&auml;ume</h1>
-        <form method="post">
-            <label for="number">Raum-Nr</label>
-            <input type="text" name="number" id="number" value="{{ room.getNumber() }}">
+        <h1>Raum Bearbeiten</h1>
+        <form method="post" class="form">
+            <dl>
+                <dt>
+                    <label for="number">Raum-Nr</label>
+                </dt>
+                <dd>
+                    <input name="number" id="number" value="{{ room.getNumber() }}">
+                </dd>
 
-            <label for="description">Raum Bezeichnung</label>
-            <input type="text" name="description" id="description" value="{{ room.getDescription() }}">
+                <dt>
+                    <label for="description">Raum Bezeichnung</label>
+                </dt>
+                <dd>
+                    <input name="description" id="description" value="{{ room.getDescription() }}">
+                </dd>
 
-            <label for="note">Notizen</label>
-            <textarea name="note" id="note">{{ room.getNote() }}</textarea>
+                <dt>
+                    <label for="note">Notizen</label>
+                </dt>
+                <dd>
+                    <textarea name="note" id="note">{{ room.getNote() }}</textarea>
+                </dd>
+            </dl>
 
-            <button class="button button--primary">Speichern</button>
+            <input type="submit" class="button button--primary" value="Speichern">
         </form>
-        <form action="{{ url('room_delete', {"id": room.getId()}) }}" method="post">
-            <button class="button button--white">Raum Löschen</button>
+        <form action="{{ url('room_delete', {"id": room.getId()}) }}" method="post" class="form">
+            <input type="submit" class="button button--warning" value="Raum Löschen">
         </form>
     </main>
 </div>
