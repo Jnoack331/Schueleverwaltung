@@ -74,8 +74,7 @@
                     </select>
                 </dd>
             </dl>
-
             <p class="table__hint">*Speichern um Attributwerte hinzuzufügen</p>
-            <input type="submit" class="button button--primary" value="Erstellen">
+            <input type="submit" class="button button--primary" value="Erstellen" {% if not types %}disabled{% endif %}>
         </form>
 {% endblock %}
