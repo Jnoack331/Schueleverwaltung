@@ -12,7 +12,11 @@
 
 namespace AppBundle\Entity;
 
-class AttributeValue extends AbstractEntity
+use AppBundle\Entity\Repository\ComponentRepository;
+use Doctrine\ORM\Tools\Export\ExportException;
+use Symfony\Component\Config\Definition\Exception\Exception;
+
+class AttributeValue extends AbstractEntity implements ValidatingEntity
 {
     private $attributeId;
     private $value;
@@ -74,5 +78,21 @@ class AttributeValue extends AbstractEntity
         $attribute->setName($row["kat_bezeichnung"]);
 
         return $attribute;
+    }
+
+    public function getComponent(){
+        return ComponentRepository::getComponentById($this->getId());
+    }
+
+    public function validate()
+    {
+        //check if component exists
+        if(!$this->getComponent()){
+            throw new Exception("Bitte geben Sie eine gültige Komponente an");
+        }
+        //check if attribute exists
+        if(!$this->getAttribute()){
+            throw new Exception("Bitte geben Sie ein gültiges Attribute an");
+        }
     }
 }

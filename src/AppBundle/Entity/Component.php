@@ -5,8 +5,11 @@
 namespace AppBundle\Entity;
 
 
+use AppBundle\Entity\Repository\AttributeRepository;
+use AppBundle\Entity\Repository\AttributeValueRepository;
 use AppBundle\Entity\Repository\ComponentTypeRepository;
 use AppBundle\Entity\Repository\RoomRepository;
+use Doctrine\ORM\Tools\Export\ExportException;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class Component extends AbstractEntity implements ValidatingEntity
@@ -296,6 +299,23 @@ class Component extends AbstractEntity implements ValidatingEntity
         }
 
         return $attributeValues;
+    }
+
+    public function deleteAttributeValues(){
+        //get old attribute values
+        $old_attribute_values = $this->getComponentAttributeValues();
+        //delete old attribute values
+        foreach ($old_attribute_values as $old_attribute_value) {
+            AttributeValueRepository::deleteAttributeValue($old_attribute_value);
+        }
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function getAttributes(){
+        return AttributeRepository::getAttributesByComponentTypeId($this->getId());
     }
 
     /**

@@ -2,9 +2,12 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Attribute;
+use AppBundle\Entity\AttributeValue;
 use AppBundle\Entity\Component;
 use AppBundle\Entity\ComponentType;
 use AppBundle\Entity\Repository\AttributeRepository;
+use AppBundle\Entity\Repository\AttributeValueRepository;
 use AppBundle\Entity\Repository\ComponentRepository;
 use AppBundle\Entity\Repository\ComponentTypeRepository;
 use AppBundle\Entity\Repository\RoomRepository;
@@ -156,12 +159,50 @@ class ComponentController extends Controller
             $component->setWarrantyDuration($req->get("warranty"));
             $component->setNote($req->get("note"));
             $component->setProducer($req->get("producer"));
-            $component->setComponentTypeId($req->get("type_id"));
-            //set attribute values
-            $attribute_values = $req->get("attribute-value");   //key = attribute id, value = new value
-            foreach ($attribute_values as $attribute_id => $value){
-                echo "$attribute_id - $value <br>";
+            //TODO: check if new ComponentTypeId is different from old one
+            $newComponentTypeId = $req->get("type_id");
+            if($newComponentTypeId != $component->getComponentTypeId()){
+                //if component type changes -> delete all previous values
+                try{
+                    $component->deleteAttributeValues();
+                    $component->setComponentTypeId($newComponentTypeId);
+                    //create new values without content
+                    //get attributes
+                    $attributes_new = $component->getAttributes();
+                    /** @var Attribute $attribute_new */
+                    foreach ($attributes_new as $attribute_new){
+                        $attribute_value = new AttributeValue();
+                        $attribute_value->setId($component->getId());
+                        $attribute_value->setAttributeId($attribute_new->getId());
+                        $attribute_value->setValue("");
+                        AttributeValueRepository::createAttributeValue($attribute_value);
+                    }
+                    $attributes = $attributes_new;
+                }catch (Exception $exception){
+                    //TODO: Error
+                }
+            }else{
+                //update all attribute values
+
+                //get attribute values from form
+                $attribute_value_parameters = $req->get("attribute-value");   //array(attribute_id => value, ...);
+                foreach ($attribute_value_parameters as $attribute_id => $value){
+                    //get existing attribute values
+                    try{
+                        $attribute_value = AttributeValueRepository::getAttributeValue($component->getId(), $attribute_id);
+                        //TODO: check if null
+                        //set new value
+                        $attribute_value->setValue($value);
+                        //no need to validate, since ids should be right and value can be empty
+                        //save attribute value to db
+                        AttributeValueRepository::createAttributeValue($attribute_value);
+                    }catch (Exception $exception){
+                        $message = $exception->getMessage();
+                        //TODO: Error
+                    }
+                }
             }
+
             try{
                 $component->validate();
                 ComponentRepository::updateComponent($component);

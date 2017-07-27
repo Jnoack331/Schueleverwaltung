@@ -81,7 +81,7 @@
                             <label for="attribute-{{ loop.index }}">{{ attribute.name }}</label>
                         </dt>
                         <dd>
-                            <input name="attribute-value[3]" id="attribute-{{ loop.index }}" value="">
+                            <input name="attribute-value[{{ attribute.id }}]" id="attribute-{{ loop.index }}" value="">
                         </dd>
                     </dl>
                 {% endfor %}
