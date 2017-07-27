@@ -1,101 +1,94 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div class="wrap wrap--content">
-        <main>
-            <form action="" method="post" class="form">
-                <h4>Komponente Bearbeiten</h4>
+    <br>
+    <a href="{{ path('component_index') }}" class="button button--white">Zurück zur Ansicht</a>
+    <h1>Komponente bearbeiten</h1>
+        <form action="" method="post" class="form">
 
-                <dl>
-                    <dt>
-                        <label for="name">Komponentenkennung</label>
-                    </dt>
-                    <dd>
-                        <input name="name" id="name" value="{{ component.name }}">
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        <label for="room_id">Raum</label>
-                    </dt>
-                    <dd>
-                        <select name="room_id" id="room_id">
-                            {% for room in rooms %}
-                                <option value="{{ room.id }}" {% if component.roomId == room.id %}selected{% endif %}>{{ room.number }} - {{ room.description }}</option>
-                            {% endfor %}
-                        </select>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        <label for="buy_date">Einkaufsdatum (Format YYYY-mm-dd)</label>
-                    </dt>
-                    <dd>
-                        <input name="buy_date" id="buy_date" type="date" value="{{ component.purchaseDate | date("Y-m-d")}}">
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        <label for="warranty">Gewährleistungsdauer in Monate</label>
-                    </dt>
-                    <dd>
-                        <input name="warranty" id="warranty" type="number" value="{{ component.warrantyDuration }}">
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        <label for="note">Notiz zur Komponente</label>
-                    </dt>
-                    <dd>
-                        <textarea rows="5" name="note" id="note">{{ component.note }}</textarea>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        <label for="producer">Hersteller</label>
-                    </dt>
-                    <dd>
-                        <input name="producer" id="producer" value="{{ component.producer }}">
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        <label for="type_id">Komponentenart <small>(Speichern um zu übernehmen)</small></label>
-                    </dt>
-                    <dd>
-                        <select name="type_id" id="type_id" {% if not types %}disabled{% endif %}>
-                            {% if not types %}
-                                <option value="-1">Keine Räume vorhanden</option>
-                            {% endif %}
-                            {% for type in types %}
-                                <option value="{{ type.id }}"{% if type.id == component.componentTypeId %}selected{% endif %}>{{ type.type }}</option>
-                            {% endfor %}
-                        </select>
-                    </dd>
-                </dl>
+            <dl>
+                <dt>
+                    <label for="name">Komponentenkennung</label>
+                </dt>
+                <dd>
+                    <input name="name" id="name" value="{{ component.name }}">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="room_id">Raum</label>
+                </dt>
+                <dd>
+                    <select name="room_id" id="room_id">
+                        {% for room in rooms %}
+                            <option value="{{ room.id }}" {% if component.roomId == room.id %}selected{% endif %}>{{ room.number }} - {{ room.description }}</option>
+                        {% endfor %}
+                    </select>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="buy_date">Einkaufsdatum (Format YYYY-mm-dd)</label>
+                </dt>
+                <dd>
+                    <input name="buy_date" id="buy_date" type="date" value="{{ component.purchaseDate | date("Y-m-d")}}">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="warranty">Gewährleistungsdauer in Monate</label>
+                </dt>
+                <dd>
+                    <input name="warranty" id="warranty" type="number" value="{{ component.warrantyDuration }}">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="note">Notiz zur Komponente</label>
+                </dt>
+                <dd>
+                    <textarea rows="5" name="note" id="note">{{ component.note }}</textarea>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="producer">Hersteller</label>
+                </dt>
+                <dd>
+                    <input name="producer" id="producer" value="{{ component.producer }}">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="type_id">Komponentenart <small>(Speichern um zu übernehmen)</small></label>
+                </dt>
+                <dd>
+                    <select name="type_id" id="type_id" {% if not types %}disabled{% endif %}>
+                        {% if not types %}
+                            <option value="-1">Keine Räume vorhanden</option>
+                        {% endif %}
+                        {% for type in types %}
+                            <option value="{{ type.id }}"{% if type.id == component.componentTypeId %}selected{% endif %}>{{ type.type }}</option>
+                        {% endfor %}
+                    </select>
+                </dd>
+            </dl>
 
-                <h4>Attributwerte der Komponentenart "{{ component.componentType.type }}"</h4>
+            <h4>Attributwerte der Komponentenart "{{ component.componentType.type }}"</h4>
 
-                {% for attribute in attributes %}
-                    <dl>
-                        <dt>
-                            <label for="attribute-{{ loop.index }}">{{ attribute.name }}</label>
-                        </dt>
-                        <dd>
-                            <input name="attribute-value[{{ attribute.id }}]" id="attribute-{{ loop.index }}"
-                                   value="{{ component.attributeValueByAttributeId(attribute.id).value }}">
-                        </dd>
-                    </dl>
-                {% endfor %}
-
-
-                <a href="{{ path('component_index') }}" class="button button--grey">Zurück</a>
-                <a href="{{ path('component_delete', {id: component.id }) }}" class="button button--grey">Löschen</a>
+            {% for attribute in attributes %}
+                <dl>
+                    <dt>
+                        <label for="attribute-{{ loop.index }}">{{ attribute.name }}</label>
+                    </dt>
+                    <dd>
+                        <input name="attribute-value[{{ attribute.id }}]" id="attribute-{{ loop.index }}"
+                               value="{{ component.attributeValueByAttributeId(attribute.id).value }}">
+                    </dd>
+                </dl>
+            {% endfor %}
                 <input type="submit" class="button button--primary" value="Speichern">
-            </form>
-
-        </main>
-    </div>
-
-
-
+        </form>
+    <form action="{{ url('component_delete', {"id": component.id}) }}" method="post" class="form">
+        <input type="submit" class="button button--warning" value="Komponente löschen">
+    </form>
 {% endblock %}

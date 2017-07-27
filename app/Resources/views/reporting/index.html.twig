@@ -1,41 +1,37 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <div class="wrap wrap--content">
-        <main>
-            <h1>R&auml;ume</h1>
-            <form action="" method="get" id="filter_form">
-                <label for="type_filter">Räume anzeigen mit:</label>
-                <select name="q" id="type_filter" style="width: 200px;">
-                    <option value="all">Alles</option>
-                    {% for type in types %}
-                        <option value="{{ type.id }}" {% if filter == type.id %}selected{% endif %}>{{ type.type }}</option>
-                    {% endfor %}
-                </select>
-            </form>
-            {% if rooms %}
-                <table>
-                    <thead><tr>
-                        <th>Raum-Nr</th>
-                        <th>Bezeichnung</th>
-                        <th colspan="2">Interaktionen</th>
-                    </tr></thead>
-                    <tbody>
-                    {% for room in rooms %}
-                        <tr>
-                            <td>{{ room.getNumber() }}</td>
-                            <td>{{ room.getDescription() }}</td>
-                            <td class="table__action"><a href="{{ url('reporting_room', {"id": room.id}) }}">Ansehen</a></td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <h3>Keine Räume gefunden</h3>
-            {% endif %}
-
-        </main>
-    </div>
+    <h1>R&auml;ume</h1>
+    <form action="" method="get" id="filter_form">
+        <label for="type_filter">Räume anzeigen mit Komponenten der Art:</label>
+        <select name="q" id="type_filter" style="width: 200px;">
+            <option value="all">Alles</option>
+            {% for type in types %}
+                <option value="{{ type.id }}" {% if filter == type.id %}selected{% endif %}>{{ type.type }}</option>
+            {% endfor %}
+        </select>
+    </form>
+    <br>
+    {% if rooms %}
+        <table>
+            <thead><tr>
+                <th>Raum-Nr</th>
+                <th>Bezeichnung</th>
+                <th colspan="2">Interaktionen</th>
+            </tr></thead>
+            <tbody>
+            {% for room in rooms %}
+                <tr>
+                    <td>{{ room.getNumber() }}</td>
+                    <td>{{ room.getDescription() }}</td>
+                    <td class="table__action"><a href="{{ url('reporting_room', {"id": room.id}) }}">Details</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h3>Keine Räume gefunden</h3>
+    {% endif %}
 {% endblock %}
 {% block javascripts %}
     <script type="application/javascript">
