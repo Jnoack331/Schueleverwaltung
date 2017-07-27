@@ -13,10 +13,15 @@
         {% block header %}
             {% include "@App/header.html.twig" %}
         {% endblock %}
-        {% if message is defined %}
-            <h2 class="warning">{{ message }}</h2>
-        {% endif %}
-        {% block body %}{% endblock %}
+        <div class="wrap wrap--content">
+            <main>
+                {% if message is defined %}
+                    <p class="alert alert--warning"><strong>Warnung! </strong>{{ message }}</p>
+                {% endif %}
+
+                {% block body %}{% endblock %}
+            </main>
+        </div>
         {% block javascripts %}{% endblock %}
         {% block footer %}
             {% include "@App/footer.html.twig" %}

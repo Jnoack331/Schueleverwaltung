@@ -1,59 +1,25 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="login-padding container">
-
-        <section class="content" id="login-box">
-
-            <ul class="nav nav-tabs nav-justified">
-                <li class="active"><a href="#">Login</a></li>
-            </ul>
-
-
-
-            <div class="login {% if error %} animated shake {% endif %}">
-                <h1 class="text-center">Login</h1>
-
-                {% if error %}
-                    <div class="alert alert-danger col-md-offset-4 col-md-4 text-center error" role="alert">
-                        {{ error.messageKey|trans(error.messageData, 'security') }}
-                    </div>
-                {% endif %}
-
-                <form action="{{ path('login') }}" method="post">
-
-                    <div class="row">
-                        <div class="col-md-offset-4 col-md-4 form-group">
-                            <label for="email">Email Address</label>
-                            <div class="input-group">
-                                <div class="input-group-addon"><span class="fa fa-envelope"></span></div>
-                                <input type="email" class="form-control" id="username" name="_username"
-                                       {% if last_username %}value="{{ last_username }}"{% else %} placeholder="Email" {% endif %}>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-offset-4 col-md-4 form-group">
-                            <label for="password">Password</label>
-                            <div class="input-group">
-                                <div class="input-group-addon"><span class="fa fa-lock fa-lg"></span></div>
-                                <input type="password" class="form-control" id="password" name="_password"
-                                       placeholder="Password"
-                                       required="required">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-offset-4 col-md-4 form-group text-center">
-                            <button type="submit" class="btn btn-lg btn-primary btn-block" id="login-button">Login</button>
-                        </div>
-                    </div>
-
-                </form>
-
-            </div>
-        </section>
-    </div>
+    <h1>Login</h1>
+    <form action="{{ path('login') }}" method="post" class="form">
+        <dl>
+            <dt>
+                <label for="email">Email Address</label>
+            </dt>
+            <dd>
+                <input type="email" class="form-control" id="username" name="_username"
+                       {% if last_username %}value="{{ last_username }}"{% else %} placeholder="Email" {% endif %}>
+            </dd>
+            <dt>
+                <label for="password">Password</label>
+            </dt>
+            <dd>
+                <input type="password" class="form-control" id="password" name="_password"
+                       placeholder="Password"
+                       required="required">
+            </dd>
+        </dl>
+        <input type="submit" class="button button--primary" id="login-button" value="Login">
+    </form>
 {% endblock %}

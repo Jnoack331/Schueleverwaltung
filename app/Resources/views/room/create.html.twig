@@ -1,39 +1,34 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-<div class="wrap wrap--content">
-    <main>
-        <br>
-        <a href="{{ path('room_list') }}" class="button button--white">Zurück zur Ansicht</a>
+    <br>
+    <a href="{{ path('room_list') }}" class="button button--white">Zurück zur Ansicht</a>
+    <h1>Raum Erstellen</h1>
+    <form method="post" action="{{ url("room_create") }}" class="form">
+        <dl>
+            <dt>
+                <label for="number">Raum-Nr:</label>
+            </dt>
+            <dd>
+                <input name="number" id="number">
+            </dd>
+            <dt>
+                <label for="description">Raum Bezeichnung:</label>
+            </dt>
+            <dd>
+                <input name="description" id="description">
+            </dd>
 
-        <h1>Raum Erstellen</h1>
-        <form method="post" action="{{ url("room_create") }}" class="form">
-            <dl>
-                <dt>
-                    <label for="number">Raum-Nr</label>
-                </dt>
-                <dd>
-                    <input name="number" id="number">
-                </dd>
-                <dt>
-                    <label for="description">Raum Bezeichnung</label>
-                </dt>
-                <dd>
-                    <input name="description" id="description">
-                </dd>
+            <dt>
+                <label for="note">Notizen:</label>
+            </dt>
+            <dd>
+                <textarea name="note" id="note"></textarea>
+            </dd>
+        </dl>
 
-                <dt>
-                    <label for="note">Notizen</label>
-                </dt>
-                <dd>
-                    <textarea name="note" id="note"></textarea>
-                </dd>
-            </dl>
-
-            <div class="form__button-wrap">
-                <input type="submit" class="button button--primary" value="Speichern">
-            </div>
-        </form>
-    </main>
-</div>
+        <div class="form__button-wrap">
+            <input type="submit" class="button button--primary" value="Speichern">
+        </div>
+    </form>
 {% endblock %}
