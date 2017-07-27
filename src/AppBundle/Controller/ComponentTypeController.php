@@ -8,7 +8,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\ComponentType;
 use AppBundle\Entity\Repository\AttributeRepository;
 use AppBundle\Entity\Repository\ComponentTypeRepository;
-use Doctrine\Common\Annotations\Annotation\Attribute;
+use AppBundle\Entity\Attribute;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -53,6 +53,7 @@ class ComponentTypeController extends AbstractController {
             ]);
         } else {
             $componentType->setType($req->get("type"));
+            $attributeValues = $req->get("attributevalues");
 
             try {
                 $componentType->validate();
@@ -68,7 +69,7 @@ class ComponentTypeController extends AbstractController {
     }
 
     /**
-     * @Route("/component_kind/attribute/delete/{id}", name="component_kind_delete_attr", requirements={"id": "\d+"})
+     * @Route("/component_kind/attribute/delete/{id}", name="component_kind_attribute_delete", requirements={"id": "\d+"})
      */
     public function deleteAttributeAction($id, Request $req) {
         try {
@@ -76,10 +77,34 @@ class ComponentTypeController extends AbstractController {
                 AttributeRepository::deleteAttributeById($id);
             }
         } catch (Exception $e) {
-            return $this->renderError("componentType/detail.html.twig", $e);
+            return $this->jsonError($e);
         }
 
-        return $this->redirectToRoute("component_kind_edit");
+        return $this->json([
+            "message" => "Attribut erfolgreich gelöscht",
+            "success" => true
+        ]);
+    }
+
+    /**
+     * @Route("/component_kind/{id}/attribute/create", name="component_kind_attribute_create", requirements={"id": "\d+"})
+     */
+    public function createAttributeAction($id, Request $req) {
+        $attribute = new Attribute();
+        $attribute->setName($req->get("attr_name"));
+
+        try {
+            $attribute->validate();
+            $attributeId = AttributeRepository::createAttribute($id, $attribute);
+        } catch (Exception $e) {
+            return $this->jsonError($e);
+        }
+
+        return $this->json([
+            "id" => $attributeId,
+            "message" => "Attribut erfolgreich hinzugefügt",
+            "success" => true
+        ]);
     }
 
     /**
@@ -123,6 +148,13 @@ class ComponentTypeController extends AbstractController {
 
         return $this->redirectToRoute("component_kind_index", [
             "message" => "Komponentenkategorie erfolgreich gelöscht"
+        ]);
+    }
+
+    private function jsonError(Exception $e) {
+        return $this->json([
+           "message" => $e->getMessage(),
+           "success" => false
         ]);
     }
 }

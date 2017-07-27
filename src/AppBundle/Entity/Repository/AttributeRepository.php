@@ -16,6 +16,7 @@ namespace AppBundle\Entity\Repository;
 use AppBundle\Entity\Attribute;
 use AppBundle\Entity\Component;
 use AppBundle\Entity\ManagedConnection;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 class AttributeRepository
 {
@@ -125,6 +126,45 @@ class AttributeRepository
         }
 
         return true;
+    }
+
+    public static function createAttribute($componentTypeId, Attribute $attribute) {
+        $errorMessage = "Fehler beim Einfügen des Attributs";
+
+        $managedConn = new ManagedConnection();
+        $conn = $managedConn->getConnection();
+
+        $query = $conn->prepare("INSERT INTO komponentenattribute (kat_bezeichnung) VALUES (?);");
+
+        $attributeName = "";
+        $query->bind_param("s", $attributeName);
+        $attributeName = $attribute->getName();
+
+        $query->execute();
+        if ($query->error) {
+            $query->close();
+            throw new Exception($errorMessage);
+        }
+        $query->close();
+
+        $insertId = mysqli_insert_id($conn);
+
+        $query = $conn->prepare("INSERT INTO wird_beschrieben_durch (komponentenarten_ka_id, komponentenattribute_kat_id) VALUES  (?, ?);");
+
+        $typeId = 0;
+        $attributeId = 0;
+        $query->bind_param("ii", $typeId, $attributeId);
+        $typeId = $componentTypeId;
+        $attributeId = $insertId;
+
+        $query->execute();
+        if ($query->error) {
+            $query->close();
+            throw new Exception($errorMessage);
+        }
+        $query->close();
+
+        return $insertId;
     }
 
     public static function deleteAttributeById($id) {
