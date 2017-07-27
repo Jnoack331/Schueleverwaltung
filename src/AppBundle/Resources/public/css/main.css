@@ -503,7 +503,7 @@ tr:nth-child(odd) td {
       display: none; } }
 
 /* line 33, Scss/elements/_table.scss */
-.table__action {
+.table__action a {
   color: #0688c1; }
 
 /* line 1, Scss/elements/_footer.scss */
