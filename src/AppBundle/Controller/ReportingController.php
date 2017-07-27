@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ReportingController extends Controller
 {
     /**
-     * @Route("/reporting", name="reporting_index")
+     * @Route("/", name="reporting_index")
      */
     public function indexAction(Request $request)
     {

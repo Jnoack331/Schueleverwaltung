@@ -16,10 +16,16 @@ namespace AppBundle\Entity\Repository;
 use AppBundle\Entity\Attribute;
 use AppBundle\Entity\Component;
 use AppBundle\Entity\ManagedConnection;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\VarDumper\VarDumper;
 
 class AttributeRepository
 {
-
+    /**
+     * @param $id
+     * @return Attribute|null
+     * @throws \Exception
+     */
     public static function getAttributeById($id){
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
@@ -58,6 +64,11 @@ class AttributeRepository
         return $attribute;
     }
 
+    /**
+     * @param $typeId
+     * @return array
+     * @throws \Exception
+     */
     public static function getAttributesByComponentTypeId($typeId){
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
@@ -98,6 +109,11 @@ class AttributeRepository
         return $attributes;
     }
 
+    /**
+     * @param $id
+     * @return bool
+     * @throws \Exception
+     */
     public static function canAttributeBeDeleted($id) {
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
@@ -127,9 +143,100 @@ class AttributeRepository
         return true;
     }
 
+    /**
+     * @param $componentTypeId
+     * @param Attribute $attribute
+     * @return int|string
+     */
+    public static function createAttribute($componentTypeId, Attribute $attribute) {
+        $errorMessage = "Fehler beim Einfügen des Attributs";
+
+        $managedConn = new ManagedConnection();
+        $conn = $managedConn->getConnection();
+
+        $query = $conn->prepare("INSERT INTO komponentenattribute (kat_bezeichnung) VALUES (?);");
+
+        $attributeName = "";
+        $query->bind_param("s", $attributeName);
+        $attributeName = $attribute->getName();
+
+        $query->execute();
+        if ($query->error) {
+            $query->close();
+            throw new Exception($errorMessage);
+        }
+        $query->close();
+
+        $insertId = mysqli_insert_id($conn);
+
+        $query = $conn->prepare("INSERT INTO wird_beschrieben_durch (komponentenarten_ka_id, komponentenattribute_kat_id) VALUES  (?, ?);");
+
+        $typeId = 0;
+        $attributeId = 0;
+        $query->bind_param("ii", $typeId, $attributeId);
+        $typeId = $componentTypeId;
+        $attributeId = $insertId;
+
+        $query->execute();
+        if ($query->error) {
+            $query->close();
+            throw new Exception($errorMessage);
+        }
+        $query->close();
+
+        return $insertId;
+    }
+
+    /**
+     * @param Attribute $attribute
+     */
+    public static function updateAttribute(Attribute $attribute)
+    {
+        $errorMessage = "Fehler beim Einfügen des Attributs";
+
+        $managedConn = new ManagedConnection();
+        $conn = $managedConn->getConnection();
+
+        $query = $conn->prepare("UPDATE komponentenattribute SET kat_bezeichnung = ? WHERE kat_id = ?;");
+
+        $attributeName = "";
+        $attributeId = 0;
+        $query->bind_param("si", $attributeName, $attributeId);
+        $attributeId = $attribute->getId();
+        $attributeName = $attribute->getName();
+
+        $query->execute();
+        if ($query->error) {
+            $query->close();
+            throw new Exception($errorMessage);
+        }
+        $query->close();
+    }
+
+    /**
+     * @param $id
+     */
     public static function deleteAttributeById($id) {
         $managedConn = new ManagedConnection();
         $conn = $managedConn->getConnection();
+
+        $query = $conn->prepare("DELETE FROM komponente_hat_attribute WHERE komponentenattribute_kat_id = ?;");
+
+        $attributeId = 0;
+        $query->bind_param("i", $attributeId);
+
+        $attributeId = $id;
+
+        $query->execute();
+
+        $query = $conn->prepare("DELETE FROM wird_beschrieben_durch WHERE komponentenattribute_kat_id = ?;");
+
+        $attributeId = 0;
+        $query->bind_param("i", $attributeId);
+
+        $attributeId = $id;
+
+        $query->execute();
 
         $query = $conn->prepare("DELETE FROM komponentenattribute WHERE kat_id = ?;");
 
@@ -139,7 +246,6 @@ class AttributeRepository
         $attributeId = $id;
 
         $query->execute();
-
         if($query->error) {
             $query->close();
             throw new Exception("Löschen des Attributs fehlgeschlagen");

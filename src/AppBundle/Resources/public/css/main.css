@@ -29,40 +29,45 @@ a {
   margin-bottom: 0.75rem; }
 
 /* line 13, Scss/elements/_button.scss */
+.button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.3; }
+
+/* line 18, Scss/elements/_button.scss */
 .button--primary {
   background-color: #7DA9C5;
   color: #ffffff; }
-  /* line 16, Scss/elements/_button.scss */
+  /* line 21, Scss/elements/_button.scss */
   .button--primary:hover, .button--primary:focus {
     background: #0688c1; }
 
-/* line 22, Scss/elements/_button.scss */
+/* line 27, Scss/elements/_button.scss */
 .button--grey {
   background-color: grey;
   color: #ffffff; }
-  /* line 25, Scss/elements/_button.scss */
+  /* line 30, Scss/elements/_button.scss */
   .button--grey:hover, .button--grey:focus {
     background: #4f4f4f; }
 
-/* line 31, Scss/elements/_button.scss */
+/* line 36, Scss/elements/_button.scss */
 .button--white {
   font-size: 15px;
   background-color: white;
   border: 1px solid grey;
   color: #000000; }
-  /* line 36, Scss/elements/_button.scss */
+  /* line 41, Scss/elements/_button.scss */
   .button--white:hover, .button--white:focus {
     background: gainsboro; }
 
-/* line 42, Scss/elements/_button.scss */
+/* line 47, Scss/elements/_button.scss */
 .button--warning {
   background-color: #d04646;
   color: #fff; }
-  /* line 45, Scss/elements/_button.scss */
+  /* line 50, Scss/elements/_button.scss */
   .button--warning:hover, .button--warning:focus {
     background: #ba0000; }
 
-/* line 51, Scss/elements/_button.scss */
+/* line 56, Scss/elements/_button.scss */
 .button--small {
   min-width: 0;
   padding: .5rem; }
@@ -88,6 +93,7 @@ a {
   @media only screen and (min-width: 57rem) {
     /* line 15, Scss/elements/_navigation.scss */
     .navigation {
+      border: none;
       max-width: 80rem;
       width: 100%;
       margin: 0 auto;
@@ -99,23 +105,23 @@ a {
       justify-content: space-between; } }
 
 @media only screen and (max-width: 57rem) {
-  /* line 33, Scss/elements/_navigation.scss */
+  /* line 34, Scss/elements/_navigation.scss */
   .navigation__container {
     display: flex;
     flex-wrap: wrap;
     width: 100%; } }
 
 @media only screen and (min-width: 45rem) {
-  /* line 33, Scss/elements/_navigation.scss */
+  /* line 34, Scss/elements/_navigation.scss */
   .navigation__container {
     top: 1rem;
     position: relative; } }
 
-/* line 45, Scss/elements/_navigation.scss */
+/* line 46, Scss/elements/_navigation.scss */
 .navigation__container ul li:before {
   display: none; }
 
-/* line 50, Scss/elements/_navigation.scss */
+/* line 51, Scss/elements/_navigation.scss */
 .navigation__items {
   list-style-type: none;
   text-transform: uppercase;
@@ -125,22 +131,22 @@ a {
   width: 100%;
   line-height: 1.5; }
   @media only screen and (min-width: 57rem) {
-    /* line 50, Scss/elements/_navigation.scss */
+    /* line 51, Scss/elements/_navigation.scss */
     .navigation__items {
       width: auto;
       display: flex;
       align-items: baseline; } }
 
-/* line 66, Scss/elements/_navigation.scss */
+/* line 67, Scss/elements/_navigation.scss */
 .navigation__item {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: baseline; }
-  /* line 72, Scss/elements/_navigation.scss */
+  /* line 73, Scss/elements/_navigation.scss */
   .navigation__item:hover, .navigation__item:focus {
     background-color: #0688c1; }
-    /* line 76, Scss/elements/_navigation.scss */
+    /* line 77, Scss/elements/_navigation.scss */
     .navigation__item:hover .navigation__link,
     .navigation__item:hover .dropdown__link,
     .navigation__item:hover .toggle__nav:before, .navigation__item:focus .navigation__link,
@@ -148,7 +154,7 @@ a {
     .navigation__item:focus .toggle__nav:before {
       color: white; }
   @media only screen and (min-width: 57rem) {
-    /* line 66, Scss/elements/_navigation.scss */
+    /* line 67, Scss/elements/_navigation.scss */
     .navigation__item {
       position: relative;
       font-size: .875rem;
@@ -156,36 +162,36 @@ a {
       text-transform: uppercase;
       margin: 0 .25em; } }
   @media only screen and (min-width: 64rem) {
-    /* line 66, Scss/elements/_navigation.scss */
+    /* line 67, Scss/elements/_navigation.scss */
     .navigation__item {
       padding: 0;
       font-size: .975rem; } }
 
-/* line 97, Scss/elements/_navigation.scss */
+/* line 98, Scss/elements/_navigation.scss */
 .navigation__link {
   color: #0688c1;
   font-weight: 500;
   padding: .5rem 1rem; }
 
-/* line 103, Scss/elements/_navigation.scss */
+/* line 104, Scss/elements/_navigation.scss */
 .navigation__logo {
   display: none;
   padding: 1em 2em 0;
   height: 5em;
   width: auto;
   margin-bottom: 0; }
-  /* line 110, Scss/elements/_navigation.scss */
+  /* line 111, Scss/elements/_navigation.scss */
   .navigation__logo img {
     max-height: 100%;
     margin: 0 auto;
     width: auto; }
-  /* line 116, Scss/elements/_navigation.scss */
+  /* line 117, Scss/elements/_navigation.scss */
   #navigation-state:checked ~ .navigation__logo {
     width: 15em;
     left: 0;
     top: -2em; }
   @media only screen and (min-width: 57rem) {
-    /* line 103, Scss/elements/_navigation.scss */
+    /* line 104, Scss/elements/_navigation.scss */
     .navigation__logo {
       display: flex;
       justify-content: center;
@@ -196,16 +202,16 @@ a {
       height: 100%;
       padding: .5em .5em 0; } }
   @media only screen and (min-width: 64rem) {
-    /* line 103, Scss/elements/_navigation.scss */
+    /* line 104, Scss/elements/_navigation.scss */
     .navigation__logo {
       width: 15em;
       padding: 0; } }
 
-/* line 139, Scss/elements/_navigation.scss */
+/* line 140, Scss/elements/_navigation.scss */
 .navigation__headline {
   display: none; }
   @media only screen and (min-width: 57rem) {
-    /* line 139, Scss/elements/_navigation.scss */
+    /* line 140, Scss/elements/_navigation.scss */
     .navigation__headline {
       display: block;
       color: #0688c1;
@@ -229,7 +235,6 @@ a {
   @media only screen and (min-width: 57rem) {
     /* line 5, Scss/elements/_dropdown.scss */
     .dropdown {
-      width: 17rem;
       padding: 0;
       height: auto;
       position: absolute;
@@ -295,27 +300,22 @@ a {
   cursor: pointer;
   transition: 0.25s ease-in-out;
   padding: 0; }
-  @media only screen and (max-width: 57rem) {
-    /* line 79, Scss/elements/_dropdown.scss */
-    .dropdown__toggle {
-      position: relative;
-      top: .2rem; } }
   @media only screen and (min-width: 57rem) {
     /* line 79, Scss/elements/_dropdown.scss */
     .dropdown__toggle {
       width: 1em; } }
-  /* line 98, Scss/elements/_dropdown.scss */
+  /* line 93, Scss/elements/_dropdown.scss */
   .dropdown .dropdown__toggle {
     margin: 0;
     line-height: 0; }
-  /* line 103, Scss/elements/_dropdown.scss */
+  /* line 98, Scss/elements/_dropdown.scss */
   .state:checked ~ .dropdown__toggle {
     transform: rotate(45deg); }
-  /* line 107, Scss/elements/_dropdown.scss */
+  /* line 102, Scss/elements/_dropdown.scss */
   .dropdown__toggle:before {
     color: #000;
     content: url("../../Images/angle-down.svg"); }
-    /* line 111, Scss/elements/_dropdown.scss */
+    /* line 106, Scss/elements/_dropdown.scss */
     .dropdown .dropdown__toggle:before {
       color: #0688c1; }
 
@@ -473,48 +473,54 @@ a {
 
 /* line 2, Scss/elements/_table.scss */
 table {
-  display: block;
-  width: 100%;
-  overflow-x: scroll; }
+  width: 100%; }
+  /* line 5, Scss/elements/_table.scss */
+  table * {
+    text-align: center; }
+  @media only screen and (max-width: 57rem) {
+    /* line 2, Scss/elements/_table.scss */
+    table {
+      display: block;
+      overflow-x: scroll; } }
 
-/* line 8, Scss/elements/_table.scss */
+/* line 15, Scss/elements/_table.scss */
 th, td {
   padding: 3px 10px; }
 
-/* line 12, Scss/elements/_table.scss */
+/* line 19, Scss/elements/_table.scss */
 tr:nth-child(even) td {
   background-color: gainsboro; }
 
-/* line 16, Scss/elements/_table.scss */
+/* line 23, Scss/elements/_table.scss */
 tr:nth-child(odd) {
   background-color: gainsboro; }
 
-/* line 20, Scss/elements/_table.scss */
+/* line 27, Scss/elements/_table.scss */
 tr:nth-child(odd) td {
   background-color: white; }
 
-/* line 24, Scss/elements/_table.scss */
+/* line 31, Scss/elements/_table.scss */
 .table__hint {
   font-size: 10px;
   color: grey; }
   @media only screen and (min-width: 57rem) {
-    /* line 24, Scss/elements/_table.scss */
+    /* line 31, Scss/elements/_table.scss */
     .table__hint {
       display: none; } }
 
-/* line 33, Scss/elements/_table.scss */
-.table__action {
+/* line 40, Scss/elements/_table.scss */
+.table__action a {
   color: #0688c1; }
 
 /* line 1, Scss/elements/_footer.scss */
 .footer {
   width: 100%;
-  bottom: 0;
   padding: 3px;
   max-width: 80rem;
   margin: 0 auto;
   height: 100%;
-  display: block; }
+  display: block;
+  bottom: 0; }
   /* line 10, Scss/elements/_footer.scss */
   .footer * {
     color: white; }
@@ -559,12 +565,16 @@ select, input, textarea {
   font-size: 15px;
   border: 1px solid gainsboro; }
 
-/* line 28, Scss/elements/_form.scss */
+/* line 27, Scss/elements/_form.scss */
+input[disabled], select[disabled] {
+  cursor: not-allowed; }
+
+/* line 31, Scss/elements/_form.scss */
 .form__hint {
   font-size: 10px;
   color: grey; }
 
-/* line 33, Scss/elements/_form.scss */
+/* line 36, Scss/elements/_form.scss */
 .form__button-wrap {
   display: flex;
   flex-direction: column; }
@@ -601,9 +611,10 @@ select, input, textarea {
   @media only screen and (min-width: 57rem) {
     /* line 29, Scss/elements/_wrap.scss */
     .wrap--content {
-      margin-top: 0; } }
+      margin-top: 0;
+      min-height: 30vh; } }
 
-/* line 37, Scss/elements/_wrap.scss */
+/* line 38, Scss/elements/_wrap.scss */
 .wrap--footer {
   background-color: #7DA9C5;
   min-height: 10em;

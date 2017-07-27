@@ -5,15 +5,17 @@ namespace AppBundle\Controller;
 /**
  * Controller for ComponentType View.
  */
+use AppBundle\AppBundle;
 use AppBundle\Entity\ComponentType;
 use AppBundle\Entity\Repository\AttributeRepository;
 use AppBundle\Entity\Repository\ComponentTypeRepository;
-use Doctrine\Common\Annotations\Annotation\Attribute;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\VarDumper\VarDumper;
+use \AppBundle\Entity\Attribute;
 
 class ComponentTypeController extends AbstractController {
     /**
@@ -21,14 +23,19 @@ class ComponentTypeController extends AbstractController {
      *
      * @Route("/component_kind", name="component_kind_index")
      */
-    public function indexAction(Request $req) {
+    public function indexAction(Request $req,SessionInterface $session) {
         try {
             $componentTypes = ComponentTypeRepository::getAllComponentTypes();
         } catch (Exception $e) {
             return $this->renderError("componentType/list.html.twig", $e);
         }
 
-        return $this->render("componentType/list.html.twig", ["componenttypes" => $componentTypes]);
+        $message = $session->get('message');
+        $session->remove('message');
+        return $this->render("componentType/list.html.twig", [
+            "componenttypes" => $componentTypes,
+            "message"   => $message
+        ]);
     }
 
     /**
@@ -47,18 +54,32 @@ class ComponentTypeController extends AbstractController {
         }
 
         if ($req->getMethod() === "GET") {
+
             return $this->render("componentType/detail.html.twig", [
-                "componenttype"       => $componentType,
-                "attributes"          => $componentType->getAttributes(),
+                "componenttype" => $componentType,
+                "attributes" => $componentType->getAttributes(),
+                "id" => $id
             ]);
         } else {
             $componentType->setType($req->get("type"));
-
+            $attributes = $req->get("attributevalues");
+            foreach ($attributes as $attribute) {
+                if (!isset($attribute['id'])) {
+                    $newAttribute = new Attribute();
+                    $newAttribute->setName($attribute['name']);
+                    AttributeRepository::createAttribute($id, $newAttribute);
+                } elseif (isset($attribute['id']) && empty($attribute['name'])) {
+                    AttributeRepository::deleteAttributeById($attribute['id']);
+                } else {
+                    $oldattribute = AttributeRepository::getAttributeById($attribute['id']);
+                    $oldattribute->setName($attribute['name']);
+                    AttributeRepository::updateAttribute($oldattribute);
+                }
+            }
             try {
-                $componentType->validate();
                 ComponentTypeRepository::updateComponentType($componentType);
             } catch (Exception $e) {
-                return $this->renderError("componentType/detail.html.twig", $e);
+                return $this->renderError("componentType/detail.html.twig", $e, $id);
             }
 
             return $this->redirectToRoute("component_kind_index", [
@@ -72,8 +93,12 @@ class ComponentTypeController extends AbstractController {
      */
     public function deleteAttributeAction($id, Request $req) {
         try {
-            if (AttributeRepository::canAttributeBeDeleted($id)) {
-                AttributeRepository::deleteAttributeById($id);
+            if (ComponentTypeRepository::canComponentTypeBeDeleted($id)) {
+                ComponentTypeRepository::deleteComponentTypeById($id);
+            } else {
+                return $this->render("componentType/list.html.twig", [
+                    'message' => 'konnte nicht l&ouml;schen'
+                ]);
             }
         } catch (Exception $e) {
             return $this->renderError("componentType/detail.html.twig", $e);
@@ -93,36 +118,32 @@ class ComponentTypeController extends AbstractController {
         if ($req->getMethod() === "GET") {
             return $this->render('componentType/create.html.twig');
         } else {
+            $componentType = new ComponentType();
+            $componentType->setType($req->get("kind"));
+
             try {
-                $componentType = new ComponentType();
-                $componentType->setType($req->get("kind"));
                 $componentType->validate();
                 $id = ComponentTypeRepository::createComponentType($componentType);
             } catch (Exception $e) {
                 return $this->renderError("componentType/create.html.twig", $e);
             }
+
             return $this->redirectToRoute('component_kind_edit', ['id' => $id]);
         }
-
-        return $this->redirectToRoute("component_kind_index", [
-            "message" => "Komponentenkategorie erfolgreich erstellt"
-        ]);
     }
 
     /**
      * @Route("/component_kind/delete/{id}", name="component_kind_delete")
      */
-    public function deleteAction($id, Request $req) {
+    public function deleteAction($id, Request $req,SessionInterface $session) {
         try {
-            if (ComponentTypeRepository::canComponentTypeBeDeleted($id)) {
-                ComponentTypeRepository::deleteComponentTypeById($id);
-            }
-        } catch (Exception $e) {
-            return $this->renderError("componentType/list.html.twig", $e);
+            ComponentTypeRepository::canComponentTypeBeDeleted($id);
+            ComponentTypeRepository::deleteComponentTypeById($id);
+        } catch (\Exception $e) {
+            $session->set('message', 'Konnte Komponententyp nicht Löschen da sie noch mit Komponenten verknüpft ist.');
+            return $this->redirectToRoute("component_kind_index");
         }
 
-        return $this->redirectToRoute("component_kind_index", [
-            "message" => "Komponentenkategorie erfolgreich gelöscht"
-        ]);
+        return $this->redirectToRoute("component_kind_index");
     }
 }
