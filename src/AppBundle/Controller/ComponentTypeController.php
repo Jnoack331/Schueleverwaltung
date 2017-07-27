@@ -63,6 +63,19 @@ class ComponentTypeController extends AbstractController {
     }
 
     /**
+     * @Route("/component_kind/attribute/delete/{id}", name="component_kind_delete_attr", requirements={"id": "\d+"})
+     */
+    public function deleteAttributeAction($id, Request $req) {
+        try {
+            $attribute = ComponentTypeRepository::getAttributeById($id);
+        } catch (Exception $e) {
+            return $this->renderError("componentType/detail.html.twig", $e);
+        }
+
+
+    }
+
+    /**
      * Fetches the object identified by $id from the database
      * Edits the object with the data passed in $req
      * Saves the edited object back into the database

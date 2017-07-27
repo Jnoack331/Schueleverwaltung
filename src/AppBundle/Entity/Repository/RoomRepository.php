@@ -178,40 +178,6 @@ class RoomRepository
     }
 
     /**
-     * @param Room $room
-     * @throws \Exception
-     */
-    public static function updateRoom(Room $room)
-    {
-        $managedConnection = new ManagedConnection();
-        $connection = $managedConnection->getConnection();
-
-        $query = $connection->prepare("UPDATE raeume SET r_nr = ?, r_bezeichnung = ?, r_notiz = ? WHERE r_id = ?;");
-
-        $roomNr = 0;
-        $roomDesc = 0;
-        $roomNote = 0;
-        $roomId = 0;
-
-        $query->bind_param("sssi", $roomNr, $roomDesc, $roomNote, $roomId);
-
-        $roomNr = $room->getNumber();
-        $roomDesc = $room->getDescription();
-        $roomNote = $room->getNote();
-        $roomId = $room->getId();
-
-        $query->execute();
-
-        if($query->error)
-        {
-            $query->close();
-            throw new \Exception("Ändern des Raumes fehlgeschlagen");
-        }
-
-        $query->close();
-    }
-
-    /**
      * @param $id
      * @return bool
      */
@@ -245,6 +211,40 @@ class RoomRepository
         $query->close();
 
         return true;
+    }
+
+    /**
+     * @param Room $room
+     * @throws \Exception
+     */
+    public static function updateRoom(Room $room)
+    {
+        $managedConnection = new ManagedConnection();
+        $connection = $managedConnection->getConnection();
+
+        $query = $connection->prepare("UPDATE raeume SET r_nr = ?, r_bezeichnung = ?, r_notiz = ? WHERE r_id = ?;");
+
+        $roomNr = 0;
+        $roomDesc = 0;
+        $roomNote = 0;
+        $roomId = 0;
+
+        $query->bind_param("sssi", $roomNr, $roomDesc, $roomNote, $roomId);
+
+        $roomNr = $room->getNumber();
+        $roomDesc = $room->getDescription();
+        $roomNote = $room->getNote();
+        $roomId = $room->getId();
+
+        $query->execute();
+
+        if($query->error)
+        {
+            $query->close();
+            throw new \Exception("Ändern des Raumes fehlgeschlagen");
+        }
+
+        $query->close();
     }
 
     /**
