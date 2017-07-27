@@ -35,7 +35,6 @@ class ComponentRepository
 
         if($result === false)
         {
-            $query->close();
             throw new \Exception("Selektieren der Komponenten fehlgeschlagen");
         }
 

@@ -62,7 +62,8 @@ class Room extends AbstractEntity implements ValidatingEntity {
     }
 
     /**
-     * @return all components located in this room
+     * @return array
+     * @throws \Exception
      */
     public function getComponents()
     {
