@@ -135,7 +135,6 @@ class ComponentController extends Controller
             //get types
             $types = ComponentTypeRepository::getAllComponentTypes();
             $attributes = AttributeRepository::getAttributesByComponentTypeId($component->getComponentTypeId());
-
         }catch (Exception $ex){
             //TODO: show error
             return $this->createNotFoundException("Server Fehler");
@@ -164,10 +163,11 @@ class ComponentController extends Controller
             if($newComponentTypeId != $component->getComponentTypeId()){
                 //if component type changes -> delete all previous values
                 try{
+                    //delete old values (with old component type id)
                     $component->deleteAttributeValues();
+                    //set new component id
                     $component->setComponentTypeId($newComponentTypeId);
-                    //create new values without content
-                    //get attributes
+                    //TODO: create new values without content
                     $attributes_new = $component->getAttributes();
                     /** @var Attribute $attribute_new */
                     foreach ($attributes_new as $attribute_new){
@@ -181,21 +181,18 @@ class ComponentController extends Controller
                 }catch (Exception $exception){
                     //TODO: Error
                 }
+            //if component type stay the same, save attribute values
             }else{
-                //update all attribute values
-
                 //get attribute values from form
                 $attribute_value_parameters = $req->get("attribute-value");   //array(attribute_id => value, ...);
                 foreach ($attribute_value_parameters as $attribute_id => $value){
                     //get existing attribute values
                     try{
                         $attribute_value = AttributeValueRepository::getAttributeValue($component->getId(), $attribute_id);
-                        //TODO: check if null
-                        //set new value
                         $attribute_value->setValue($value);
                         //no need to validate, since ids should be right and value can be empty
                         //save attribute value to db
-                        AttributeValueRepository::createAttributeValue($attribute_value);
+                        AttributeValueRepository::updateAttributeValue($attribute_value);
                     }catch (Exception $exception){
                         $message = $exception->getMessage();
                         //TODO: Error

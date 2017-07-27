@@ -59,7 +59,7 @@
                 </dl>
                 <dl>
                     <dt>
-                        <label for="type_id">Komponentenart <small>(Speichern um Attribute einzutragen)</small></label>
+                        <label for="type_id">Komponentenart <small>(Speichern um zu übernehmen)</small></label>
                     </dt>
                     <dd>
                         <select name="type_id" id="type_id" {% if not types %}disabled{% endif %}>
@@ -81,7 +81,8 @@
                             <label for="attribute-{{ loop.index }}">{{ attribute.name }}</label>
                         </dt>
                         <dd>
-                            <input name="attribute-value[{{ attribute.id }}]" id="attribute-{{ loop.index }}" value="">
+                            <input name="attribute-value[{{ attribute.id }}]" id="attribute-{{ loop.index }}"
+                                   value="{{ component.attributeValueByAttributeId(attribute.id).value }}">
                         </dd>
                     </dl>
                 {% endfor %}

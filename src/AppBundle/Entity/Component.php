@@ -318,6 +318,15 @@ class Component extends AbstractEntity implements ValidatingEntity
         return AttributeRepository::getAttributesByComponentTypeId($this->getId());
     }
 
+    public function getAttributeValueByAttributeId($attribute_id){
+        $value =  AttributeValueRepository::getAttributeValue($this->getId(), $attribute_id);
+        if(!$value){
+            return new AttributeValue();
+        }else{
+            return $value;
+        }
+    }
+
     /**
      * @throws Exception
      */

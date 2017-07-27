@@ -13,7 +13,6 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Repository\ComponentRepository;
-use Doctrine\ORM\Tools\Export\ExportException;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class AttributeValue extends AbstractEntity implements ValidatingEntity
