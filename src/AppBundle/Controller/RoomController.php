@@ -79,11 +79,14 @@ class RoomController extends AbstractController {
             $message = "Raum wurde erfolgreich bearbeitet";
             try {
                 $room->validate();
-                RoomRepository::updateRoom($room);
             } catch (Exception $e) {
+                $message = $e->getMessage();
+            }
+            try{
+                RoomRepository::updateRoom($room);
+            }catch (Exception $exception){
                 $message = "Es gab einen Fehler beim erstellen des Raums";
             }
-            $room = RoomRepository::getRoomById($id);
             return $this->render("room/detail.html.twig", [
                 "room" => $room,
                 "message" => $message
