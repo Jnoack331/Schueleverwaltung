@@ -3,7 +3,7 @@
 {% block body %}
     <br>
     <a href="{{ path('room_list') }}" class="button button--white">Zurück zur Ansicht</a>
-    <h1>Raum Erstellen</h1>
+    <h1>Raum erstellen</h1>
     <form method="post" action="{{ url("room_create") }}" class="form">
         <dl>
             <dt>
@@ -28,7 +28,7 @@
         </dl>
 
         <div class="form__button-wrap">
-            <input type="submit" class="button button--primary" value="Speichern">
+            <input type="submit" class="button button--primary" value="Erstellen">
         </div>
     </form>
 {% endblock %}

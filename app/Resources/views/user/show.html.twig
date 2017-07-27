@@ -3,7 +3,7 @@
 {% block body %}
     <br>
     <a href="{{ path('users_index') }}" class="button button--white">Zurück zur Ansicht</a>
-    <h1>Benutzer Bearbeiten</h1>
+    <h1>Benutzer bearbeiten</h1>
 
     <form method="post" class="form">
         <dl>
@@ -42,7 +42,7 @@
         </dl>
             <input type="submit" class="button button--primary" value="Speichern">
     </form>
-    <form action="{{ url('room_delete', {"id": user.getId()}) }}" method="post" class="form">
-        <input type="submit" class="button button--warning" value="Raum Löschen">
+    <form action="{{ url('users_delete', {"id": user.getId()}) }}" method="post" class="form">
+        <input type="submit" class="button button--warning" value="Benutzer löschen">
     </form>
 {% endblock %}
