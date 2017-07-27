@@ -170,7 +170,7 @@ class ComponentController extends Controller
             $component->setWarrantyDuration($req->get("warranty"));
             $component->setNote($req->get("note"));
             $component->setProducer($req->get("producer"));
-            //TODO: check if new ComponentTypeId is different from old one
+            //check if new ComponentTypeId is different from old one
             $newComponentTypeId = $req->get("type_id");
             if($newComponentTypeId != $component->getComponentTypeId()){
                 //if component type changes -> delete all previous values
@@ -179,8 +179,7 @@ class ComponentController extends Controller
                     $component->deleteAttributeValues();
                     //set new component id
                     $component->setComponentTypeId($newComponentTypeId);
-                    //TODO: create new values without content
-                    $attributes_new = $component->getAttributes();
+                    $attributes_new = $component->getComponentType()->getAttributes();
                     /** @var Attribute $attribute_new */
                     foreach ($attributes_new as $attribute_new){
                         $attribute_value = new AttributeValue();
@@ -191,7 +190,7 @@ class ComponentController extends Controller
                     }
                     $attributes = $attributes_new;
                 }catch (Exception $exception){
-                    //TODO: Error
+                    $message = $exception->getMessage();       //TODO: bessere meldung
                 }
             //if component type stay the same, save attribute values
             }else{
@@ -237,23 +236,18 @@ class ComponentController extends Controller
      * @Route("/component/{id}/delete", name="component_delete", requirements={"id": "\d+"})
      */
     public function deleteAction($id, Request $request, SessionInterface $session){
-        //check if method is post
-
         //get component by id
         $component = ComponentRepository::getComponentById($id);
         if(!$component){
             return $this->createNotFoundException("Komponenten wurde nicht gefunden");
         }else{
             //check if component can be deleted
-            //TODO: this
-            if(true){
+            try{
                 ComponentRepository::deleteComponentById($component->getId());
                 $session->set('message', 'Komponente wurde gelöscht');
                 return $this->redirectToRoute('component_index');
-            }else{
-                //TODO: get error why component can't be created
-                $error = "Grund hier";
-                $session->set('message', "Komponente konnte nicht gelöscht werden: $error");
+            }catch (Exception $ex){
+                $session->set('message', "Es gab einen Fehler beim löschen der Komponente");
                 return $this->redirect($request->headers->get('referer'));
             }
         }

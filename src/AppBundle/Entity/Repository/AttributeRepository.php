@@ -63,8 +63,8 @@ class AttributeRepository
         $connection = $managedConnection->getConnection();
 
         $query_string = "SELECT kat.kat_id, kat.kat_bezeichnung FROM komponentenarten as ka ";
-        $query_string .= "LEFT JOIN wird_beschrieben_durch b ON ka.ka_id = b.komponentenarten_ka_id ";
-        $query_string .= "LEFT JOIN komponentenattribute kat ON kat.kat_id = b.komponentenattribute_kat_id ";
+        $query_string .= "INNER JOIN wird_beschrieben_durch b ON ka.ka_id = b.komponentenarten_ka_id ";
+        $query_string .= "INNER JOIN komponentenattribute kat ON kat.kat_id = b.komponentenattribute_kat_id ";
         $query_string .= "WHERE ka.ka_id = ?";
         $query = $connection->prepare($query_string);
 
