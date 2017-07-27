@@ -62,13 +62,14 @@ class RoomController extends AbstractController {
         try {
             $room = RoomRepository::getRoomById($id);
         } catch (Exception $e) {
-            return $this->renderError("room/detail.html.twig", $e);
+            return $this->renderError("room/detail.html.twig", $e, $id);
         }
 
         if ($req->getMethod() === "GET") {
             // Show the room with $id
             return $this->render("room/detail.html.twig", [
                 "room"  => $room,
+                "id" => $id
             ]);
         } else {
             // Edit the room with $id
@@ -80,7 +81,7 @@ class RoomController extends AbstractController {
                 $room->validate();
                 RoomRepository::updateRoom($room);
             } catch (Exception $e) {
-                return $this->renderError("room/detail.html.twig", $e);
+                return $this->renderError("room/detail.html.twig", $e, $id);
             }
 
             return $this->redirectToRoute("room_list", [
@@ -98,7 +99,8 @@ class RoomController extends AbstractController {
                 RoomRepository::deleteRoomById($id);
             } else {
                 return $this->render("room/detail.html.twig", [
-                    "message" => "Der Raum kann nicht gelöscht werden, da ihm Komponenten zugeordnet sind"
+                    "message" => "Der Raum kann nicht gelöscht werden, da ihm Komponenten zugeordnet sind",
+                    "id" => $id
                 ]);
             }
         } catch (Exception $e) {
