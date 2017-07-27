@@ -85,6 +85,6 @@
                 </dd>
             </dl>
             <p class="table__hint">*Speichern um Attributwerte hinzuzufügen</p>
-            <input type="submit" class="button button--primary" value="Erstellen" {% if not types or not rooms %}disabled{% endif %}>
+            <input type="submit" class="button button--primary" value="Erstellen" {% if types is null or rooms is null %}disabled{% endif %}>
         </form>
 {% endblock %}
