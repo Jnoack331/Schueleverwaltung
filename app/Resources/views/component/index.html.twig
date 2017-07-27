@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="wrap wrap--content">
+        <main>
+            <h4>Komponenten</h4>
+
+            <a href="{{ path('component_create') }}" class="button button--primary">Neue Komponente</a>
+            <table>
+                <thead><tr>
+                    <th>ID</th>
+                    <th>Kennung</th>
+                    <th>Typ</th>
+                    <th>Raum</th>
+                    <th>Einkaufsdatum</th>
+                    <th>Gewährleistung</th>
+                    <th>Hersteller</th>
+                    <th colspan="2">Interaktionen</th>
+                </tr></thead>
+                <tbody>
+                {% for component in components %}
+                    <tr>
+                        <td>{{ component.id }}</td>
+                        <td>{{ component.name }}</td>
+                        <td>{{ component.GetComponentType().type }}</td>
+                        <td>{{ component.roomid }}</td>
+                        <td>{{ component.purchaseDate}}</td>
+                        <td>{{ component.warrantyDuration }}</td>
+                        <td>{{ component.producer }}</td>
+                        <td class="table__action"><a href="{{ path('component_edit', {id: component.id}) }}">Bearbeiten</a></td>
+                        <td class="table__action"><a href="{{ path('component_delete', {id: component.id}) }}">Löschen</a></td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+            <p class="table__hint">Scrollbar ></p>
+
+        </main>
+    </div>
+
+
+
+{% endblock %}
