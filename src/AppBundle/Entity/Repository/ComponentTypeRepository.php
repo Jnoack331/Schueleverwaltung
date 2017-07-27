@@ -31,23 +31,12 @@ class ComponentTypeRepository
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("SELECT * FROM komponentenarten WHERE ka_id = ?;");
-
         $roomId = 0;
-
         $query->bind_param("i", $roomId);
-
         $roomId = $id;
-
         $query->execute();
-
-        if($query->error)
-        {
-            $query->close();
-            throw new \Exception("Selektieren der Komponentenart fehlgeschlagen");
-        }
-
+        if($query->error) {$query->close(); throw new \Exception("Löschen der Attribute");}
         $result = $query->get_result();
-
         $query->close();
         $row = $result->fetch_assoc();
 
@@ -78,7 +67,6 @@ class ComponentTypeRepository
 
         if($result === false)
         {
-            $query->close();
             throw new \Exception("Selektierung der Komponentenarten fehlgeschlagen");
         }
 
@@ -106,23 +94,12 @@ class ComponentTypeRepository
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("SELECT * FROM komponentenarten WHERE ka_komponentenart = ?;");
-
         $componentTypeName = 0;
-
         $query->bind_param("i", $componentTypeName);
-
         $componentTypeName = $name;
-
         $query->execute();
-
-        if($query->error)
-        {
-            $query->close();
-            throw new \Exception("Selektieren der Komponentenart fehlgeschlagen");
-        }
-
+        if($query->error) {$query->close(); throw new \Exception("Löschen der Attribute");}
         $result = $query->get_result();
-
         $query->close();
         $row = $result->fetch_assoc();
 
@@ -151,21 +128,11 @@ class ComponentTypeRepository
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("INSERT INTO komponentenarten(ka_komponentenart) VALUES (?);");
-
         $type = 0;
-
         $query->bind_param("s", $type);
-
         $type = $componentType->getType();
-
         $query->execute();
-
-        if($query->error)
-        {
-            $query->close();
-            throw new \Exception("Erstellen der Komponentenart fehlgeschlagen");
-        }
-
+        if($query->error) {$query->close(); throw new \Exception("Löschen der Attribute");}
         $query->close();
 
         return mysqli_insert_id($connection);
@@ -183,28 +150,18 @@ class ComponentTypeRepository
         $connection = $managedConnection->getConnection();
 
         $query = $connection->prepare("UPDATE komponentenarten SET ka_komponentenart = ? WHERE ka_id = ?;");
-
         $type = 0;
         $id = 0;
-
         $query->bind_param("si", $type, $id);
-
         $type = $componentType->getType();
         $id = $componentType->getId();
-
         $query->execute();
-
-        if($query->error)
-        {
-            $query->close();
-            throw new \Exception("Ändern der Komponentenart fehlgeschlagen");
-        }
-
+        if($query->error) {$query->close(); throw new \Exception("Löschen der Attribute");}
         $query->close();
     }
 
     /**
-     * Deletes a component type from the database via id.
+     * Deletes a component type from the database and its existing attributes via id.
      * @param type $id
      * @throws \Exception
      */
@@ -213,22 +170,76 @@ class ComponentTypeRepository
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
 
-        $query = $connection->prepare("DELETE FROM komponentenarten WHERE ka_id = ?;");
-
-        $componentId = 0;
-
-        $query->bind_param("i", $componentId);
-
-        $componentId = $id;
-
+        // select 'wird_beschrieben_durch' rows with the id of Component Type
+        $query = $connection->prepare("SELECT * FROM wird_beschrieben_durch WHERE komponentenarten_ka_id = ?");
+        $componentTypeId = 0;
+        $query->bind_param("i", $componentTypeId);
+        $componentTypeId = $id;
         $query->execute();
+        if($query->error) {$query->close(); throw new \Exception("Selektieren der Verknüpfungstabelle");}
+        $result = $query->get_result();
+        $query->close();
+        // ---
 
-        if($query->error)
+        while($row = $result->fetch_assoc())
         {
+            // delete component attributes
+            $query = $connection->prepare("DELETE FROM komponentenattribute WHERE kat_id = ?");
+            $attributeId = 0;
+            $query->bind_param("i", $attributeId);
+            $attributeId = $row["komponentenattribute_kat_id"];
+            $query->execute();
+            if($query->error) {$query->close(); throw new \Exception("Löschen der Attribute");}
             $query->close();
-            throw new \Exception("Löschen der Komponentenart fehlgeschlagen");
+            // ---
         }
 
+        // delete linking table rows between 'komponentenarten' and 'Komponentenattribute'
+        $query = $connection->prepare("DELETE FROM wird_beschrieben_durch WHERE komponentenarten_ka_id = ?");
+        $componentTypeId = 0;
+        $query->bind_param("i", $componentTypeId);
+        $componentTypeId = $id;
+        $query->execute();
+        if($query->error) {$query->close(); throw new \Exception("Löschen der Attribute");}
         $query->close();
+        // ---
+
+        // delete Component Types
+        $query = $connection->prepare("DELETE FROM komponentenarten WHERE ka_id = ?;");
+        $componentTypeId = 0;
+        $query->bind_param("i", $componentTypeId);
+        $componentTypeId = $id;
+        $query->execute();
+        if($query->error) {$query->close(); throw new \Exception("Löschen der Attribute");}
+        $query->close();
+        // ---
+    }
+
+    /**
+     * returns true if no Component references to this Component Type
+     * @param $id
+     * @return bool
+     * @throws \Exception
+     */
+    public static function canComponentTypeBeDeleted($id)
+    {
+        $managedConnection = new ManagedConnection();
+        $connection = $managedConnection->getConnection();
+
+        $query = $connection->prepare("SELECT * FROM komponentenarten INNER JOIN komponenten ON komponentenarten.ka_id = komponenten.k_id WHERE komponentenarten.ka_id = ?;");
+        $componentTypeId = 0;
+        $query->bind_param("i", $componentTypeId);
+        $componentTypeId = $id;
+        $query->execute();
+        if($query->error) {$query->close(); throw new \Exception("Löschen der Attribute");}
+        $result = $query->get_result();
+        $query->close();
+
+        if($row = $result->fetch_assoc())
+        {
+            return false;
+        }
+
+        return true;
     }
 }

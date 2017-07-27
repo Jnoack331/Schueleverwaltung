@@ -239,6 +239,7 @@ class Component extends AbstractEntity
 
     /**
      * @return array
+     * @throws \Exception
      */
     public function getComponentAttributeValues()
     {

@@ -33,7 +33,6 @@ class RoomRepository
 
         if($result === false)
         {
-            $query->close();
             throw new \Exception("Selektieren der Räume fehlgeschlagen");
         }
 
@@ -214,6 +213,7 @@ class RoomRepository
     /**
      * @param $id
      * @return bool
+     * @throws \Exception
      */
     public static function canRoomBeDeleted($id)
     {
