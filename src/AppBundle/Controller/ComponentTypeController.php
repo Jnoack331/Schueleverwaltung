@@ -6,7 +6,9 @@ namespace AppBundle\Controller;
  * Controller for ComponentType View.
  */
 use AppBundle\Entity\ComponentType;
+use AppBundle\Entity\Repository\AttributeRepository;
 use AppBundle\Entity\Repository\ComponentTypeRepository;
+use Doctrine\Common\Annotations\Annotation\Attribute;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -69,12 +71,14 @@ class ComponentTypeController extends AbstractController {
      */
     public function deleteAttributeAction($id, Request $req) {
         try {
-            $attribute = ComponentTypeRepository::getAttributeById($id);
+            if (AttributeRepository::canAttributeBeDeleted($id)) {
+                AttributeRepository::deleteAttributeById($id);
+            }
         } catch (Exception $e) {
             return $this->renderError("componentType/detail.html.twig", $e);
         }
 
-
+        return $this->redirectToRoute("component_kind_edit");
     }
 
     /**
@@ -94,6 +98,10 @@ class ComponentTypeController extends AbstractController {
         } catch (Exception $e) {
             return $this->renderError("component_kind_index", $e);
         }
+
+        return $this->redirectToRoute("component_kind_index", [
+            "message" => "Komponentenkategorie erfolgreich erstellt"
+        ]);
     }
 
     /**

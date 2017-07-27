@@ -19,7 +19,7 @@ use AppBundle\Entity\ManagedConnection;
 class AttributeRepository
 {
 
-    public static function getAttributeById($id){#
+    public static function getAttributeById($id){
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
 
@@ -104,4 +104,51 @@ class AttributeRepository
         return $attributes;
     }
 
+    public static function canAttributeBeDeleted($id) {
+        $managedConnection = new ManagedConnection();
+        $connection = $managedConnection->getConnection();
+
+        $query = $connection->prepare("SELECT * FROM komponentenattribute INNER JOIN komponente_hat_attribute ON komponentenattribute.kat_id = komponente_hat_attribute.komponentenattribute_kat_id WHERE komponentenattribute.kat_id = ?;");
+
+        $attributeId = 0;
+
+        $query->bind_param("i", $attributeId);
+
+        $attributeId = $id;
+
+        $query->execute();
+
+        if ($query->error) {
+            $query->close();
+            throw new \Exception("Selektieren des Raumes fehlgeschlagen");
+        }
+
+        $result = $query->get_result();
+        $query->close();
+
+        if ($row = $result->fetch_assoc()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function deleteAttributeById($id) {
+        $managedConn = new ManagedConnection();
+        $conn = $managedConn->getConnection();
+
+        $query = $conn->prepare("DELETE FROM komponentenattribute WHERE kat_id = ?;");
+
+        $attributeId = 0;
+        $query->bind_param("i", $attributeId);
+
+        $attributeId = $id;
+
+        $query->execute();
+
+        if($query->error) {
+            $query->close();
+            throw new Exception("Löschen des Attributs fehlgeschlagen");
+        }
+    }
 }
