@@ -41,9 +41,9 @@ class SecurityController extends Controller
         $auth_checker = $this->get('security.authorization_checker');
 
         if ($auth_checker->isGranted('ROLE_ADMIN') || $auth_checker->isGranted('ROLE_AZUBI')) {
-            return $this->redirectToRoute('components');
+            return $this->redirectToRoute('reporting_index');
         } elseif ($auth_checker->isGranted('ROLE_MANAGE') || $auth_checker->isGranted('ROLE_TEACHER')) {
-            return $this->redirectToRoute('reporting');
+            return $this->redirectToRoute('reporting_index');
         } else {
             return $this->redirectToRoute('login');
         }

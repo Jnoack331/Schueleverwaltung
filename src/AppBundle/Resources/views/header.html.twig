@@ -12,40 +12,75 @@
         <img src="{{ asset('bundles/app/img/b3-logo.png') }}" alt="B3">
     </a>
 </div>
-<div class="wrap wrap--nav">
-    <nav class="navigation">
-        <div class="navigation__container">
-            <ul class="navigation__items">
-                <li class="navigation__item">
-                    <a class="navigation__link" href="{{ url('homepage') }}">Übersicht</a>
-                </li>
-                <li class="navigation__item">
-                    <a class="navigation__link" href="{{ url('room_list') }}">Raumverwaltung</a>
-                </li>
-                <li class="navigation__item">
-                    <a class="navigation__link" href="#">Komponentenverwaltung</a>
-                    <input id="drop-toggle" class="state" type="checkbox">
-                    <label for="drop-toggle" class="dropdown__toggle"><img src="{{ asset('bundles/app/img/angle-down.svg') }}"></label>
-                    <ul class="dropdown">
-                        <li class="dropdown__item">
-                            <a class="dropdown__link" href="{{ url('component_index') }}">Komponenten</a>
-                        </li>
-                        <li class="dropdown__item">
-                            <a class="dropdown__link" href="{{ url('component_kind_index') }}">Komponentenart</a>
-                        </li>
-                    </ul>
-                </li>
+{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_AZUBI') %}
+    <div class="wrap wrap--nav">
+        <nav class="navigation">
+            <div class="navigation__container">
+                <ul class="navigation__items">
+                    <li class="navigation__item">
+                        <a class="navigation__link" href="{{ url('room_list') }}">Raumverwaltung</a>
+                    </li>
+                    <li class="navigation__item">
+                        <a class="navigation__link" href="#">Komponentenverwaltung</a>
+                        <input id="drop-toggle" class="state" type="checkbox">
+                        <label for="drop-toggle" class="dropdown__toggle"><img
+                                    src="{{ asset('bundles/app/img/angle-down.svg') }}"></label>
+                        <ul class="dropdown">
+                            <li class="dropdown__item">
+                                <a class="dropdown__link" href="{{ url('component_index') }}">Komponenten</a>
+                            </li>
+                            <li class="dropdown__item">
+                                <a class="dropdown__link" href="{{ url('component_kind_index') }}">Komponentenart</a>
+                            </li>
+                        </ul>
+                    </li>
 
-                <li class="navigation__item">
-                    <a class="navigation__link" href="{{ url('users_index') }}">Benutzer</a>
-                </li>
-                <li class="navigation__item">
-                    <a class="navigation__link" href="{{ url('reporting_index') }}">Übersicht</a>
-                </li>
-            </ul>
-        </div>
-        <a class="navigation__logo" href="/">
-            <img src="{{ asset('bundles/app/img/b3-logo.png') }}" alt="B3-Fuerth">
-        </a>
-    </nav>
-</div>
+                    <li class="navigation__item">
+                        <a class="navigation__link" href="{{ url('users_index') }}">Benutzer</a>
+                    </li>
+                    <li class="navigation__item">
+                        <a class="navigation__link" href="{{ url('reporting_index') }}">Übersicht</a>
+                    </li>
+                    <li class="navigation__item">
+                        <a class="navigation__link" href="{{ url('logout') }}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+            <a class="navigation__logo" href="/">
+                <img src="{{ asset('bundles/app/img/b3-logo.png') }}" alt="B3-Fuerth">
+            </a>
+        </nav>
+    </div>
+{% elseif is_granted('ROLE_MANAGE') or is_granted('ROLE_TEACHER') %}
+    <div class="wrap wrap--nav">
+        <nav class="navigation">
+            <div class="navigation__container">
+                <ul class="navigation__items">
+                    <li class="navigation__item">
+                        <a class="navigation__link" href="{{ url('reporting_index') }}">Übersicht</a>
+                    </li>
+                    <li class="navigation__item">
+                        <a class="navigation__link" href="{{ url('logout') }}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+            <a class="navigation__logo" href="/">
+                <img src="{{ asset('bundles/app/img/b3-logo.png') }}" alt="B3-Fuerth">
+            </a>
+        </nav>
+    </div>
+{% else %}
+    <div class="wrap wrap--nav">
+        <nav class="navigation">
+            <div class="navigation__container">
+
+            </div>
+            <a class="navigation__logo" href="/">
+                <img src="{{ asset('bundles/app/img/b3-logo.png') }}" alt="B3-Fuerth">
+            </a>
+        </nav>
+    </div>
+{% endif %}
+
+
+

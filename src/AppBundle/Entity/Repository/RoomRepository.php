@@ -15,7 +15,6 @@ namespace AppBundle\Entity\Repository;
 
 use AppBundle\Entity\ManagedConnection;
 use AppBundle\Entity\Room;
-use Symfony\Component\VarDumper\VarDumper;
 
 class RoomRepository
 {
@@ -151,7 +150,7 @@ class RoomRepository
 
         $roomName = 0;
 
-        $query->bind_param("i", $roomName);
+        $query->bind_param("s", $roomName);
 
         $roomName = $name;
 
@@ -291,12 +290,12 @@ class RoomRepository
             throw new \Exception("Selektieren des Raumes fehlgeschlagen");
         }
 
+        $result = $query->get_result();
         if($row = $result->fetch_assoc())
         {
             return false;
         }
 
-        $result = $query->get_result();
         $query->close();
 
         return true;

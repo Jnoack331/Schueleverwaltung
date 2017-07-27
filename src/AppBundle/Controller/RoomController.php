@@ -38,16 +38,27 @@ class RoomController extends AbstractController {
         } else {
             $room = new Room();
             $room->setNumber($req->get("number"));
+            //var_dump($room->getNumber());
             $room->setDescription($req->get("description"));
             $room->setNote($req->get("note"));
-
+            $room_with_name = RoomRepository::getRoomByNumber($room->getNumber());
+            $message = "Raum wurde erfolgreich erstellt";
             try {
-                $id = RoomRepository::createRoom($room);
+                if($room_with_name !== null){
+                    throw new Exception("Ein Raum mit diesem Namen existiert bereits");
+                }
+                $room->validate();
             } catch (Exception $e) {
-                return $this->renderError("user/create.html.twig", $e);
+                $message = $e->getMessage();
+                return $this->renderError("room/create.html.twig", $e);
             }
-
-            return $this->redirectToRoute("room_detail", ["id" => $id]);
+            try{
+                $id = RoomRepository::createRoom($room);
+            }catch (Exception $e){
+                $message = "Es gab einen Fehler beim erstellen des Raums";
+                return $this->renderError("room/create.html.twig", $e);
+            }
+            return $this->redirectToRoute("room_detail", array("id" => $id));
         }
     }
 
@@ -79,14 +90,16 @@ class RoomController extends AbstractController {
             $message = "Raum wurde erfolgreich bearbeitet";
             try {
                 $room->validate();
+                try{
+                    RoomRepository::updateRoom($room);
+                }catch (Exception $exception){
+                    $message = "Es gab einen Fehler beim erstellen des Raums";
+                }
             } catch (Exception $e) {
                 $message = $e->getMessage();
             }
-            try{
-                RoomRepository::updateRoom($room);
-            }catch (Exception $exception){
-                $message = "Es gab einen Fehler beim erstellen des Raums";
-            }
+            $room = RoomRepository::getRoomById($id);
+
             return $this->render("room/detail.html.twig", [
                 "room" => $room,
                 "message" => $message
