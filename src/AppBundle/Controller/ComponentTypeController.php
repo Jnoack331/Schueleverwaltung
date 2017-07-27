@@ -64,7 +64,7 @@ class ComponentTypeController extends AbstractController {
             $componentType->setType($req->get("type"));
             $attributes = $req->get("attributevalues");
             foreach ($attributes as $attribute) {
-                if (!isset($attribute['id'])) {
+                if (!isset($attribute['id']) && !empty($attribute['name'])) {
                     $newAttribute = new Attribute();
                     $newAttribute->setName($attribute['name']);
                     AttributeRepository::createAttribute($id, $newAttribute);
