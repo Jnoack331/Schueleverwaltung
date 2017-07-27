@@ -128,6 +128,10 @@ class ComponentTypeController extends AbstractController {
             }
             return $this->redirectToRoute('component_kind_edit', ['id' => $id]);
         }
+
+        return $this->redirectToRoute("component_kind_index", [
+            "message" => "Komponentenkategorie erfolgreich erstellt"
+        ]);
     }
 
     /**
