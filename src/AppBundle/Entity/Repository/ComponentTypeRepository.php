@@ -211,7 +211,6 @@ class ComponentTypeRepository
         $query->bind_param("i", $componentTypeId);
         $componentTypeId = $id;
         $query->execute();
-        VarDumper::dump($query->error);
         if($query->error) {$query->close(); throw new \Exception("Löschen der Komponentenarten fehlgeschlagen");}
         $query->close();
         // ---
