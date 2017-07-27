@@ -1,0 +1,86 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="wrap wrap--content">
+
+    <main>
+        <form action="{{ url('component_kind_edit') }}" method="post" class="form">
+            <h4>Komponentenart bearbeiten</h4>
+            <dl>
+                <dt>
+                    <label for="ka_art">Komponentenart</label>
+                </dt>
+                <dd>
+                    <input name="ka_art" id="ka_art">
+                </dd>
+            </dl>
+                 <dl>
+                <dt>
+                    <label for="k_attributwert1">Attributname 1</label>
+                </dt>
+                <dd>
+                    <input name="attributevalues[]" id="k_attributwert1">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="k_attributwert2">Attributname 2</label>
+                </dt>
+                <dd>
+                    <input name="attributevalues[]" id="k_attributwert2">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="k_attributwert3">Attributname 3</label>
+                </dt>
+                <dd>
+                    <input name="attributevalues[]" id="k_attributwert3">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="k_attributwert4">Attributname 4</label>
+                </dt>
+                <dd>
+                    <input name="attributevalues[]" id="k_attributwert4">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="k_attributwert5">Attributname 5</label>
+                </dt>
+                <dd>
+                    <input name="attributevalues[]" id="k_attributwert5">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="k_attributwert6">Attributname 6</label>
+                </dt>
+                <dd>
+                    <input name="attributevalues[]" id="k_attributwert6">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="k_attributwert7">Attributname 7</label>
+                </dt>
+                <dd>
+                    <input name="attributevalues[]" id="k_attributwert7">
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    <label for="k_attributwert8">Attributname 8</label>
+                </dt>
+                <dd>
+                    <input name="attributevalues[]" id="k_attributwert8">
+                </dd>
+            </dl>
+            <input type="reset" class="button button--grey">
+            <input type="submit" class="button button--primary" value="Abschicken">
+        </form>
+    </main>
+</div>
+{% endblock %}

@@ -25,7 +25,7 @@ class ComponentTypeController extends AbstractController {
             return $this->renderError("component_kind_index", $e);
         }
 
-        return $this->render("component_kind_index", ["types" => $componentTypes]);
+        return $this->render("componentType/list.html.twig", ["types" => $componentTypes]);
     }
 
     /**
@@ -40,11 +40,11 @@ class ComponentTypeController extends AbstractController {
             $componentType = ComponentTypeRepository::getComponentTypeById($id);
             $attributes = $componentType->getAttributes();
         } catch (Exception $e) {
-            return $this->renderError("component_kind_index", $e);
+            return $this->renderError("componentType/list.html.twig", $e);
         }
 
         if ($req->getMethod() === "GET") {
-            return $this->render("edit_component_types", [
+            return $this->render("componentType/detail.html.twig", [
                 "type"       => $componentType->getType(),
                 "attributes" => $attributes
             ]);
@@ -55,11 +55,24 @@ class ComponentTypeController extends AbstractController {
                 $componentType->validate();
                 ComponentTypeRepository::updateComponentType($componentType);
             } catch (Exception $e) {
-                return $this->renderError("component_kind_edit", $e);
+                return $this->renderError("componentType/detail.html.twig", $e);
             }
 
             return $this->redirectToRoute("component_kind_index", []);
         }
+    }
+
+    /**
+     * @Route("/component_kind/attribute/delete/{id}", name="component_kind_delete_attr", requirements={"id": "\d+"})
+     */
+    public function deleteAttributeAction($id, Request $req) {
+        try {
+            $attribute = ComponentTypeRepository::getAttributeById($id);
+        } catch (Exception $e) {
+            return $this->renderError("componentType/detail.html.twig", $e);
+        }
+
+
     }
 
     /**

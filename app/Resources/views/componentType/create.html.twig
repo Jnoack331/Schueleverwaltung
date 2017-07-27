@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<div class="wrap wrap--content">
+    <main>
+        <form action="{{ url('component_kind_create') }}"  method="post" class="form">
+            <h4>Neue Komponentenart</h4>
+            <dl>
+                <dt>
+                    <label for="ka_art">Komponentenart</label>
+                </dt>
+                <dd>
+                    <input name="ka_art" id="ka_art">
+                </dd>
+            </dl>
+
+            <p class="table__hint">Speichern um Attribute hinzuzufügen</p>
+
+            <input type="reset" class="button button--grey">
+            <input type="submit" class="button button--primary" value="Abschicken">
+        </form>
+    </main>
+</div>
+{% endblock %}
