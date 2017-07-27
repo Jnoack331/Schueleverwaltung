@@ -304,9 +304,7 @@ class ComponentTypeRepository
         $query = $conn->prepare("DELETE FROM komponentenattribute WHERE kat_id = ?;");
 
         $attributeId = 0;
-
         $query->bind_param("i", $attributeId);
-
         $attributeId = $id;
 
         $query->execute();
