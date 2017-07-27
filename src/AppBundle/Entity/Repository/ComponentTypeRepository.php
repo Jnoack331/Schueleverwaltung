@@ -267,8 +267,7 @@ class ComponentTypeRepository
         return $attribute;
     }
 
-    public static function canAttributeBeDeleted($id)
-    {
+    public static function canAttributeBeDeleted($id) {
         $managedConnection = new ManagedConnection();
         $connection = $managedConnection->getConnection();
 
@@ -305,6 +304,7 @@ class ComponentTypeRepository
 
         $attributeId = 0;
         $query->bind_param("i", $attributeId);
+
         $attributeId = $id;
 
         $query->execute();
