@@ -15,6 +15,7 @@ namespace AppBundle\Entity\Repository;
 use AppBundle\Entity\Component;
 use AppBundle\Entity\ComponentType;
 use AppBundle\Entity\ManagedConnection;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 class ComponentRepository
 {
@@ -234,5 +235,29 @@ class ComponentRepository
         }
 
         $query->close();
+    }
+
+    public static function getComponentIdsByTypeId($typeId) {
+        $managedConn = new ManagedConnection();
+        $conn = $managedConn->getConnection();
+
+        $query = $conn->prepare("SELECT (k_id) FROM komponenten WHERE komponenten.komponentenarten_ka_id = ?;");
+
+        $id = 0;
+        $query->bind_param("i", $id);
+        $id = $typeId;
+
+        $result = $conn->query($query);
+
+        if ($result === false) {
+            throw new Exception("Fehler beim Laden der Komponentennummern");
+        }
+
+        $ids = [];
+        while ($row = $result->fetch_assoc()) {
+            $ids = $row["k_id"];
+        }
+
+        return $ids;
     }
 }

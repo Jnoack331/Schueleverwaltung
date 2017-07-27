@@ -5,8 +5,11 @@ namespace AppBundle\Controller;
 /**
  * Controller for ComponentType View.
  */
+use AppBundle\Entity\AttributeValue;
 use AppBundle\Entity\ComponentType;
 use AppBundle\Entity\Repository\AttributeRepository;
+use AppBundle\Entity\Repository\AttributeValueRepository;
+use AppBundle\Entity\Repository\ComponentRepository;
 use AppBundle\Entity\Repository\ComponentTypeRepository;
 use AppBundle\Entity\Attribute;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -96,6 +99,17 @@ class ComponentTypeController extends AbstractController {
         try {
             $attribute->validate();
             $attributeId = AttributeRepository::createAttribute($id, $attribute);
+
+            // Create empty datasets for the newly created attribute for each component of the category
+            $componentIds = ComponentRepository::getComponentIdsByTypeId($id);
+            foreach ($componentIds as $componentId) {
+                $value = new AttributeValue();
+                $value->setId($componentId);
+                $value->setAttributeId($attributeId);
+                $value->setValue("");
+
+                AttributeValueRepository::createAttributeValue($value);
+            }
         } catch (Exception $e) {
             return $this->jsonError($e);
         }
