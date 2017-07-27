@@ -9,6 +9,9 @@
             <th>Kennung</th>
             <th>Typ</th>
             <th>Hersteller</th>
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_AZUBI') %}
+                <th></th>
+            {% endif %}
         </tr></thead>
         <tbody>
             {% for component in components %}
@@ -16,6 +19,9 @@
                     <td style="min-width: 200px;">{{ component.name }}</td>
                     <td style="min-width: 200px;">{{ component.GetComponentType().type}}</td>
                     <td style="min-width: 200px;">{{ component.producer}}</td>
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_AZUBI') %}
+                        <td><a href="{{ path('component_edit', {id: component.id}) }}">Bearbeiten</a></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>
