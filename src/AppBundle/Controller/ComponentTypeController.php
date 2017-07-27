@@ -70,7 +70,7 @@ class ComponentTypeController extends AbstractController {
                     AttributeRepository::createAttribute($id, $newAttribute);
                 } elseif (isset($attribute['id']) && empty($attribute['name'])) {
                     AttributeRepository::deleteAttributeById($attribute['id']);
-                } else {
+                } elseif (isset($attribute['id']) && !empty($attribute['name'])) {
                     $oldattribute = AttributeRepository::getAttributeById($attribute['id']);
                     $oldattribute->setName($attribute['name']);
                     AttributeRepository::updateAttribute($oldattribute);
