@@ -340,6 +340,12 @@ a {
   background: #dff0d8;
   border-color: #3c763d; }
 
+/* line 22, Scss/elements/_alert.scss */
+.alert--neutral {
+  color: #4f4f4f;
+  background: gainsboro;
+  border-color: #4f4f4f; }
+
 /* line 1, Scss/elements/_top-bar.scss */
 .top-bar {
   position: fixed;
