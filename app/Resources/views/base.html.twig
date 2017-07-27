@@ -17,7 +17,9 @@
         <div class="wrap wrap--content">
             <main>
                 {% if message is defined %}
-                    <p class="alert alert--neutral"><strong>Hinweis: </strong>{{ message }}</p>
+                    {% if message %}
+                        <p class="alert alert--neutral"><strong>Hinweis: </strong>{{ message }}</p>
+                    {% endif %}
                 {% endif %}
 
                 {% block body %}{% endblock %}

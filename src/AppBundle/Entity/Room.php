@@ -114,9 +114,9 @@ class Room extends AbstractEntity implements ValidatingEntity {
         if ($this->number === null || $this->number === "") {
             throw new Exception("Bitte geben Sie eine Raumnummer ein");
         }
-
-        if (RoomRepository::getRoomByNumber($this->getNumber()) !== null) {
-            throw new Exception("Dieser Raumnummer existiert bereits");
+        $different_room = RoomRepository::getRoomByNumberWithDifferentId($this->getNumber(), $this->getId());
+        if ($different_room !== null) {
+            throw new Exception("Diese Raumnummer existiert bereits");
         }
     }
 }

@@ -200,6 +200,7 @@ class ComponentRepository
     }
 
     /**
+     * Deletes the component and its attribute values
      * @param $id
      * @throws \Exception
      */
@@ -215,6 +216,7 @@ class ComponentRepository
         foreach ($attribute_values as $attribute_value) {
             AttributeValueRepository::deleteAttributeValue($attribute_value);
         }
+        //delete component itself
         $query = $connection->prepare("DELETE FROM komponenten WHERE k_id = ?;");
 
         $componentId = 0;
