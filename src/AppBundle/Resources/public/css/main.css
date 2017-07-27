@@ -546,21 +546,25 @@ dl {
   margin: 10px 0; }
 
 /* line 13, Scss/elements/_form.scss */
+dt {
+  margin-bottom: 2px; }
+
+/* line 17, Scss/elements/_form.scss */
 dd {
   margin: 0 0 10px 0; }
 
-/* line 17, Scss/elements/_form.scss */
+/* line 21, Scss/elements/_form.scss */
 select, input, textarea {
   width: 100%;
   font-size: 15px;
   border: 1px solid gainsboro; }
 
-/* line 24, Scss/elements/_form.scss */
+/* line 28, Scss/elements/_form.scss */
 .form__hint {
   font-size: 10px;
   color: grey; }
 
-/* line 29, Scss/elements/_form.scss */
+/* line 33, Scss/elements/_form.scss */
 .form__button-wrap {
   display: flex;
   flex-direction: column; }
