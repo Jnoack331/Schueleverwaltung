@@ -59,7 +59,7 @@ class ComponentController extends Controller
             return $this->render("component/create.html.twig", array(
                 "rooms" => $rooms,
                 "types" => $types,
-                "message" => $error,       //TODO: meldungen verbessern
+                "message" => $error,       //TODO: enhance message
             ));
         }
         //if method is POST -> try to create Component
@@ -84,7 +84,7 @@ class ComponentController extends Controller
                 return $this->render("component/create.html.twig", array(
                         "rooms" => $rooms,
                         "types" => $types,
-                        "message" => $exception->getMessage(),       //TODO: meldungen verbessern
+                        "message" => $exception->getMessage(),       //TODO: enhance message
                     )
                 );
             }
@@ -121,7 +121,7 @@ class ComponentController extends Controller
                 return $this->render("component/create.html.twig", array(
                         "rooms" => $rooms,
                         "types" => $types,
-                        "message" => "Es gab einen Fehler beim Zugriff auf die Datenbank",       //TODO: meldungen verbessern
+                        "message" => "Es gab einen Fehler beim Zugriff auf die Datenbank",       //TODO: enhance message
                     )
                 );
             }
@@ -132,7 +132,7 @@ class ComponentController extends Controller
             return $this->render("component/create.html.twig", array(
                 "rooms" => $rooms,
                 "types" => $types,
-                "messsage" => $error,       //TODO: meldungen verbessern
+                "messsage" => $error,       //TODO: enhance message
             ));
         }
     }
@@ -161,7 +161,6 @@ class ComponentController extends Controller
             $types = ComponentTypeRepository::getAllComponentTypes();
             $attributes = AttributeRepository::getAttributesByComponentTypeId($component->getComponentTypeId());
         }catch (Exception $ex){
-            //TODO: show error
             return $this->createNotFoundException("Server Fehler");
         }
         if($req->getMethod() === "GET"){
@@ -203,7 +202,7 @@ class ComponentController extends Controller
                     }
                     $attributes = $attributes_new;
                 }catch (Exception $exception){
-                    $message = $exception->getMessage();       //TODO: bessere meldung
+                    $message = $exception->getMessage();
                 }
             //if component type stay the same, save attribute values
             }else{
@@ -222,7 +221,6 @@ class ComponentController extends Controller
                         AttributeValueRepository::updateAttributeValue($attribute_value);
                     }catch (Exception $exception){
                         $message = $exception->getMessage();
-                        //TODO: Error
                     }
                 }
             }

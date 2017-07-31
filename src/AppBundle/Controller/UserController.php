@@ -135,7 +135,6 @@ class UserController extends Controller
             if($email === null || $email === ""){
                 $error = "Bitte geben sie eine E-Mail Addresse an.";
             }
-            //TODO: check if email is already taken
             //check if user with this email already exists
             $em = $this->getDoctrine()->getManager();
             $existing_user = $em->getRepository('AppBundle:User')->findOneByEmail($email);
@@ -200,7 +199,6 @@ class UserController extends Controller
         }else{
             $em->remove($user);
             $em->flush();
-            //TODO: eventuell template mit "user wurde erfolgreich gelöscht" dazwischen setzen
             return $this->redirectToRoute("users_index");
         }
 

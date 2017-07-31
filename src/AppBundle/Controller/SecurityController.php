@@ -18,6 +18,7 @@ class SecurityController extends Controller
 
 
     /**
+     * @Route("/", name="login_base")
      * @Route("/login", name="login")
      */
     public function loginAction(Request $request, AuthenticationUtils $authUtils)
@@ -49,37 +50,4 @@ class SecurityController extends Controller
         }
     }
 
-    //TODO: remove this
-    /**
-     * @Route("/createadmin", name="create_admin")
-     */
-    public function createAdminAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $user_repo = $em->getRepository("AppBundle:User");
-        $user = new User();
-        $user->setEmail("t.s@headtrip.eu");
-        $user->setName("Thomas Schäfer");
-        $user->setRoles(array("ROLE_TEACHER"));
-        $user->setIsActive(true);
-        $user->setUsername("t.s@headtrip.eu");
-
-        $plainPassword = "123";
-
-        //password can be max 4096 characters long
-        if (strlen($plainPassword) > 4096) {
-            return new JsonResponse("success: false");
-        }
-        //create hashed password
-        $password = $this->get('security.password_encoder')
-                         ->encodePassword($user, $plainPassword);
-        //set password
-        $user->setPassword($password);
-
-        //save user to db
-        $em->persist($user);
-        $em->flush();
-
-        return new JsonResponse("success: true");
-    }
 }
