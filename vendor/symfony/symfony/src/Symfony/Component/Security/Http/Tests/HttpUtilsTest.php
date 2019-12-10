@@ -38,6 +38,38 @@ class HttpUtilsTest extends TestCase
         $this->assertTrue($response->isRedirect('http://symfony.com/'));
     }
 
+    public function testCreateRedirectResponseWithDomainRegexp()
+    {
+        $utils = new HttpUtils($this->getUrlGenerator(), null, '#^https?://symfony\.com$#i');
+        $response = $utils->createRedirectResponse($this->getRequest(), 'http://symfony.com/blog');
+
+        $this->assertTrue($response->isRedirect('http://symfony.com/blog'));
+    }
+
+    public function testCreateRedirectResponseWithRequestsDomain()
+    {
+        $utils = new HttpUtils($this->getUrlGenerator(), null, '#^https?://%s$#i');
+        $response = $utils->createRedirectResponse($this->getRequest(), 'http://localhost/blog');
+
+        $this->assertTrue($response->isRedirect('http://localhost/blog'));
+    }
+
+    public function testCreateRedirectResponseWithBadRequestsDomain()
+    {
+        $utils = new HttpUtils($this->getUrlGenerator(), null, '#^https?://%s$#i');
+        $response = $utils->createRedirectResponse($this->getRequest(), 'http://pirate.net/foo');
+
+        $this->assertTrue($response->isRedirect('http://localhost/'));
+    }
+
+    public function testCreateRedirectResponseWithProtocolRelativeTarget()
+    {
+        $utils = new HttpUtils($this->getUrlGenerator(), null, '#^https?://%s$#i');
+        $response = $utils->createRedirectResponse($this->getRequest(), '//evil.com/do-bad-things');
+
+        $this->assertTrue($response->isRedirect('http://localhost//evil.com/do-bad-things'), 'Protocol-relative redirection should not be supported for security reasons');
+    }
+
     public function testCreateRedirectResponseWithRouteName()
     {
         $utils = new HttpUtils($urlGenerator = $this->getMockBuilder('Symfony\Component\Routing\Generator\UrlGeneratorInterface')->getMock());
@@ -221,6 +253,19 @@ class HttpUtilsTest extends TestCase
         $utils->checkRequestPath($this->getRequest(), 'foobar');
     }
 
+    public function testCheckPathWithoutRouteParam()
+    {
+        $urlMatcher = $this->getMockBuilder('Symfony\Component\Routing\Matcher\UrlMatcherInterface')->getMock();
+        $urlMatcher
+            ->expects($this->any())
+            ->method('match')
+            ->willReturn(array('_controller' => 'PathController'))
+        ;
+
+        $utils = new HttpUtils(null, $urlMatcher);
+        $this->assertFalse($utils->checkRequestPath($this->getRequest(), 'path/index.html'));
+    }
+
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Matcher must either implement UrlMatcherInterface or RequestMatcherInterface
@@ -237,6 +282,15 @@ class HttpUtilsTest extends TestCase
 
         $utils = new HttpUtils($this->getUrlGenerator('/foo/bar?param=value'));
         $this->assertEquals('/foo/bar', $utils->generateUri(new Request(), 'route_name'));
+    }
+
+    public function testGenerateUriPreservesFragment()
+    {
+        $utils = new HttpUtils($this->getUrlGenerator('/foo/bar?param=value#fragment'));
+        $this->assertEquals('/foo/bar#fragment', $utils->generateUri(new Request(), 'route_name'));
+
+        $utils = new HttpUtils($this->getUrlGenerator('/foo/bar#fragment'));
+        $this->assertEquals('/foo/bar#fragment', $utils->generateUri(new Request(), 'route_name'));
     }
 
     /**

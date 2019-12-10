@@ -29,8 +29,6 @@ abstract class HttpCache extends BaseHttpCache
     protected $kernel;
 
     /**
-     * Constructor.
-     *
      * @param HttpKernelInterface $kernel   An HttpKernelInterface instance
      * @param string              $cacheDir The cache directory (default used if null)
      */
@@ -54,7 +52,7 @@ abstract class HttpCache extends BaseHttpCache
     protected function forward(Request $request, $raw = false, Response $entry = null)
     {
         $this->getKernel()->boot();
-        $this->getKernel()->getContainer()->set('cache', $this); // to be removed in 4.0?
+        $this->getKernel()->getContainer()->set('cache', $this);
 
         return parent::forward($request, $raw, $entry);
     }

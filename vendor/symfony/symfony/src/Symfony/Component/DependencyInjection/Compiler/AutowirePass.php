@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\DependencyInjection\Compiler;
 
+use Symfony\Component\Config\Resource\ClassExistenceResource;
 use Symfony\Component\DependencyInjection\Config\AutowireServiceResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -80,7 +81,7 @@ class AutowirePass extends AbstractRecursivePass
      */
     public static function createResourceForClass(\ReflectionClass $reflectionClass)
     {
-        @trigger_error('The '.__METHOD__.'() method is deprecated since version 3.3 and will be removed in 4.0. Use ContainerBuilder::getReflectionClass() instead.', E_USER_DEPRECATED);
+        @trigger_error('The '.__METHOD__.'() method is deprecated since Symfony 3.3 and will be removed in 4.0. Use ContainerBuilder::getReflectionClass() instead.', E_USER_DEPRECATED);
 
         $metadata = array();
 
@@ -124,8 +125,8 @@ class AutowirePass extends AbstractRecursivePass
         if (!$value instanceof Definition || !$value->isAutowired() || $value->isAbstract() || !$value->getClass()) {
             return $value;
         }
-        if (!$reflectionClass = $this->container->getReflectionClass($value->getClass())) {
-            $this->container->log($this, sprintf('Skipping service "%s": Class or interface "%s" does not exist.', $this->currentId, $value->getClass()));
+        if (!$reflectionClass = $this->container->getReflectionClass($value->getClass(), false)) {
+            $this->container->log($this, sprintf('Skipping service "%s": Class or interface "%s" cannot be loaded.', $this->currentId, $value->getClass()));
 
             return $value;
         }
@@ -273,6 +274,12 @@ class AutowirePass extends AbstractRecursivePass
 
                 // no default value? Then fail
                 if (!$parameter->isDefaultValueAvailable()) {
+                    // For core classes, isDefaultValueAvailable() can
+                    // be false when isOptional() returns true. If the
+                    // argument *is* optional, allow it to be missing
+                    if ($parameter->isOptional()) {
+                        continue;
+                    }
                     throw new AutowiringFailedException($this->currentId, sprintf('Cannot autowire service "%s": argument "$%s" of method "%s()" must have a type-hint or be given a value explicitly.', $this->currentId, $parameter->name, $class !== $this->currentId ? $class.'::'.$method : $method));
                 }
 
@@ -388,7 +395,7 @@ class AutowirePass extends AbstractRecursivePass
             unset($this->ambiguousServiceTypes[$type]);
         }
 
-        if ($definition->isDeprecated() || !$reflectionClass = $this->container->getReflectionClass($definition->getClass())) {
+        if ($definition->isDeprecated() || !$reflectionClass = $this->container->getReflectionClass($definition->getClass(), false)) {
             return;
         }
 
@@ -444,7 +451,7 @@ class AutowirePass extends AbstractRecursivePass
      */
     private function createAutowiredDefinition($type)
     {
-        if (!($typeHint = $this->container->getReflectionClass($type)) || !$typeHint->isInstantiable()) {
+        if (!($typeHint = $this->container->getReflectionClass($type, false)) || !$typeHint->isInstantiable()) {
             return;
         }
 
@@ -478,8 +485,18 @@ class AutowirePass extends AbstractRecursivePass
 
     private function createTypeNotFoundMessage(TypedReference $reference, $label)
     {
-        if (!$r = $this->container->getReflectionClass($type = $reference->getType())) {
-            $message = sprintf('has type "%s" but this class does not exist.', $type);
+        if (!$r = $this->container->getReflectionClass($type = $reference->getType(), false)) {
+            // either $type does not exist or a parent class does not exist
+            try {
+                $resource = new ClassExistenceResource($type, false);
+                // isFresh() will explode ONLY if a parent class/trait does not exist
+                $resource->isFresh(0);
+                $parentMsg = false;
+            } catch (\ReflectionException $e) {
+                $parentMsg = $e->getMessage();
+            }
+
+            $message = sprintf('has type "%s" but this class %s.', $type, $parentMsg ? sprintf('is missing a parent class (%s)', $parentMsg) : 'was not found');
         } else {
             $message = $this->container->has($type) ? 'this service is abstract' : 'no such service exists';
             $message = sprintf('references %s "%s" but %s.%s', $r->isInterface() ? 'interface' : 'class', $type, $message, $this->createTypeAlternatives($reference));
