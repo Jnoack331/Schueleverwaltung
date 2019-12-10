@@ -1,4 +1,4 @@
-<div class="exception-summary">
+<div class="exception-summary {{ exception.message is empty ? 'exception-without-message' }}">
     <div class="exception-metadata">
         <div class="container">
             <h2 class="exception-hierarchy">
@@ -13,9 +13,9 @@
             </h2>
         </div>
     </div>
-    {% if exception.message is not empty %}
-    <div class="container">
-        <div class="exception-message-wrapper">
+
+    <div class="exception-message-wrapper">
+        <div class="container">
             <h1 class="break-long-words exception-message {{ exception.message|length > 180 ? 'long' }}">
                 {{- exception.message|nl2br|format_file_from_text -}}
             </h1>
@@ -25,7 +25,6 @@
             </div>
         </div>
     </div>
-    {% endif %}
 </div>
 
 <div class="container">
@@ -55,14 +54,15 @@
             </div>
         </div>
 
-        <div class="tab {{ logger is empty ? 'disabled' }}">
+        {% if logger %}
+        <div class="tab {{ logger.logs is empty ? 'disabled' }}">
             <h3 class="tab-title">
                 Logs
                 {% if logger.counterrors ?? false %}<span class="badge status-error">{{ logger.counterrors }}</span>{% endif %}
             </h3>
 
             <div class="tab-content">
-                {% if logger %}
+                {% if logger.logs %}
                     {{ include('@Twig/Exception/logs.html.twig', { logs: logger.logs }, with_context = false)  }}
                 {% else %}
                     <div class="empty">
@@ -71,6 +71,7 @@
                 {% endif %}
             </div>
         </div>
+        {% endif %}
 
         <div class="tab">
             <h3 class="tab-title">

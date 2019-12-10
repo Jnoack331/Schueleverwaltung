@@ -82,7 +82,7 @@ DependencyInjection
 
  * Autowiring services based on the types they implement is deprecated and won't be supported in version 4.0. Rename (or alias) your services to their FQCN id to make them autowirable.
 
- * [BC BREAK] The `NullDumper` class has been made final
+ * The `NullDumper` class has been made final
 
  * [BC BREAK] `_defaults` and `_instanceof` are now reserved service names in Yaml configurations. Please rename any services with that names.
 
@@ -164,9 +164,6 @@ Form
 
 FrameworkBundle
 ---------------
-
- * The `cache:clear` command should always be called with the `--no-warmup` option.
-   Warmup should be done via the `cache:warmup` command.
 
  * [BC BREAK] The "framework.trusted_proxies" configuration option and the corresponding "kernel.trusted_proxies"
    parameter have been removed. Use the Request::setTrustedProxies() method in your front controller instead.
@@ -256,12 +253,6 @@ HttpFoundation
 
 HttpKernel
 -----------
-
- * Deprecated the `kernel.root_dir` parameter. Use the new `kernel.project_dir`
-   parameter instead.
-
- * Deprecated the `Kernel::getRootDir()` method. Use the new `Kernel::getProjectDir()`
-   method instead.
 
  * The `Extension::addClassesToCompile()` and `Extension::getClassesToCompile()` methods have been deprecated and will be removed in 4.0.
 
@@ -365,8 +356,7 @@ Yaml
 
  * Deprecated support for implicitly parsing non-string mapping keys as strings.
    Mapping keys that are no strings will lead to a `ParseException` in Symfony
-   4.0. Use the `PARSE_KEYS_AS_STRINGS` flag to opt-in for keys to be parsed as
-   strings.
+   4.0. Use quotes to opt-in for keys to be parsed as strings.
 
    Before:
 
@@ -374,7 +364,6 @@ Yaml
    $yaml = <<<YAML
    null: null key
    true: boolean true
-   1: integer key
    2.0: float key
    YAML;
 
@@ -386,13 +375,12 @@ Yaml
    ```php
 
    $yaml = <<<YAML
-   null: null key
-   true: boolean true
-   1: integer key
-   2.0: float key
+   "null": null key
+   "true": boolean true
+   "2.0": float key
    YAML;
 
-   Yaml::parse($yaml, Yaml::PARSE_KEYS_AS_STRINGS);
+   Yaml::parse($yaml);
    ```
 
  * Omitting the key of a mapping is deprecated and will throw a `ParseException` in Symfony 4.0.
